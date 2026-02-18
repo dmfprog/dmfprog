@@ -38,6 +38,27 @@
       padding: 40px 0;
     }
 
+    /* --- ANIMATION DYNAMIQUE LOGO --- */
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .logo-wrapper img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.2);
+      margin-bottom: 15px;
+      animation: float 3s ease-in-out infinite; /* Le logo bouge tout seul */
+      transition: transform 0.3s ease;
+    }
+
+    .logo-wrapper img:hover {
+      transform: scale(1.1); /* Il grossit un peu au survol */
+    }
+
     /* --- MODALES --- */
     .modal {
       display: none;
@@ -158,18 +179,11 @@
       animation: fadeInUp 0.8s ease-out;
     }
 
-    .logo-wrapper img {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      border: 2px solid rgba(255,255,255,0.2);
-      margin-bottom: 15px;
-    }
-
     h1 { margin: 0; font-size: 26px; font-weight: 800; letter-spacing: 1px; }
     .subtitle { margin: 5px 0 25px; font-size: 14px; color: rgba(255,255,255,0.6); }
 
     .links { display: flex; flex-direction: column; gap: 12px; }
+    
     .link-item {
       padding: 16px;
       border-radius: 16px;
@@ -181,6 +195,14 @@
       justify-content: center;
       transition: 0.3s;
       border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    /* ESPACE ENTRE ICONE ET TEXTE */
+    .link-item i {
+      margin-right: 15px; 
+      font-size: 20px;
+      width: 25px;
+      text-align: center;
     }
 
     .link-item:hover { transform: translateY(-3px); filter: brightness(1.1); }
@@ -216,7 +238,7 @@
       <p>Entre deux balades en forêt de Fontainebleau, faites un crochet par <strong>La Chapelle-la-Reine (77760)</strong>.</p>
       <p>L'atelier <strong>DM.F</strong> est prêt à réveiller votre véhicule !</p>
       
-      <a href="https://maps.app.goo.gl/votre_lien_ici" target="_blank" class="map-btn">
+      <a href="https://maps.google.com" target="_blank" class="map-btn">
         <i class="fas fa-location-dot"></i> Itinéraire Google Maps
       </a>
     </div>
@@ -240,24 +262,24 @@
     <h1>DM.F</h1>
     <p class="subtitle">Reprogrammation moteur & Optimisation</p>
 
-<div class="links">
+    <div class="links">
       <a href="tel:+33600000000" class="link-item phone mobile-only">
-        <i class="fas fa-phone" style="margin-right: 12px;"></i> Nous joindre
+        <i class="fas fa-phone"></i> Nous joindre
       </a>
       <a href="#" class="link-item phone desktop-only" style="cursor: default;">
-        <i class="fas fa-phone" style="margin-right: 12px;"></i> 06 00 00 00 00
+        <i class="fas fa-phone"></i> 06 00 00 00 00
       </a>
 
       <a href="https://wa.me/33600000000" class="link-item whatsapp" target="_blank">
-        <i class="fab fa-whatsapp" style="margin-right: 12px;"></i> WhatsApp
+        <i class="fab fa-whatsapp"></i> WhatsApp
       </a>
 
       <a href="https://www.instagram.com/dmfprog/" class="link-item instagram" target="_blank">
-        <i class="fab fa-instagram" style="margin-right: 12px;"></i> Instagram
+        <i class="fab fa-instagram"></i> Instagram
       </a>
 
       <a href="https://www.facebook.com/profile.php?id=61587903220624" class="link-item facebook" target="_blank">
-        <i class="fab fa-facebook-f" style="margin-right: 12px;"></i> Facebook
+        <i class="fab fa-facebook-f"></i> Facebook
       </a>
     </div>
 
@@ -267,12 +289,10 @@
   </div>
 
   <script>
-    // Année dynamique
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Fonctions Modales
     function openM(id) {
-      document.getElementById('menu-toggle').checked = false; // Ferme le menu
+      document.getElementById('menu-toggle').checked = false;
       document.getElementById(id).style.display = "block";
     }
 
@@ -280,7 +300,6 @@
       document.getElementById(id).style.display = "none";
     }
 
-    // Fermeture au clic extérieur
     window.onclick = function(event) {
       if (event.target.className === 'modal') {
         event.target.style.display = "none";

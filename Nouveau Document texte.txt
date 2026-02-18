@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>DM.F Reprog - Réseaux sociaux</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="DM.F Reprog – Performance & optimisation automobile à La Chapelle-la-Reine.">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary-blue: #007aff;
+      --glass-bg: rgba(255, 255, 255, 0.07);
+      --glass-border: rgba(255, 255, 255, 0.12);
+      --drawer-bg: rgba(10, 10, 10, 0.95);
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #050505;
+      background-image: 
+        radial-gradient(circle at 50% -20%, #1e3a5f 0%, transparent 50%),
+        radial-gradient(circle at 0% 100%, #111 0%, transparent 40%);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 40px 0;
+    }
+
+    /* --- MODALES --- */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.85);
+      backdrop-filter: blur(8px);
+    }
+
+    .modal-content {
+      background: var(--drawer-bg);
+      margin: 15% auto;
+      padding: 30px;
+      border: 1px solid var(--glass-border);
+      width: 85%;
+      max-width: 400px;
+      border-radius: 24px;
+      text-align: center;
+      position: relative;
+      animation: fadeInUp 0.4s ease;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 28px;
+      cursor: pointer;
+      color: var(--primary-blue);
+    }
+
+    .map-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 20px;
+      padding: 14px;
+      background: var(--primary-blue);
+      color: white;
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: bold;
+      transition: 0.3s;
+      gap: 10px;
+    }
+
+    .map-btn:hover { background: #0056b3; transform: scale(1.02); }
+
+    /* --- MENU --- */
+    #menu-toggle { display: none; }
+
+    .hamburger-btn {
+      position: fixed;
+      top: 25px;
+      left: 25px;
+      z-index: 1000;
+      cursor: pointer;
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid var(--glass-border);
+    }
+
+    .side-menu {
+      position: fixed;
+      top: 0;
+      left: -280px; 
+      width: 280px;
+      height: 100%;
+      background: var(--drawer-bg);
+      backdrop-filter: blur(20px);
+      z-index: 999;
+      transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      padding-top: 100px;
+      border-right: 1px solid var(--glass-border);
+    }
+
+    #menu-toggle:checked ~ .side-menu { left: 0; }
+    #menu-toggle:checked ~ .menu-overlay { display: block; }
+
+    .menu-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 998;
+      display: none;
+    }
+
+    .menu-link {
+      padding: 18px 30px;
+      text-decoration: none;
+      color: white;
+      font-size: 17px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .menu-link:hover { background: rgba(255,255,255,0.05); color: var(--primary-blue); }
+    .menu-link i { width: 35px; color: var(--primary-blue); font-size: 18px; }
+
+    /* --- CARTE PRINCIPALE --- */
+    .container {
+      text-align: center;
+      background: var(--glass-bg);
+      backdrop-filter: blur(15px);
+      padding: 40px 25px;
+      border-radius: 28px;
+      width: 85%;
+      max-width: 380px;
+      border: 1px solid var(--glass-border);
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    .logo-wrapper img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.2);
+      margin-bottom: 15px;
+    }
+
+    h1 { margin: 0; font-size: 26px; font-weight: 800; letter-spacing: 1px; }
+    .subtitle { margin: 5px 0 25px; font-size: 14px; color: rgba(255,255,255,0.6); }
+
+    .links { display: flex; flex-direction: column; gap: 12px; }
+    .link-item {
+      padding: 16px;
+      border-radius: 16px;
+      text-decoration: none;
+      color: white;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.3s;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .link-item:hover { transform: translateY(-3px); filter: brightness(1.1); }
+    .whatsapp { background: #25D366; }
+    .instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+    .facebook { background: #1877F2; }
+    .phone { background: #333; }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .mobile-only { display: none; }
+    @media (max-width: 768px) { .mobile-only { display: flex; } .desktop-only { display: none; } }
+  </style>
+</head>
+<body>
+
+  <div id="modalAbout" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeM('modalAbout')">×</span>
+      <h2 style="color: var(--primary-blue); margin-bottom:15px;">Qui sommes-nous ?</h2>
+      <p><strong>DM.F</strong> est votre spécialiste en <strong>reprogrammation moteur</strong> et optimisation de performance.</p>
+      <p>Passionnés par l'automobile, nous mettons notre expertise au service de votre véhicule pour plus de puissance et d'efficacité.</p>
+    </div>
+  </div>
+
+  <div id="modalLocation" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeM('modalLocation')">×</span>
+      <h2 style="color: var(--primary-blue); margin-bottom:15px;">Où nous trouver ?</h2>
+      <p>Entre deux balades en forêt de Fontainebleau, faites un crochet par <strong>La Chapelle-la-Reine (77760)</strong>.</p>
+      <p>L'atelier <strong>DM.F</strong> est prêt à réveiller votre véhicule !</p>
+      
+      <a href="https://maps.app.goo.gl/votre_lien_ici" target="_blank" class="map-btn">
+        <i class="fas fa-location-dot"></i> Itinéraire Google Maps
+      </a>
+    </div>
+  </div>
+
+  <input type="checkbox" id="menu-toggle">
+  <label for="menu-toggle" class="hamburger-btn"><i class="fas fa-bars"></i></label>
+  <label for="menu-toggle" class="menu-overlay"></label>
+
+  <nav class="side-menu">
+    <a href="tel:+33600000000" class="menu-link"><i class="fas fa-phone"></i> Contact direct</a>
+    <div class="menu-link" onclick="openM('modalAbout')"><i class="fas fa-user-group"></i> Qui sommes-nous ?</div>
+    <div class="menu-link" onclick="openM('modalLocation')"><i class="fas fa-map-marker-alt"></i> Où nous trouver ?</div>
+  </nav>
+
+  <div class="container">
+    <div class="logo-wrapper">
+      <img src="logo.png" alt="DM.F Reprog">
+    </div>
+
+    <h1>DM.F</h1>
+    <p class="subtitle">Reprogrammation moteur & Optimisation</p>
+
+    <div class="links">
+      <a href="tel:+33600000000" class="link-item phone mobile-only">
+        <i class="fas fa-phone"></i> Nous joindre
+      </a>
+      <a href="#" class="link-item phone desktop-only" style="cursor: default;">
+        <i class="fas fa-phone"></i> 06 00 00 00 00
+      </a>
+
+      <a href="https://wa.me/33600000000" class="link-item whatsapp" target="_blank">
+        <i class="fab fa-whatsapp"></i> WhatsApp
+      </a>
+
+      <a href="https://www.instagram.com/dmfprog/" class="link-item instagram" target="_blank">
+        <i class="fab fa-instagram"></i> Instagram
+      </a>
+
+      <a href="https://www.facebook.com/profile.php?id=61587903220624" class="link-item facebook" target="_blank">
+        <i class="fab fa-facebook-f"></i> Facebook
+      </a>
+    </div>
+
+    <footer style="margin-top:25px; font-size:10px; opacity:0.5; letter-spacing: 1px;">
+      © <span id="year"></span> DM.F - LA CHAPELLE-LA-REINE (77)
+    </footer>
+  </div>
+
+  <script>
+    // Année dynamique
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Fonctions Modales
+    function openM(id) {
+      document.getElementById('menu-toggle').checked = false; // Ferme le menu
+      document.getElementById(id).style.display = "block";
+    }
+
+    function closeM(id) {
+      document.getElementById(id).style.display = "none";
+    }
+
+    // Fermeture au clic extérieur
+    window.onclick = function(event) {
+      if (event.target.className === 'modal') {
+        event.target.style.display = "none";
+      }
+    }
+  </script>
+</body>
+</html>

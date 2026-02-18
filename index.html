@@ -13,7 +13,7 @@
       --primary-blue: #007aff;
       --glass-bg: rgba(255, 255, 255, 0.07);
       --glass-border: rgba(255, 255, 255, 0.12);
-      --drawer-bg: rgba(10, 10, 10, 0.95);
+      --drawer-bg: rgba(10, 10, 10, 0.98);
     }
 
     html, body {
@@ -116,7 +116,7 @@
       backdrop-filter: blur(20px);
       z-index: 999;
       transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      padding-top: 100px;
+      padding-top: 80px;
       border-right: 1px solid var(--glass-border);
     }
 
@@ -131,11 +131,22 @@
       display: none;
     }
 
+    /* Styles des sections du menu */
+    .menu-section-title {
+      padding: 20px 30px 5px;
+      font-size: 12px;
+      color: var(--primary-blue);
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      font-weight: 700;
+      opacity: 0.8;
+    }
+
     .menu-link {
-      padding: 18px 30px;
+      padding: 14px 30px;
       text-decoration: none;
       color: white;
-      font-size: 17px;
+      font-size: 16px;
       display: flex;
       align-items: center;
       cursor: pointer;
@@ -143,7 +154,13 @@
     }
 
     .menu-link:hover { background: rgba(255,255,255,0.05); color: var(--primary-blue); }
-    .menu-link i { width: 35px; color: var(--primary-blue); font-size: 18px; }
+    .menu-link i { width: 30px; color: var(--primary-blue); font-size: 18px; }
+    
+    .sub-link {
+      padding-left: 50px;
+      font-size: 15px;
+      opacity: 0.9;
+    }
 
     /* --- MODALES --- */
     .modal {
@@ -179,7 +196,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-top: 20px;
+      margin-top: 15px;
       padding: 14px;
       background: var(--primary-blue);
       color: white;
@@ -187,9 +204,11 @@
       border-radius: 12px;
       font-weight: bold;
       gap: 10px;
+      transition: 0.3s;
     }
+    .map-btn:hover { filter: brightness(1.2); transform: scale(1.02); }
 
-    /* --- BOUTONS --- */
+    /* --- CONTENEUR PRINCIPAL --- */
     .container {
       text-align: center;
       background: var(--glass-bg);
@@ -242,15 +261,14 @@
     <div class="modal-content">
       <span class="close-modal" onclick="closeM('modalLocation')">×</span>
       <h2 style="color: var(--primary-blue); margin-bottom:15px;">Où nous trouver</h2>
-      <p>Entre deux balades en forêt de Fontainebleau, faites un crochet par <strong>La Chapelle-la-Reine (77760)</strong>.</p>
-      <p>L'atelier <strong>DM.F</strong> est prêt à réveiller votre véhicule !</p>
+      <p><strong>La Chapelle-la-Reine (77760)</strong></p>
       
-<a href="https://www.google.com/maps/search/?api=1&query=La+Chapelle-la-Reine+77760" target="_blank" class="map-btn">
-  <i class="fas fa-location-dot" style="margin-right: 12px;"></i> Itinéraire Google Maps
-</a>
-<a href="https://waze.com/ul?q=La+Chapelle-la-Reine+77760&navigate=yes" target="_blank" class="map-btn" style="background: #33ccff; margin-top: 10px;">
-      <i class="fab fa-waze"></i> Itinéraire Waze
-    </a>
+      <a href="https://www.google.com/maps/search/?api=1&query=La+Chapelle-la-Reine+77760" target="_blank" class="map-btn">
+        <i class="fas fa-location-dot"></i> Google Maps
+      </a>
+      <a href="https://waze.com/ul?q=La+Chapelle-la-Reine+77760&navigate=yes" target="_blank" class="map-btn" style="background: #33ccff;">
+        <i class="fab fa-waze"></i> Waze
+      </a>
     </div>
   </div>
 
@@ -259,9 +277,17 @@
   <label for="menu-toggle" class="menu-overlay"></label>
 
   <nav class="side-menu">
-    <a href="tel:+33600000000" class="menu-link"><i class="fas fa-phone"></i> Contact direct</a>
+    <div class="menu-section-title">Contact</div>
+    <a href="tel:+33600000000" class="menu-link sub-link"><i class="fas fa-phone"></i> Appeler</a>
+    <a href="mailto:votre-email@exemple.com" class="menu-link sub-link"><i class="fas fa-envelope"></i> Email</a>
+
+    <div class="menu-section-title">Informations</div>
     <div class="menu-link" onclick="openM('modalAbout')"><i class="fas fa-user-group"></i> Qui sommes-nous</div>
-    <div class="menu-link" onclick="openM('modalLocation')"><i class="fas fa-map-marker-alt"></i> Où nous trouver</div>
+    <div class="menu-link" onclick="openM('modalLocation')"><i class="fas fa-map-marker-alt"></i> Localisation</div>
+
+    <div class="menu-section-title">Itinéraires</div>
+    <a href="https://www.google.com/maps/search/?api=1&query=La+Chapelle-la-Reine+77760" target="_blank" class="menu-link"><i class="fas fa-location-dot"></i> Google Maps</a>
+    <a href="https://waze.com/ul?q=La+Chapelle-la-Reine+77760&navigate=yes" target="_blank" class="menu-link"><i class="fab fa-waze"></i> Waze</a>
   </nav>
 
   <div class="container">

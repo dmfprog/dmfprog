@@ -38,6 +38,31 @@
       padding: 40px 0;
     }
 
+    /* --- EFFET SHIMMER (REFLET) SUR LE TITRE --- */
+    .shimmer-text {
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: 3px;
+      margin: 0;
+      text-transform: uppercase;
+      background: linear-gradient(
+        to right, 
+        #ffffff 0%, 
+        #ffffff 40%, 
+        var(--primary-blue) 50%, 
+        #ffffff 60%, 
+        #ffffff 100%
+      );
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shine 4s linear infinite;
+    }
+
+    @keyframes shine {
+      to { background-position: 200% center; }
+    }
+
     /* --- ANIMATION DYNAMIQUE LOGO --- */
     @keyframes float {
       0% { transform: translateY(0px); }
@@ -51,13 +76,11 @@
       border-radius: 50%;
       border: 2px solid rgba(255,255,255,0.2);
       margin-bottom: 15px;
-      animation: float 3s ease-in-out infinite; /* Le logo bouge tout seul */
+      animation: float 3s ease-in-out infinite;
       transition: transform 0.3s ease;
     }
 
-    .logo-wrapper img:hover {
-      transform: scale(1.1); /* Il grossit un peu au survol */
-    }
+    .logo-wrapper img:hover { transform: scale(1.1); }
 
     /* --- MODALES --- */
     .modal {
@@ -179,7 +202,6 @@
       animation: fadeInUp 0.8s ease-out;
     }
 
-    h1 { margin: 0; font-size: 26px; font-weight: 800; letter-spacing: 1px; }
     .subtitle { margin: 5px 0 25px; font-size: 14px; color: rgba(255,255,255,0.6); }
 
     .links { display: flex; flex-direction: column; gap: 12px; }
@@ -197,7 +219,6 @@
       border: 1px solid rgba(255,255,255,0.1);
     }
 
-    /* ESPACE ENTRE ICONE ET TEXTE */
     .link-item i {
       margin-right: 15px; 
       font-size: 20px;
@@ -225,7 +246,7 @@
   <div id="modalAbout" class="modal">
     <div class="modal-content">
       <span class="close-modal" onclick="closeM('modalAbout')">×</span>
-      <h2 style="color: var(--primary-blue); margin-bottom:15px;">Qui sommes-nous ?</h2>
+      <h2 style="color: var(--primary-blue); margin-bottom:15px;">Qui sommes-nous</h2>
       <p><strong>DM.F</strong> est votre spécialiste en <strong>reprogrammation moteur</strong> et optimisation de performance.</p>
       <p>Passionnés par l'automobile, nous mettons notre expertise au service de votre véhicule pour plus de puissance et d'efficacité.</p>
     </div>
@@ -234,13 +255,11 @@
   <div id="modalLocation" class="modal">
     <div class="modal-content">
       <span class="close-modal" onclick="closeM('modalLocation')">×</span>
-      <h2 style="color: var(--primary-blue); margin-bottom:15px;">Où nous trouver ?</h2>
+      <h2 style="color: var(--primary-blue); margin-bottom:15px;">Où nous trouver</h2>
       <p>Entre deux balades en forêt de Fontainebleau, faites un crochet par <strong>La Chapelle-la-Reine (77760)</strong>.</p>
       <p>L'atelier <strong>DM.F</strong> est prêt à réveiller votre véhicule !</p>
-      
-<a href="https://www.google.com/maps/search/?api=1&query=La+Chapelle-la-Reine+77760" target="_blank" class="map-btn">
-  <i class="fas fa-location-dot" style="margin-right: 12px;"></i> Itinéraire Google Maps
-</a>
+      <a href="https://www.google.com/maps/search/?api=1&query=La+Chapelle-la-Reine+77760" target="_blank" class="map-btn">
+        <i class="fas fa-location-dot"></i> Itinéraire Google Maps
       </a>
     </div>
   </div>
@@ -251,8 +270,8 @@
 
   <nav class="side-menu">
     <a href="tel:+33600000000" class="menu-link"><i class="fas fa-phone"></i> Contact direct</a>
-    <div class="menu-link" onclick="openM('modalAbout')"><i class="fas fa-user-group"></i> Qui sommes-nous ?</div>
-    <div class="menu-link" onclick="openM('modalLocation')"><i class="fas fa-map-marker-alt"></i> Où nous trouver ?</div>
+    <div class="menu-link" onclick="openM('modalAbout')"><i class="fas fa-user-group"></i> Qui sommes-nous</div>
+    <div class="menu-link" onclick="openM('modalLocation')"><i class="fas fa-map-marker-alt"></i> Où nous trouver</div>
   </nav>
 
   <div class="container">
@@ -260,7 +279,7 @@
       <img src="logo.png" alt="DM.F Reprog">
     </div>
 
-    <h1>DM.F</h1>
+    <h1 class="shimmer-text">DM.F</h1>
     <p class="subtitle">Reprogrammation moteur & Optimisation</p>
 
     <div class="links">

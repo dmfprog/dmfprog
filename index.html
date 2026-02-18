@@ -38,7 +38,7 @@
       padding: 40px 0;
     }
 
-    /* --- TITRE FIXE --- */
+    /* --- TITRE --- */
     h1 {
       margin: 0;
       font-size: 32px;
@@ -74,7 +74,7 @@
       to { background-position: 200% center; }
     }
 
-    /* --- ANIMATION LOGO --- */
+    /* --- LOGO --- */
     @keyframes float {
       0%, 100% { transform: translateY(0px); }
       50% { transform: translateY(-10px); }
@@ -89,7 +89,7 @@
       animation: float 3s ease-in-out infinite;
     }
 
-    /* --- MENU HAMBURGER & SIDEBAR --- */
+    /* --- MENU HAMBURGER --- */
     #menu-toggle { display: none; }
 
     .hamburger-btn {
@@ -131,10 +131,9 @@
       display: none;
     }
 
-    /* Styles des sections du menu */
     .menu-section-title {
       padding: 20px 30px 5px;
-      font-size: 12px;
+      font-size: 11px;
       color: var(--primary-blue);
       text-transform: uppercase;
       letter-spacing: 1.2px;
@@ -206,9 +205,8 @@
       gap: 10px;
       transition: 0.3s;
     }
-    .map-btn:hover { filter: brightness(1.2); transform: scale(1.02); }
 
-    /* --- CONTENEUR PRINCIPAL --- */
+    /* --- CONTENEUR --- */
     .container {
       text-align: center;
       background: var(--glass-bg);
@@ -221,7 +219,6 @@
     }
 
     .links { display: flex; flex-direction: column; gap: 12px; }
-    
     .link-item {
       padding: 16px;
       border-radius: 16px;
@@ -234,9 +231,7 @@
       transition: 0.3s;
       border: 1px solid rgba(255,255,255,0.1);
     }
-
     .link-item i { margin-right: 15px; font-size: 20px; width: 25px; text-align: center; }
-    .link-item:hover { transform: translateY(-3px); filter: brightness(1.1); }
     .whatsapp { background: #25D366; }
     .instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
     .facebook { background: #1877F2; }
@@ -261,13 +256,14 @@
     <div class="modal-content">
       <span class="close-modal" onclick="closeM('modalLocation')">×</span>
       <h2 style="color: var(--primary-blue); margin-bottom:15px;">Où nous trouver</h2>
-      <p><strong>La Chapelle-la-Reine (77760)</strong></p>
+      <p>Entre deux balades en forêt de Fontainebleau, faites un crochet par <strong>La Chapelle-la-Reine (77760)</strong>.</p>
+      <p>L'atelier <strong>DM.F</strong> est prêt à réveiller votre véhicule !</p>
       
-      <a href="https://www.google.com/maps/search/?api=1&query=La+Chapelle-la-Reine+77760" target="_blank" class="map-btn">
-        <i class="fas fa-location-dot"></i> Google Maps
+      <a href="https://www.google.com/maps/dir/?api=1&destination=77760+La+Chapelle-la-Reine" target="_blank" class="map-btn">
+        <i class="fas fa-location-dot"></i> Itinéraire Google Maps
       </a>
       <a href="https://waze.com/ul?q=La+Chapelle-la-Reine+77760&navigate=yes" target="_blank" class="map-btn" style="background: #33ccff;">
-        <i class="fab fa-waze"></i> Waze
+        <i class="fab fa-waze"></i> Itinéraire Waze
       </a>
     </div>
   </div>
@@ -285,9 +281,6 @@
     <div class="menu-link" onclick="openM('modalAbout')"><i class="fas fa-user-group"></i> Qui sommes-nous</div>
     <div class="menu-link" onclick="openM('modalLocation')"><i class="fas fa-map-marker-alt"></i> Localisation</div>
 
-    <div class="menu-section-title">Itinéraires</div>
-    <a href="https://www.google.com/maps/search/?api=1&query=La+Chapelle-la-Reine+77760" target="_blank" class="menu-link"><i class="fas fa-location-dot"></i> Google Maps</a>
-    <a href="https://waze.com/ul?q=La+Chapelle-la-Reine+77760&navigate=yes" target="_blank" class="menu-link"><i class="fab fa-waze"></i> Waze</a>
   </nav>
 
   <div class="container">
@@ -305,15 +298,12 @@
       <a href="#" class="link-item phone desktop-only" style="cursor: default;">
         <i class="fas fa-phone"></i> 06 00 00 00 00
       </a>
-
       <a href="https://wa.me/33600000000" class="link-item whatsapp" target="_blank">
         <i class="fab fa-whatsapp"></i> WhatsApp
       </a>
-
       <a href="https://www.instagram.com/dmfprog/" class="link-item instagram" target="_blank">
         <i class="fab fa-instagram"></i> Instagram
       </a>
-
       <a href="https://www.facebook.com/profile.php?id=61587903220624" class="link-item facebook" target="_blank">
         <i class="fab fa-facebook-f"></i> Facebook
       </a>

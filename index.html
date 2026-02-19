@@ -38,7 +38,6 @@
       padding: 40px 0;
     }
 
-    /* --- TITRE --- */
     h1 {
       margin: 0;
       font-size: 32px;
@@ -48,13 +47,11 @@
       color: #ffffff;
     }
 
-    /* --- SOUS-TITRE --- */
     .subtitle-shimmer {
       margin: 5px 0 25px;
       font-size: 11px;
       font-style: italic;
       font-weight: 500;
-      text-transform: none;
       letter-spacing: 0.8px;
       background: linear-gradient(
         to right, 
@@ -70,11 +67,8 @@
       animation: shine 4s linear infinite;
     }
 
-    @keyframes shine {
-      to { background-position: 200% center; }
-    }
+    @keyframes shine { to { background-position: 200% center; } }
 
-    /* --- LOGO --- */
     @keyframes float {
       0%, 100% { transform: translateY(0px); }
       50% { transform: translateY(-10px); }
@@ -94,13 +88,13 @@
 
     .hamburger-btn {
       position: fixed;
-      top: 25px;
-      left: 25px;
+      top: 20px;
+      left: 20px;
       z-index: 1000;
       cursor: pointer;
       background: var(--glass-bg);
       backdrop-filter: blur(10px);
-      padding: 12px;
+      padding: 10px;
       border-radius: 12px;
       border: 1px solid var(--glass-border);
       color: white;
@@ -115,9 +109,12 @@
       background: var(--drawer-bg);
       backdrop-filter: blur(20px);
       z-index: 999;
-      transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      padding-top: 80px;
+      padding-top: 70px;
       border-right: 1px solid var(--glass-border);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      box-sizing: border-box;
+      transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     #menu-toggle:checked ~ .side-menu { left: 0; }
@@ -132,7 +129,7 @@
     }
 
     .menu-section-title {
-      padding: 20px 30px 5px;
+      padding: 15px 20px 5px;
       font-size: 11px;
       color: var(--primary-blue);
       text-transform: uppercase;
@@ -142,7 +139,7 @@
     }
 
     .menu-link {
-      padding: 14px 30px;
+      padding: 12px 20px;
       text-decoration: none;
       color: white;
       font-size: 16px;
@@ -153,56 +150,61 @@
     }
 
     .menu-link:hover { background: rgba(255,255,255,0.05); color: var(--primary-blue); }
-    .menu-link i { width: 30px; color: var(--primary-blue); font-size: 18px; }
+    .menu-link i { width: 25px; color: var(--primary-blue); font-size: 18px; }
     
-    .sub-link {
-      padding-left: 50px;
-      font-size: 15px;
-      opacity: 0.9;
+    .sub-link { padding-left: 40px; font-size: 15px; opacity: 0.9; }
+
+    .activity-item {
+      padding: 12px 20px 12px 45px;
+      display: flex;
+      flex-direction: column;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      cursor: pointer;
     }
 
+    .activity-item:hover { background: linear-gradient(90deg, rgba(0,122,255,0.2), rgba(0,122,255,0.05)); transform: translateX(3px); }
+
+    .activity-title { display: flex; align-items: center; font-weight: 600; font-size: 15px; color: #ffffff; transition: color 0.3s; }
+    .activity-item:hover .activity-title { color: var(--primary-blue); }
+    .activity-title i { width: 30px; font-size: 18px; margin-right: 8px; transition: transform 0.3s, color 0.3s; }
+    .activity-item:hover .activity-title i { transform: scale(1.15); color: var(--primary-blue); }
+    .activity-desc { font-size: 12px; opacity: 0.75; margin-top: 3px; line-height: 1.4em; transition: opacity 0.3s; }
+    .activity-item:hover .activity-desc { opacity: 1; }
+
+    /* --- Dropdown spécifique --- */
+    .activity-dropdown .activity-toggle { justify-content: space-between; }
+    .activity-list .activity-item { padding-left: 45px; }
+
     /* --- MODALES --- */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 2000;
-      left: 0; top: 0; width: 100%; height: 100%;
-      background-color: rgba(0,0,0,0.85);
-      backdrop-filter: blur(8px);
-    }
+    .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); backdrop-filter: blur(8px); }
 
     .modal-content {
       background: var(--drawer-bg);
       margin: 15% auto;
-      padding: 30px;
+      padding: 25px;
       border: 1px solid var(--glass-border);
       width: 85%;
-      max-width: 400px;
-      border-radius: 24px;
+      max-width: 380px;
+      border-radius: 22px;
       text-align: center;
       position: relative;
     }
 
-    .close-modal {
-      position: absolute;
-      top: 15px; right: 20px;
-      font-size: 28px;
-      cursor: pointer;
-      color: var(--primary-blue);
-    }
+    .close-modal { position: absolute; top: 12px; right: 18px; font-size: 26px; cursor: pointer; color: var(--primary-blue); }
 
     .map-btn {
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-top: 15px;
-      padding: 14px;
+      margin-top: 12px;
+      padding: 12px;
       background: var(--primary-blue);
       color: white;
       text-decoration: none;
       border-radius: 12px;
       font-weight: bold;
-      gap: 10px;
+      gap: 8px;
       transition: 0.3s;
     }
 
@@ -211,47 +213,40 @@
       text-align: center;
       background: var(--glass-bg);
       backdrop-filter: blur(15px);
-      padding: 40px 25px;
-      border-radius: 28px;
+      padding: 35px 20px;
+      border-radius: 24px;
       width: 85%;
-      max-width: 380px;
+      max-width: 360px;
       border: 1px solid var(--glass-border);
     }
 
-    .links { display: flex; flex-direction: column; gap: 12px; }
-    
-    .link-item {
-      padding: 16px;
-      border-radius: 16px;
-      text-decoration: none;
-      color: white;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: 0.3s;
-      border: 1px solid rgba(255,255,255,0.1);
-      cursor: pointer; 
-    }
-    .link-item i { margin-right: 15px; font-size: 20px; width: 25px; text-align: center; }
-    
+    .links { display: flex; flex-direction: column; gap: 10px; }
+    .link-item { padding: 14px; border-radius: 14px; text-decoration: none; color: white; font-weight: 600; display: flex; align-items: center; justify-content: center; transition: 0.3s; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; }
+    .link-item i { margin-right: 12px; font-size: 18px; width: 22px; text-align: center; }
     .whatsapp { background: #25D366; }
     .instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
     .facebook { background: #1877F2; }
-    
-    /* Bouton unifié pour ouvrir le menu */
-    .menu-trigger-btn { 
-      background: #222; 
-    }
-    .menu-trigger-btn:hover { 
-      background: #333;
-      border-color: var(--primary-blue);
-    }
+    .menu-trigger-btn { background: #222; }
+    .menu-trigger-btn:hover { background: #333; border-color: var(--primary-blue); }
 
+    /* --- RESPONSIVE MOBILE --- */
+    @media (max-height: 700px), (max-width: 400px) {
+      .side-menu { width: 260px; padding-top: 60px; }
+      .menu-link { padding: 10px 18px; font-size: 15px; }
+      .sub-link { padding-left: 35px; }
+      .activity-item { padding: 10px 18px 10px 40px; }
+      .activity-title { font-size: 14px; }
+      .activity-title i { font-size: 17px; }
+      .activity-desc { font-size: 11px; }
+      .container { padding: 30px 18px; max-width: 340px; }
+      .link-item { padding: 12px; font-size: 14px; }
+      .link-item i { font-size: 16px; }
+    }
   </style>
 </head>
 <body>
 
+  <!-- MODALES -->
   <div id="modalAbout" class="modal">
     <div class="modal-content">
       <span class="close-modal" onclick="closeM('modalAbout')">×</span>
@@ -277,6 +272,7 @@
     </div>
   </div>
 
+  <!-- MENU HAMBURGER -->
   <input type="checkbox" id="menu-toggle">
   <label for="menu-toggle" class="hamburger-btn"><i class="fas fa-bars"></i></label>
   <label for="menu-toggle" class="menu-overlay"></label>
@@ -286,11 +282,50 @@
     <a href="tel:+33600000000" class="menu-link sub-link"><i class="fas fa-phone"></i> Appeler</a>
     <a href="mailto:dmfprog@gmail.com" class="menu-link sub-link"><i class="fas fa-envelope"></i> Email</a>
 
+    <!-- --- MENU DÉROULANT "Notre activité" --- -->
+    <div class="menu-section-title">Notre activité</div>
+    <div class="activity-dropdown">
+      <div class="activity-toggle menu-link">
+        <i class="fas fa-cogs"></i> Notre activité <i class="fas fa-chevron-down" style="margin-left:auto;"></i>
+      </div>
+      <div class="activity-list" style="display:none;">
+        <div class="activity-item">
+          <div class="activity-title"><i class="fas fa-gauge-high"></i> Stage 1</div>
+          <div class="activity-desc">Optimisation moteur fiable pour gagner en puissance et couple sans modification mécanique.</div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-title"><i class="fas fa-fire"></i> Stage 2</div>
+          <div class="activity-desc">Préparation avancée avec pièces performance pour maximiser le rendement moteur.</div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-title"><i class="fas fa-leaf"></i> Conversion FlexFuel E85</div>
+          <div class="activity-desc">Roulez au bioéthanol E85 et réduisez vos coûts de carburant grâce à une cartographie adaptée.</div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-title"><i class="fas fa-ban"></i> Suppression EGR</div>
+          <div class="activity-desc">Évite l’encrassement moteur et améliore la longévité des composants.</div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-title"><i class="fas fa-droplet-slash"></i> Suppression AdBlue</div>
+          <div class="activity-desc">Solution électronique pour éviter pannes et limitations liées au système SCR.</div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-title"><i class="fas fa-filter-circle-xmark"></i> Suppression FAP</div>
+          <div class="activity-desc">Optimisation pour éviter colmatage et perte de performance moteur.</div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-title"><i class="fas fa-screwdriver-wrench"></i> Vente de pièces performance</div>
+          <div class="activity-desc">Admission, échappement, échangeur, turbo et pièces haute performance.</div>
+        </div>
+      </div>
+    </div>
+
     <div class="menu-section-title">Informations</div>
     <a class="menu-link sub-link" onclick="openM('modalAbout')"><i class="fas fa-user-group"></i> Qui sommes-nous</a>
     <a class="menu-link sub-link" onclick="openM('modalLocation')"><i class="fas fa-map-marker-alt"></i> Localisation</a>
   </nav>
 
+  <!-- CONTENU PRINCIPAL -->
   <div class="container">
     <div class="logo-wrapper">
       <img src="logo.png" alt="DM.F Reprog">
@@ -322,12 +357,20 @@
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
-    function openM(id) { 
-      document.getElementById('menu-toggle').checked = false; 
-      document.getElementById(id).style.display = "block"; 
-    }
+    function openM(id) { document.getElementById('menu-toggle').checked = false; document.getElementById(id).style.display = "block"; }
     function closeM(id) { document.getElementById(id).style.display = "none"; }
     window.onclick = function(event) { if (event.target.className === 'modal') event.target.style.display = "none"; }
+
+    // --- Script menu déroulant "Notre activité" ---
+    document.querySelectorAll('.activity-toggle').forEach(toggle => {
+      toggle.addEventListener('click', () => {
+        const list = toggle.nextElementSibling;
+        const isVisible = list.style.display === 'block';
+        list.style.display = isVisible ? 'none' : 'block';
+        const chevron = toggle.querySelector('.fa-chevron-down');
+        chevron.style.transform = isVisible ? 'rotate(0deg)' : 'rotate(180deg)';
+      });
+    });
   </script>
 </body>
 </html>

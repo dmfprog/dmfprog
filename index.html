@@ -28,15 +28,26 @@
       background-image: 
         radial-gradient(circle at 50% -20%, #1e3a5f 0%, transparent 50%),
         radial-gradient(circle at 0% 100%, #111 0%, transparent 40%);
+      background-repeat: no-repeat;
+      background-size: 120%; /* légèrement plus grand pour couvrir tout */
+      background-attachment: fixed; /* garde le fond fixe au scroll */
       color: white;
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      overflow-y: auto;
+      min-height: 100%;
       overflow-x: hidden;
       padding: 40px 0;
+      transition: background-size 0.3s ease-out; /* animation du zoom */
     }
+
+    /* Zoom progressif du fond au scroll */
+    <script>
+      window.addEventListener('scroll', () => {
+        const scrollY = window.scrollY;
+        document.body.style.backgroundSize = `${120 + scrollY/50}%`;
+      });
+    </script>
 
     h1 {
       margin: 0;
@@ -152,10 +163,10 @@
     .menu-link:hover { background: rgba(255,255,255,0.05); color: var(--primary-blue); }
     .menu-link i { width: 25px; color: var(--primary-blue); font-size: 18px; }
     
-    .sub-link { padding-left: 20px; font-size: 16px; opacity: 0.9; } /* Aligné avec menu-link */
+    .sub-link { padding-left: 20px; font-size: 16px; opacity: 0.9; }
 
     .activity-item {
-      padding: 12px 20px; /* même padding que .menu-link */
+      padding: 12px 20px;
       display: flex;
       flex-direction: column;
       border-radius: 12px;
@@ -167,14 +178,14 @@
 
     .activity-title { display: flex; align-items: center; font-weight: 600; font-size: 15px; color: #ffffff; transition: color 0.3s; }
     .activity-item:hover .activity-title { color: var(--primary-blue); }
-    .activity-title i { width: 25px; font-size: 18px; margin-right: 10px; transition: transform 0.3s, color 0.3s; } /* aligné comme les autres icônes */
+    .activity-title i { width: 25px; font-size: 18px; margin-right: 10px; transition: transform 0.3s, color 0.3s; }
     .activity-item:hover .activity-title i { transform: scale(1.15); color: var(--primary-blue); }
     .activity-desc { font-size: 12px; opacity: 0.75; margin-top: 3px; line-height: 1.4em; transition: opacity 0.3s; }
     .activity-item:hover .activity-desc { opacity: 1; }
 
     /* --- Dropdown spécifique --- */
     .activity-dropdown .activity-toggle {
-      padding-left: 20px; /* alignement texte et icône comme les autres liens */
+      padding-left: 20px;
       justify-content: space-between;
     }
     .activity-list { display: none; }
@@ -266,11 +277,10 @@
       <p>Entre deux balades en forêt de Fontainebleau, faites un crochet par <strong>La Chapelle-la-Reine (77760)</strong>.</p>
       <p>L'atelier <strong>DM.F</strong> est prêt à réveiller votre véhicule !</p>
       
-      <a href="https://www.google.com/maps/search/?api=1&query=La+Chapelle-la-Reine+77760
-" target="_blank" class="map-btn">
+      <a href="https://www.google.com/maps/search/?api=1&query=La+Chapelle-la-Reine+77760" target="_blank" class="map-btn">
         <i class="fas fa-location-dot"></i> Itinéraire Google Maps
       </a>
-      <a href="https://waze.com/ul?q=La+Chapelle-la-Reine+77760&navigate=yes" target="_blank" class="map-btn" style="background: #33ccff;">
+      <a href="https://www.waze.com/ul?ll=48.4300,2.6867&navigate=yes" target="_blank" class="map-btn" style="background: #33ccff;">
         <i class="fab fa-waze"></i> Itinéraire Waze
       </a>
     </div>
@@ -286,7 +296,6 @@
     <a href="tel:+33600000000" class="menu-link sub-link"><i class="fas fa-phone"></i> Appeler</a>
     <a href="mailto:dmfprog@gmail.com" class="menu-link sub-link"><i class="fas fa-envelope"></i> Email</a>
 
-    <!-- --- MENU DÉROULANT "Notre activité" --- -->
     <div class="menu-section-title">Notre activité</div>
     <div class="activity-dropdown">
       <div class="activity-toggle menu-link">
@@ -374,6 +383,12 @@
         const chevron = toggle.querySelector('.fa-chevron-down');
         chevron.style.transform = isVisible ? 'rotate(0deg)' : 'rotate(180deg)';
       });
+    });
+
+    // --- Zoom progressif du fond au scroll ---
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      document.body.style.backgroundSize = `${120 + scrollY/50}%`;
     });
   </script>
 </body>

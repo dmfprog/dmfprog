@@ -29,8 +29,8 @@
         radial-gradient(circle at 50% -20%, #1e3a5f 0%, transparent 50%),
         radial-gradient(circle at 0% 100%, #111 0%, transparent 40%);
       background-repeat: no-repeat;
-      background-size: 120%; /* légèrement plus grand pour couvrir tout */
-      background-attachment: fixed; /* garde le fond fixe au scroll */
+      background-size: 120%;
+      background-attachment: fixed;
       color: white;
       display: flex;
       justify-content: center;
@@ -38,16 +38,8 @@
       min-height: 100%;
       overflow-x: hidden;
       padding: 40px 0;
-      transition: background-size 0.3s ease-out; /* animation du zoom */
+      transition: background-size 0.3s ease-out;
     }
-
-    /* Zoom progressif du fond au scroll */
-    <script>
-      window.addEventListener('scroll', () => {
-        const scrollY = window.scrollY;
-        document.body.style.backgroundSize = `${120 + scrollY/50}%`;
-      });
-    </script>
 
     h1 {
       margin: 0;
@@ -74,11 +66,12 @@
       );
       background-size: 200% auto;
       -webkit-background-clip: text;
+      background-clip: text;
       -webkit-text-fill-color: transparent;
       animation: shine 4s linear infinite;
     }
 
-    @keyframes shine { to { background-position: 200% center; } }
+    @keyframes shine { from { background-position: 200% center; } to { background-position: -200% center; } }
 
     @keyframes float {
       0%, 100% { transform: translateY(0px); }
@@ -94,7 +87,6 @@
       animation: float 3s ease-in-out infinite;
     }
 
-    /* --- MENU HAMBURGER --- */
     #menu-toggle { display: none; }
 
     .hamburger-btn {
@@ -123,7 +115,6 @@
       padding-top: 70px;
       border-right: 1px solid var(--glass-border);
       overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
       box-sizing: border-box;
       transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
@@ -160,10 +151,17 @@
       transition: 0.3s;
     }
 
-    .menu-link:hover { background: rgba(255,255,255,0.05); color: var(--primary-blue); }
-    .menu-link i { width: 25px; color: var(--primary-blue); font-size: 18px; }
-    
+    .menu-link i { 
+      width: 25px; 
+      color: var(--primary-blue); 
+      font-size: 18px; 
+      margin-right: 15px; 
+      text-align: center;
+    }
+
     .sub-link { padding-left: 20px; font-size: 16px; opacity: 0.9; }
+
+    .activity-list { display: none; background: rgba(255, 255, 255, 0.03); }
 
     .activity-item {
       padding: 12px 20px;
@@ -176,21 +174,24 @@
 
     .activity-item:hover { background: linear-gradient(90deg, rgba(0,122,255,0.2), rgba(0,122,255,0.05)); transform: translateX(3px); }
 
-    .activity-title { display: flex; align-items: center; font-weight: 600; font-size: 15px; color: #ffffff; transition: color 0.3s; }
-    .activity-item:hover .activity-title { color: var(--primary-blue); }
-    .activity-title i { width: 25px; font-size: 18px; margin-right: 10px; transition: transform 0.3s, color 0.3s; }
-    .activity-item:hover .activity-title i { transform: scale(1.15); color: var(--primary-blue); }
-    .activity-desc { font-size: 12px; opacity: 0.75; margin-top: 3px; line-height: 1.4em; transition: opacity 0.3s; }
-    .activity-item:hover .activity-desc { opacity: 1; }
-
-    /* --- Dropdown spécifique --- */
-    .activity-dropdown .activity-toggle {
-      padding-left: 20px;
-      justify-content: space-between;
+    .activity-title { display: flex; align-items: center; font-weight: 600; font-size: 15px; color: #ffffff; }
+    
+    .activity-title i { 
+      width: 25px; 
+      font-size: 18px; 
+      margin-right: 15px; 
+      color: var(--primary-blue);
+      text-align: center;
     }
-    .activity-list { display: none; }
 
-    /* --- MODALES --- */
+    .activity-desc { 
+      font-size: 12px; 
+      opacity: 0.75; 
+      margin-top: 3px; 
+      margin-left: 40px; 
+      line-height: 1.4em; 
+    }
+
     .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); backdrop-filter: blur(8px); }
 
     .modal-content {
@@ -222,7 +223,6 @@
       transition: 0.3s;
     }
 
-    /* --- CONTENEUR --- */
     .container {
       text-align: center;
       background: var(--glass-bg);
@@ -241,26 +241,14 @@
     .instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
     .facebook { background: #1877F2; }
     .menu-trigger-btn { background: #222; }
-    .menu-trigger-btn:hover { background: #333; border-color: var(--primary-blue); }
 
-    /* --- RESPONSIVE MOBILE --- */
-    @media (max-height: 700px), (max-width: 400px) {
-      .side-menu { width: 260px; padding-top: 60px; }
-      .menu-link { padding: 10px 18px; font-size: 15px; }
-      .sub-link { padding-left: 20px; font-size: 15px; }
-      .activity-item { padding: 10px 18px; }
-      .activity-title { font-size: 14px; }
-      .activity-title i { font-size: 17px; }
-      .activity-desc { font-size: 11px; }
+    @media (max-width: 400px) {
       .container { padding: 30px 18px; max-width: 340px; }
-      .link-item { padding: 12px; font-size: 14px; }
-      .link-item i { font-size: 16px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- MODALES -->
   <div id="modalAbout" class="modal">
     <div class="modal-content">
       <span class="close-modal" onclick="closeM('modalAbout')">×</span>
@@ -286,7 +274,6 @@
     </div>
   </div>
 
-  <!-- MENU HAMBURGER -->
   <input type="checkbox" id="menu-toggle">
   <label for="menu-toggle" class="hamburger-btn"><i class="fas fa-bars"></i></label>
   <label for="menu-toggle" class="menu-overlay"></label>
@@ -338,12 +325,8 @@
     <a class="menu-link sub-link" onclick="openM('modalLocation')"><i class="fas fa-map-marker-alt"></i> Localisation</a>
   </nav>
 
-  <!-- CONTENU PRINCIPAL -->
   <div class="container">
-    <div class="logo-wrapper">
-      <img src="logo.png" alt="DM.F Reprog">
-    </div>
-
+    <div class="logo-wrapper"><img src="logo.png" alt="DM.F"></div>
     <h1>DM.F</h1>
     <p class="subtitle-shimmer">Reprogrammation moteur & Optimisation</p>
 
@@ -351,41 +334,40 @@
       <label for="menu-toggle" class="link-item menu-trigger-btn">
         <i class="fas fa-address-book"></i> Contact & Infos
       </label>
-      
-      <a href="https://wa.me/33600000000" class="link-item whatsapp" target="_blank">
-        <i class="fab fa-whatsapp"></i> WhatsApp
-      </a>
-      <a href="https://www.instagram.com/dmfprog/" class="link-item instagram" target="_blank">
-        <i class="fab fa-instagram"></i> Instagram
-      </a>
-      <a href="https://www.facebook.com/profile.php?id=61587903220624" class="link-item facebook" target="_blank">
-        <i class="fab fa-facebook-f"></i> Facebook
-      </a>
+      <a href="https://wa.me/33600000000" class="link-item whatsapp" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+      <a href="https://www.instagram.com/dmfprog/" class="link-item instagram" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+      <a href="https://www.facebook.com/profile.php?id=61587903220624" class="link-item facebook" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a>
     </div>
 
-    <footer style="margin-top:25px; font-size:10px; opacity:0.5; letter-spacing: 1px;">
+    <footer style="margin-top:25px; font-size:10px; opacity:0.5;">
       © <span id="year"></span> DM.F
     </footer>
   </div>
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
-    function openM(id) { document.getElementById('menu-toggle').checked = false; document.getElementById(id).style.display = "block"; }
-    function closeM(id) { document.getElementById(id).style.display = "none"; }
-    window.onclick = function(event) { if (event.target.className === 'modal') event.target.style.display = "none"; }
+    
+    function openM(id) { 
+      document.getElementById('menu-toggle').checked = false; 
+      document.getElementById(id).style.display = "block"; 
+    }
+    
+    function closeM(id) { 
+      document.getElementById(id).style.display = "none"; 
+    }
+    
+    window.onclick = function(event) { 
+      if (event.target.className === 'modal') event.target.style.display = "none"; 
+    }
 
-    // --- Script menu déroulant "Notre activité" ---
-    document.querySelectorAll('.activity-toggle').forEach(toggle => {
-      toggle.addEventListener('click', () => {
-        const list = toggle.nextElementSibling;
-        const isVisible = list.style.display === 'block';
-        list.style.display = isVisible ? 'none' : 'block';
-        const chevron = toggle.querySelector('.fa-chevron-down');
-        chevron.style.transform = isVisible ? 'rotate(0deg)' : 'rotate(180deg)';
-      });
+    document.querySelector('.activity-toggle').addEventListener('click', function() {
+      const list = this.nextElementSibling;
+      const chevron = this.querySelector('.fa-chevron-down');
+      const isVisible = list.style.display === 'block';
+      list.style.display = isVisible ? 'none' : 'block';
+      chevron.style.transform = isVisible ? 'rotate(0deg)' : 'rotate(180deg)';
     });
 
-    // --- Zoom progressif du fond au scroll ---
     window.addEventListener('scroll', () => {
       const scrollY = window.scrollY;
       document.body.style.backgroundSize = `${120 + scrollY/50}%`;

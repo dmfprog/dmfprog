@@ -52,7 +52,7 @@
 
     .subtitle-shimmer {
       margin: 5px 0 25px;
-      font-size: 11px;
+      font-size: 13px;
       font-style: italic;
       font-weight: 500;
       letter-spacing: 0.8px;
@@ -75,16 +75,29 @@
 
     @keyframes float {
       0%, 100% { transform: translateY(0px); }
+      25% { transform: translateY(-5px); }
       50% { transform: translateY(-10px); }
+      75% { transform: translateY(-5px); }
+    }
+
+    /* --- LOGO CENTRÉ, FLOTTANT ET AGRANDI --- */
+    .logo-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 0px;
+      width: 100%; /* S'assure que le conteneur utilise tout l'espace */
     }
 
     .logo-wrapper img {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      border: 2px solid rgba(255,255,255,0.2);
-      margin-bottom: 15px;
-      animation: float 3s ease-in-out infinite;
+      display: block;
+      margin: 0 auto; /* Force le centrage mathématique */
+      width: auto;
+      height: auto;
+      max-width: 350px;
+      animation: float 4s ease-in-out infinite;
+      border-radius: 0;
+      border: none;
     }
 
     #menu-toggle { display: none; }
@@ -268,7 +281,7 @@
       <a href="https://www.google.com/maps/search/?api=1&query=La+Chapelle-la-Reine+77760" target="_blank" class="map-btn">
         <i class="fas fa-location-dot"></i> Itinéraire Google Maps
       </a>
-       <a href="https://www.waze.com/ul?q=La%20Chapelle-la-Reine%2077760&navigate=yes" target="_blank" class="map-btn" style="background: #33ccff;">
+      <a href="https://www.waze.com/ul?q=La%20Chapelle-la-Reine%2077760&navigate=yes" target="_blank" class="map-btn" style="background: #33ccff;">
         <i class="fab fa-waze"></i> Itinéraire Waze
       </a>
     </div>
@@ -326,8 +339,8 @@
   </nav>
 
   <div class="container">
-    <div class="logo-wrapper"><img src="logo.png" alt="DM.F"></div>
-    <h1>DM.F</h1>
+    <div class="logo-wrapper"><img src="logo1.png" alt="DM.F"></div>
+  
     <p class="subtitle-shimmer">Reprogrammation moteur & Optimisation</p>
 
     <div class="links">
@@ -375,4 +388,3 @@
   </script>
 </body>
 </html>
-

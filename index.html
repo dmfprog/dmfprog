@@ -286,14 +286,31 @@
       </a>
     </div>
   </div>
-
+<div id="modalPhoneWait" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeM('modalPhoneWait')">×</span>
+      <h2 style="color: var(--primary-blue); margin-bottom:15px;">Contact</h2>
+      <p>Nous sommes actuellement en attente de notre ligne téléphonique.</p>
+      <p>Vous pouvez nous joindre directement ici :</p>
+      
+      <a href="mailto:dmfprog@gmail.com" class="map-btn">
+        <i class="fas fa-envelope"></i> Par Email
+      </a>
+      <a href="https://www.instagram.com/dmfprog/" target="_blank" class="map-btn" style="background: linear-gradient(45deg, #f09433, #dc2743, #bc1888);">
+        <i class="fab fa-instagram"></i> Sur Instagram
+      </a>
+      <a href="https://www.facebook.com/profile.php?id=61587903220624" target="_blank" class="map-btn" style="background: #1877F2;">
+        <i class="fab fa-facebook-f"></i> Sur Facebook
+      </a>
+    </div>
+  </div>
   <input type="checkbox" id="menu-toggle">
   <label for="menu-toggle" class="hamburger-btn"><i class="fas fa-bars"></i></label>
   <label for="menu-toggle" class="menu-overlay"></label>
 
   <nav class="side-menu">
     <div class="menu-section-title">Contact</div>
-    <a href="#" class="menu-link sub-link" onclick="alert('Nous sommes actuellement en attente d\'un numéro de téléphone. Merci de nous contacter par Email, instagram ou facebook en attendant !'); return false;">
+    <a href="#" class="menu-link sub-link" onclick="openPhoneModal(); return false;">
   <i class="fas fa-phone"></i> Appeler
 </a>
     <a href="mailto:dmfprog@gmail.com" class="menu-link sub-link"><i class="fas fa-envelope"></i> Email</a>

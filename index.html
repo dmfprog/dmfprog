@@ -379,9 +379,16 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
     
+    // Cette fonction ouvre les modals classiques (About, Location)
     function openM(id) { 
       document.getElementById('menu-toggle').checked = false; 
       document.getElementById(id).style.display = "block"; 
+    }
+
+    // CETTE FONCTION MANQUAIT : Elle ouvre la fenêtre d'appel
+    function openPhoneModal() {
+      document.getElementById('menu-toggle').checked = false;
+      document.getElementById('modalPhoneWait').style.display = "block";
     }
     
     function closeM(id) { 

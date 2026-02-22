@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>DM.F Reprog - Réseaux sociaux</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="description" content="DM.F Reprog – Performance & optimisation automobile à La Chapelle-la-Reine.">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -20,27 +20,33 @@
       height: 100%;
       margin: 0;
       padding: 0;
+      /* Empêche le rebond élastique sur iOS qui montre du blanc/noir */
+      overscroll-behavior: none; 
     }
 
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #050505;
-      background-image: 
-        radial-gradient(circle at 50% -20%, #1e3a5f 0%, transparent 50%),
-        radial-gradient(circle at 0% 100%, #111 0%, transparent 40%);
-      background-repeat: no-repeat;
-      background-size: 120%;
-      background-attachment: fixed;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100%;
-      overflow-x: hidden;
-      padding: 40px 0;
-      transition: background-size 0.3s ease-out;
-    }
-
+    /* Lignes 33 à 37 environ */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #050505;
+  background-image: 
+    radial-gradient(circle at 50% -20%, #1e3a5f 0%, transparent 50%),
+    radial-gradient(circle at 0% 100%, #111 0%, transparent 40%);
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+  /* CHANGE CETTE LIGNE : */
+  background-attachment: fixed; /* "fixed" au lieu de "scroll" pour que le fond ne bouge pas */
+  
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100dvh; 
+  overflow-x: hidden;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  box-sizing: border-box;
+}
     h1 {
       margin: 0;
       font-size: 32px;
@@ -85,7 +91,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-bottom: 0px;
+      margin-bottom: -50px;
       width: 100%; /* S'assure que le conteneur utilise tout l'espace */
     }
 
@@ -104,7 +110,8 @@
 
     .hamburger-btn {
       position: fixed;
-      top: 20px;
+      /* On ajoute la zone de sécurité pour éviter que l'heure ne cache le bouton */
+      top: calc(10px + env(safe-area-inset-top)); 
       left: 20px;
       z-index: 1000;
       cursor: pointer;
@@ -408,13 +415,7 @@
       list.style.display = isVisible ? 'none' : 'block';
       chevron.style.transform = isVisible ? 'rotate(0deg)' : 'rotate(180deg)';
     });
-
-    window.addEventListener('scroll', () => {
-      const scrollY = window.scrollY;
-      document.body.style.backgroundSize = `${120 + scrollY/50}%`;
-    });
   </script>
 </body>
 </html>
-
 

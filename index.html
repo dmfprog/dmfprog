@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <title>DM.F Reprog - Réseaux sociaux</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="description" content="DM.F Reprog – Performance & optimisation automobile à La Chapelle-la-Reine.">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -16,33 +18,35 @@
       --drawer-bg: rgba(10, 10, 10, 0.98);
     }
 
-    html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-      /* Empêche le rebond élastique sur iOS qui montre du blanc/noir */
-      overscroll-behavior: none; 
-    }
+    html {
+  background-color: #050505;
+  /* On déplace le dégradé ici pour qu'il soit la base de toute la page */
+  background-image: 
+    radial-gradient(circle at 50% -20%, #1e3a5f 0%, transparent 50%),
+    radial-gradient(circle at 0% 100%, #111 0%, transparent 40%);
+  background-attachment: fixed; /* Très important : le fond ne bouge pas au scroll */
+  background-size: cover;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overscroll-behavior: none; 
+}
 
     /* Lignes 33 à 37 environ */
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #050505;
-  background-image: 
-    radial-gradient(circle at 50% -20%, #1e3a5f 0%, transparent 50%),
-    radial-gradient(circle at 0% 100%, #111 0%, transparent 40%);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
+  background: transparent; /* On laisse voir le fond du HTML derrière */
   color: white;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Garde le centrage vertical sur ordinateur */
+  justify-content: center;
   align-items: center;
-  min-height: 100dvh; 
+  min-height: 100vh; /* Utilise vh au lieu de dvh pour une meilleure stabilité PC */
   margin: 0;
   padding: 0;
-  overflow-x: hidden;
   box-sizing: border-box;
 }
 /* Ce bloc ne touche pas à l'ordinateur, il corrige uniquement le mobile */
@@ -50,9 +54,6 @@ body {
   body {
     justify-content: flex-start; 
     flex: 1; 
-    background-image: 
-      radial-gradient(circle at 50% 0%, #1e3a5f 0%, transparent 70%),
-      radial-gradient(circle at 0% 100%, #111 0%, transparent 40%);
   }
 
   .container {
@@ -64,6 +65,12 @@ body {
     margin-top: calc(10px + env(safe-area-inset-top));
   }
 } /* <--- L'accolade s'arrête ici, et c'est tout ! */
+@media (min-width: 769px) {
+  body {
+    overflow-y: auto; /* Autorise le scroll vertical si nécessaire */
+    overflow-x: hidden; /* Empêche le scroll horizontal (la barre noire) */
+  }
+}
     h1 {
       margin: 0;
       font-size: 32px;
@@ -435,4 +442,3 @@ body {
   </script>
 </body>
 </html>
-

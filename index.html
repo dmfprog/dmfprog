@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>DM.F Reprog - Réseaux sociaux</title>
+  <link rel="icon" type="image/png" href="logo3.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -18,15 +19,14 @@
       --drawer-bg: rgba(10, 10, 10, 0.98);
     }
 
-    html {
-  background-color: #050505;
-  /* On déplace le dégradé ici pour qu'il soit la base de toute la page */
-  background-image: 
-    radial-gradient(circle at 50% -20%, #1e3a5f 0%, transparent 50%),
-    radial-gradient(circle at 0% 100%, #111 0%, transparent 40%);
-  background-attachment: fixed; /* Très important : le fond ne bouge pas au scroll */
-  background-size: cover;
-}
+html {
+      background-color: #050505;
+      background-image: 
+        radial-gradient(circle at 50% -10%, #1e3a5f 0%, transparent 60%),
+        radial-gradient(circle at 0% 100%, #111 0%, transparent 40%);
+      background-attachment: fixed;
+      background-size: cover;
+    }
 
 html, body {
   height: 100%;
@@ -49,22 +49,22 @@ body {
   padding: 0;
   box-sizing: border-box;
 }
-/* Ce bloc ne touche pas à l'ordinateur, il corrige uniquement le mobile */
 @media (max-width: 768px) {
-  body {
-    justify-content: flex-start; 
-    flex: 1; 
-  }
+      body {
+        justify-content: flex-start; 
+        flex: 1; 
+        min-height: 100%; 
+      }
 
-  .container {
-    margin-top: auto !important;
-    margin-bottom: auto !important;
-  }
-  
-  .logo-wrapper {
-    margin-top: calc(10px + env(safe-area-inset-top));
-  }
-} /* <--- L'accolade s'arrête ici, et c'est tout ! */
+      .container {
+        margin-top: auto !important;
+        margin-bottom: auto !important;
+      }
+      
+     .logo-wrapper {
+        margin-top: calc(10px + env(safe-area-inset-top));
+      }
+    }
 @media (min-width: 769px) {
   body {
     overflow-y: auto; /* Autorise le scroll vertical si nécessaire */
@@ -442,3 +442,4 @@ body {
   </script>
 </body>
 </html>
+

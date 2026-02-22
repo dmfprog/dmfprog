@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>DM.F Reprog - Réseaux sociaux</title>
+  <meta name="theme-color" content="#1e3a5f">
   <link rel="icon" type="image/png" href="logo3.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -20,34 +21,31 @@
     }
 
 html {
-      background-color: #050505;
-      background-image: 
-        radial-gradient(circle at 50% -10%, #1e3a5f 0%, transparent 60%),
-        radial-gradient(circle at 0% 100%, #111 0%, transparent 40%);
-      background-attachment: fixed;
-      background-size: cover;
-    }
-
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overscroll-behavior: none; 
+  background-color: #050505;
+  background-image: 
+    radial-gradient(circle at 50% 0%, #1e3a5f 0%, transparent 70%),
+    radial-gradient(circle at 0% 100%, #111 0%, transparent 40%);
+  background-attachment: fixed;
+  background-size: cover;
+  /* On retire overflow: hidden qui bloquait tout */
+  min-height: 100%;
 }
 
-    /* Lignes 33 à 37 environ */
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: transparent; /* On laisse voir le fond du HTML derrière */
+  background: transparent;
   color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh; /* Utilise vh au lieu de dvh pour une meilleure stabilité PC */
   margin: 0;
   padding: 0;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
   box-sizing: border-box;
+  /* On laisse le navigateur gérer le scroll naturellement */
+  overflow-x: hidden; 
 }
 @media (max-width: 768px) {
       body {

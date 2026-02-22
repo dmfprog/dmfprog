@@ -19,18 +19,13 @@
     }
 
 html {
-  background-color: #050505; 
-  background-image: 
-    radial-gradient(circle at 50% 0%, #1e3a5f 0%, transparent 70%),
-    radial-gradient(circle at 0% 100%, #111 0%, transparent 40%);
-  background-attachment: fixed;
-  background-size: cover;
-  min-height: 100%;
+  /* On enlève le fond ici pour tout centraliser sur le body */
+  height: 100%;
+  overflow-x: hidden;
 }
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: transparent;
   color: white;
   display: flex;
   flex-direction: column;
@@ -38,35 +33,44 @@ body {
   align-items: center;
   margin: 0;
   padding: 0;
+  
+  /* --- LE FOND FIXÉ ET PLEIN ÉCRAN --- */
+  background-color: #050505;
+  background-image: 
+    radial-gradient(circle at 50% 0%, #1e3a5f 0%, transparent 70%),
+    radial-gradient(circle at 0% 100%, #111 0%, transparent 40%);
+  background-attachment: fixed;
+  background-size: cover;
+  
+  /* Gestion de la hauteur sur mobile */
   min-height: 100vh;
   min-height: -webkit-fill-available;
+  
   box-sizing: border-box;
-  /* On laisse le navigateur gérer le scroll naturellement */
-  overflow-x: hidden; 
+  overflow-x: hidden;
 }
+
 @media (max-width: 768px) {
   body {
-    justify-content: flex-start; 
-    flex: 1; 
-    min-height: 100vh; /* Utilise toute la hauteur de l'écran mobile */
-    padding-top: env(safe-area-inset-top); /* Espace de sécurité pour la pilule */
-    padding-bottom: env(safe-area-inset-bottom); /* Espace pour la barre de balayage */
+    justify-content: center; 
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
   }
 
   .container {
-    margin-top: auto !important;
-    margin-bottom: auto !important;
+    margin: 20px auto;
   }
   
+  /* J'ai replacé le logo-wrapper à l'intérieur du media query 768px */
   .logo-wrapper {
-    /* On réduit la marge ici car le body a déjà le padding de sécurité */
     margin-top: 10px; 
   }
-}
+} /* Cette accolade ferme bien le media query */
+
 @media (min-width: 769px) {
   body {
-    overflow-y: auto; /* Autorise le scroll vertical si nécessaire */
-    overflow-x: hidden; /* Empêche le scroll horizontal (la barre noire) */
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 }
     h1 {

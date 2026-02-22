@@ -3,13 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <title>DM.F Reprog - Réseaux sociaux</title>
-  <meta name="theme-color" content="#1e3a5f">
-  <link rel="icon" type="image/png" href="logo3.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#1e3a5f" media="(prefers-color-scheme: dark)">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="description" content="DM.F Reprog – Performance & optimisation automobile à La Chapelle-la-Reine.">
-
+  <link rel="icon" type="image/png" href="logo3.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
   <style>
@@ -21,13 +19,12 @@
     }
 
 html {
-  background-color: #050505;
+  background-color: #050505; 
   background-image: 
     radial-gradient(circle at 50% 0%, #1e3a5f 0%, transparent 70%),
     radial-gradient(circle at 0% 100%, #111 0%, transparent 40%);
   background-attachment: fixed;
   background-size: cover;
-  /* On retire overflow: hidden qui bloquait tout */
   min-height: 100%;
 }
 
@@ -48,21 +45,24 @@ body {
   overflow-x: hidden; 
 }
 @media (max-width: 768px) {
-      body {
-        justify-content: flex-start; 
-        flex: 1; 
-        min-height: 100%; 
-      }
+  body {
+    justify-content: flex-start; 
+    flex: 1; 
+    min-height: 100vh; /* Utilise toute la hauteur de l'écran mobile */
+    padding-top: env(safe-area-inset-top); /* Espace de sécurité pour la pilule */
+    padding-bottom: env(safe-area-inset-bottom); /* Espace pour la barre de balayage */
+  }
 
-      .container {
-        margin-top: auto !important;
-        margin-bottom: auto !important;
-      }
-      
-     .logo-wrapper {
-        margin-top: calc(10px + env(safe-area-inset-top));
-      }
-    }
+  .container {
+    margin-top: auto !important;
+    margin-bottom: auto !important;
+  }
+  
+  .logo-wrapper {
+    /* On réduit la marge ici car le body a déjà le padding de sécurité */
+    margin-top: 10px; 
+  }
+}
 @media (min-width: 769px) {
   body {
     overflow-y: auto; /* Autorise le scroll vertical si nécessaire */

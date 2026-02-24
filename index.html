@@ -19,8 +19,8 @@
     }
 
 html {
-  /* On enlève le fond ici pour tout centraliser sur le body */
-  height: 100%;
+  height: -webkit-fill-available;
+  min-height: 100%;
   overflow-x: hidden;
 }
 
@@ -42,9 +42,10 @@ body {
   background-attachment: fixed;
   background-size: cover;
   
-  /* Gestion de la hauteur sur mobile */
-  min-height: 100vh;
-  min-height: -webkit-fill-available;
+/* Hauteur compatible iPhone (Safari dynamique) */
+min-height: 100svh;   /* iOS 16+ */
+min-height: 100dvh;   /* navigateurs modernes */
+min-height: 100vh;    /* fallback */
   
   box-sizing: border-box;
   overflow-x: hidden;
@@ -65,7 +66,7 @@ body {
   .logo-wrapper {
     margin-top: 10px; 
   }
-} /* Cette accolade ferme bien le media query */
+}
 
 @media (min-width: 769px) {
   body {
@@ -118,12 +119,12 @@ body {
       justify-content: center;
       align-items: center;
       margin-bottom: -30px;
-      width: 100%; /* S'assure que le conteneur utilise tout l'espace */
+      width: 100%;
     }
 
     .logo-wrapper img {
       display: block;
-      margin: 0 auto; /* Force le centrage mathématique */
+      margin: 0 auto;
       width: auto;
       height: auto;
       max-width: 350px;
@@ -142,7 +143,7 @@ body {
   cursor: pointer;
   background: var(--glass-bg);
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px); /* Ajoute cette ligne */
+  -webkit-backdrop-filter: blur(10px);
   padding: 10px;
   border-radius: 12px;
   border: 1px solid var(--glass-border);
@@ -273,7 +274,7 @@ body {
   text-align: center;
   background: var(--glass-bg);
   backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px); /* Ajoute cette ligne */
+  -webkit-backdrop-filter: blur(15px);
   padding: 35px 20px;
   border-radius: 24px;
   width: 85%;
@@ -414,13 +415,11 @@ body {
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
     
-    // Cette fonction ouvre les modals classiques (About, Location)
     function openM(id) { 
       document.getElementById('menu-toggle').checked = false; 
       document.getElementById(id).style.display = "block"; 
     }
 
-    // CETTE FONCTION MANQUAIT : Elle ouvre la fenêtre d'appel
     function openPhoneModal() {
       document.getElementById('menu-toggle').checked = false;
       document.getElementById('modalPhoneWait').style.display = "block";
@@ -444,4 +443,3 @@ body {
   </script>
 </body>
 </html>
-

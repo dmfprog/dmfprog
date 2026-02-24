@@ -10,18 +10,22 @@
   <link rel="icon" type="image/png" href="logo3.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-  <style>
-    :root {
-      --primary-blue: #007aff;
-      --glass-bg: rgba(255, 255, 255, 0.07);
-      --glass-border: rgba(255, 255, 255, 0.12);
-      --drawer-bg: rgba(10, 10, 10, 0.98);
-    }
+<style>
+:root {
+  --primary-blue: #007aff;
+  --glass-bg: rgba(255, 255, 255, 0.07);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --drawer-bg: rgba(10, 10, 10, 0.98);
+}
 
 html {
-  height: -webkit-fill-available;
-  min-height: 100%;
-  overflow-x: hidden;
+  height: 100%;
+  background-color: #050505;
+  background-image: 
+    radial-gradient(circle at 50% 0%, #1e3a5f 0%, transparent 70%),
+    radial-gradient(circle at 0% 100%, #111 0%, transparent 40%);
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 body {
@@ -32,28 +36,23 @@ body {
   justify-content: center;
   align-items: center;
   margin: 0;
-  padding: 0;
-  
-  /* --- LE FOND FIXÉ ET PLEIN ÉCRAN --- */
-  background-color: #050505;
-  background-image: 
-    radial-gradient(circle at 50% 0%, #1e3a5f 0%, transparent 70%),
-    radial-gradient(circle at 0% 100%, #111 0%, transparent 40%);
-  background-attachment: fixed;
-  background-size: cover;
-  
-/* Hauteur compatible iPhone (Safari dynamique) */
-min-height: 100svh;   /* iOS 16+ */
-min-height: 100dvh;   /* navigateurs modernes */
-min-height: 100vh;    /* fallback */
-  
+
+  min-height: 100vh;
+  min-height: 100dvh;
+  min-height: 100svh;
+
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+
+  background: transparent;
   box-sizing: border-box;
   overflow-x: hidden;
 }
 
+/* Responsive mobile */
 @media (max-width: 768px) {
   body {
-    justify-content: center; 
+    justify-content: center;
     padding-top: env(safe-area-inset-top);
     padding-bottom: env(safe-area-inset-bottom);
   }
@@ -61,386 +60,155 @@ min-height: 100vh;    /* fallback */
   .container {
     margin: 20px auto;
   }
-  
-  /* J'ai replacé le logo-wrapper à l'intérieur du media query 768px */
+
   .logo-wrapper {
-    margin-top: 10px; 
-  }
-} /* Cette accolade ferme bien le media query */
-
-@media (max-width: 768px) {
-  body {
-    justify-content: center;
-    padding-top: 0;
-    padding-bottom: env(safe-area-inset-bottom);
+    margin-top: 10px;
   }
 }
-    h1 {
-      margin: 0;
-      font-size: 32px;
-      font-weight: 900;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: #ffffff;
-    }
 
-    .subtitle-shimmer {
-      margin: 5px 0 25px;
-      font-size: 13px;
-      font-style: italic;
-      font-weight: 500;
-      letter-spacing: 0.8px;
-      background: linear-gradient(
-        to right, 
-        rgba(255,255,255,0.5) 0%, 
-        rgba(255,255,255,0.6) 40%, 
-        var(--primary-blue) 50%, 
-        rgba(255,255,255,0.6) 60%, 
-        rgba(255,255,255,0.5) 100%
-      );
-      background-size: 200% auto;
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: shine 4s linear infinite;
-    }
-
-    @keyframes shine { from { background-position: 200% center; } to { background-position: -200% center; } }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      25% { transform: translateY(-5px); }
-      50% { transform: translateY(-10px); }
-      75% { transform: translateY(-5px); }
-    }
-
-    /* --- LOGO CENTRÉ, FLOTTANT ET AGRANDI --- */
-    .logo-wrapper {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: -30px;
-      width: 100%; /* S'assure que le conteneur utilise tout l'espace */
-    }
-
-    .logo-wrapper img {
-      display: block;
-      margin: 0 auto; /* Force le centrage mathématique */
-      width: auto;
-      height: auto;
-      max-width: 350px;
-      animation: float 4s ease-in-out infinite;
-      border-radius: 0;
-      border: none;
-    }
-
-    #menu-toggle { display: none; }
-
-.hamburger-btn {
-  position: fixed;
-  top: calc(10px + env(safe-area-inset-top)); 
-  left: 20px;
-  z-index: 1000;
-  cursor: pointer;
-  background: var(--glass-bg);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px); /* Ajoute cette ligne */
-  padding: 10px;
-  border-radius: 12px;
-  border: 1px solid var(--glass-border);
-  color: white;
+h1 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #ffffff;
 }
 
-    .side-menu {
-      position: fixed;
-      top: 0;
-      left: -280px; 
-      width: 280px;
-      height: 100%;
-      background: var(--drawer-bg);
-      backdrop-filter: blur(20px);
-      z-index: 999;
-      padding-top: 70px;
-      border-right: 1px solid var(--glass-border);
-      overflow-y: auto;
-      box-sizing: border-box;
-      transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
+.subtitle-shimmer {
+  margin: 5px 0 25px;
+  font-size: 13px;
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 0.8px;
+  background: linear-gradient(
+    to right, 
+    rgba(255,255,255,0.5) 0%, 
+    rgba(255,255,255,0.6) 40%, 
+    var(--primary-blue) 50%, 
+    rgba(255,255,255,0.6) 60%, 
+    rgba(255,255,255,0.5) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 4s linear infinite;
+}
 
-    #menu-toggle:checked ~ .side-menu { left: 0; }
-    #menu-toggle:checked ~ .menu-overlay { display: block; }
+@keyframes shine {
+  from { background-position: 200% center; }
+  to { background-position: -200% center; }
+}
 
-    .menu-overlay {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5);
-      z-index: 998;
-      display: none;
-    }
+@keyframes float {
+  0%,100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
 
-    .menu-section-title {
-      padding: 15px 20px 5px;
-      font-size: 11px;
-      color: var(--primary-blue);
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-      font-weight: 700;
-      opacity: 0.8;
-    }
+.logo-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: -30px;
+  width: 100%;
+}
 
-    .menu-link {
-      padding: 12px 20px;
-      text-decoration: none;
-      color: white;
-      font-size: 16px;
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-      transition: 0.3s;
-    }
+.logo-wrapper img {
+  display: block;
+  margin: 0 auto;
+  max-width: 350px;
+  animation: float 4s ease-in-out infinite;
+}
 
-    .menu-link i { 
-      width: 25px; 
-      color: var(--primary-blue); 
-      font-size: 18px; 
-      margin-right: 15px; 
-      text-align: center;
-    }
-
-    .sub-link { padding-left: 20px; font-size: 16px; opacity: 0.9; }
-
-    .activity-list { display: none; background: rgba(255, 255, 255, 0.03); }
-
-    .activity-item {
-      padding: 12px 20px;
-      display: flex;
-      flex-direction: column;
-      border-radius: 12px;
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
-
-    .activity-item:hover { background: linear-gradient(90deg, rgba(0,122,255,0.2), rgba(0,122,255,0.05)); transform: translateX(3px); }
-
-    .activity-title { display: flex; align-items: center; font-weight: 600; font-size: 15px; color: #ffffff; }
-    
-    .activity-title i { 
-      width: 25px; 
-      font-size: 18px; 
-      margin-right: 15px; 
-      color: var(--primary-blue);
-      text-align: center;
-    }
-
-    .activity-desc { 
-      font-size: 12px; 
-      opacity: 0.75; 
-      margin-top: 3px; 
-      margin-left: 40px; 
-      line-height: 1.4em; 
-    }
-
-    .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); backdrop-filter: blur(8px); }
-
-    .modal-content {
-      background: var(--drawer-bg);
-      margin: 15% auto;
-      padding: 25px;
-      border: 1px solid var(--glass-border);
-      width: 85%;
-      max-width: 380px;
-      border-radius: 22px;
-      text-align: center;
-      position: relative;
-    }
-
-    .close-modal { position: absolute; top: 12px; right: 18px; font-size: 26px; cursor: pointer; color: var(--primary-blue); }
-
-    .map-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 12px;
-      padding: 12px;
-      background: var(--primary-blue);
-      color: white;
-      text-decoration: none;
-      border-radius: 12px;
-      font-weight: bold;
-      gap: 8px;
-      transition: 0.3s;
-    }
-
-    .container {
+.container {
   text-align: center;
   background: var(--glass-bg);
   backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px); /* Ajoute cette ligne */
+  -webkit-backdrop-filter: blur(15px);
   padding: 35px 20px;
   border-radius: 24px;
   width: 85%;
   max-width: 360px;
   border: 1px solid var(--glass-border);
 }
-    .links { display: flex; flex-direction: column; gap: 10px; }
-    .link-item { padding: 14px; border-radius: 14px; text-decoration: none; color: white; font-weight: 600; display: flex; align-items: center; justify-content: center; transition: 0.3s; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; }
-    .link-item i { margin-right: 12px; font-size: 18px; width: 22px; text-align: center; }
-    .whatsapp { background: #25D366; }
-    .instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
-    .facebook { background: #1877F2; }
-    .menu-trigger-btn { background: #222; }
 
-    @media (max-width: 400px) {
-      .container { padding: 30px 18px; max-width: 340px; }
-    }
-  </style>
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.link-item {
+  padding: 14px;
+  border-radius: 14px;
+  text-decoration: none;
+  color: white;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.link-item i {
+  margin-right: 12px;
+  font-size: 18px;
+}
+
+.whatsapp { background: #25D366; }
+.instagram { background: linear-gradient(45deg,#f09433,#dc2743,#bc1888); }
+.facebook { background: #1877F2; }
+.menu-trigger-btn { background: #222; }
+
+#menu-toggle { display: none; }
+
+.hamburger-btn {
+  position: fixed;
+  top: calc(10px + env(safe-area-inset-top));
+  left: 20px;
+  z-index: 1000;
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  color: white;
+  cursor: pointer;
+}
+
+.side-menu {
+  position: fixed;
+  top: 0;
+  left: -280px;
+  width: 280px;
+  height: 100%;
+  background: var(--drawer-bg);
+  backdrop-filter: blur(20px);
+  padding-top: 70px;
+  border-right: 1px solid var(--glass-border);
+  transition: 0.4s;
+  z-index: 999;
+}
+
+#menu-toggle:checked ~ .side-menu { left: 0; }
+
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  z-index: 998;
+}
+
+#menu-toggle:checked ~ .menu-overlay { display: block; }
+
+footer {
+  margin-top: 25px;
+  font-size: 10px;
+  opacity: 0.5;
+}
+</style>
 </head>
 <body>
-
-  <div id="modalAbout" class="modal">
-    <div class="modal-content">
-      <span class="close-modal" onclick="closeM('modalAbout')">×</span>
-      <h2 style="color: var(--primary-blue); margin-bottom:15px;">Qui sommes-nous</h2>
-      <p><strong>DM.F</strong> est votre spécialiste en <strong>reprogrammation moteur</strong> et optimisation de performance.</p>
-      <p>Passionnés par l'automobile, nous mettons notre expertise au service de votre véhicule.</p>
-    </div>
-  </div>
-
-  <div id="modalLocation" class="modal">
-    <div class="modal-content">
-      <span class="close-modal" onclick="closeM('modalLocation')">×</span>
-      <h2 style="color: var(--primary-blue); margin-bottom:15px;">Où nous trouver</h2>
-      <p>Entre deux balades en forêt de Fontainebleau, faites un crochet par <strong>La Chapelle-la-Reine (77760)</strong>.</p>
-      <p>L'atelier <strong>DM.F</strong> est prêt à réveiller votre véhicule !</p>
-      
-      <a href="https://www.google.com/maps/search/?api=1&query=La+Chapelle-la-Reine+77760" target="_blank" class="map-btn">
-        <i class="fas fa-location-dot"></i> Itinéraire Google Maps
-      </a>
-      <a href="https://www.waze.com/ul?q=La%20Chapelle-la-Reine%2077760&navigate=yes" target="_blank" class="map-btn" style="background: #33ccff;">
-        <i class="fab fa-waze"></i> Itinéraire Waze
-      </a>
-    </div>
-  </div>
-<div id="modalPhoneWait" class="modal">
-    <div class="modal-content">
-      <span class="close-modal" onclick="closeM('modalPhoneWait')">×</span>
-      <h2 style="color: var(--primary-blue); margin-bottom:15px;">Contact</h2>
-      <p>Nous sommes actuellement en attente de notre ligne téléphonique.</p>
-      <p>Vous pouvez nous joindre directement ici :</p>
-      
-      <a href="mailto:dmfprog@gmail.com" class="map-btn" style="background: #444;"> 
-  <i class="fas fa-envelope"></i> Par Email
-      </a>
-      <a href="https://www.instagram.com/dmfprog/" target="_blank" class="map-btn" style="background: linear-gradient(45deg, #f09433, #dc2743, #bc1888);">
-        <i class="fab fa-instagram"></i> Sur Instagram
-      </a>
-      <a href="https://www.facebook.com/profile.php?id=61587903220624" target="_blank" class="map-btn" style="background: #1877F2;">
-        <i class="fab fa-facebook-f"></i> Sur Facebook
-      </a>
-    </div>
-  </div>
-  <input type="checkbox" id="menu-toggle">
-  <label for="menu-toggle" class="hamburger-btn"><i class="fas fa-bars"></i></label>
-  <label for="menu-toggle" class="menu-overlay"></label>
-
-  <nav class="side-menu">
-    <div class="menu-section-title">Contact</div>
-    <a href="#" class="menu-link sub-link" onclick="openPhoneModal(); return false;">
-  <i class="fas fa-phone"></i> Appeler
-</a>
-    <a href="mailto:dmfprog@gmail.com" class="menu-link sub-link"><i class="fas fa-envelope"></i> Email</a>
-
-    <div class="menu-section-title">Notre activité</div>
-    <div class="activity-dropdown">
-      <div class="activity-toggle menu-link">
-        <i class="fas fa-cogs"></i> Notre activité <i class="fas fa-chevron-down" style="margin-left:auto;"></i>
-      </div>
-      <div class="activity-list">
-        <div class="activity-item">
-          <div class="activity-title"><i class="fas fa-gauge-high"></i> Stage 1</div>
-          <div class="activity-desc">Optimisation moteur fiable pour gagner en puissance et couple sans modification mécanique.</div>
-        </div>
-        <div class="activity-item">
-          <div class="activity-title"><i class="fas fa-fire"></i> Stage 2</div>
-          <div class="activity-desc">Préparation avancée avec pièces performance pour maximiser le rendement moteur.</div>
-        </div>
-        <div class="activity-item">
-          <div class="activity-title"><i class="fas fa-leaf"></i> Conversion FlexFuel E85</div>
-          <div class="activity-desc">Roulez au bioéthanol E85 et réduisez vos coûts de carburant grâce à une cartographie adaptée.</div>
-        </div>
-        <div class="activity-item">
-          <div class="activity-title"><i class="fas fa-ban"></i> Suppression EGR</div>
-          <div class="activity-desc">Évite l’encrassement moteur et améliore la longévité des composants.</div>
-        </div>
-        <div class="activity-item">
-          <div class="activity-title"><i class="fas fa-droplet-slash"></i> Suppression AdBlue</div>
-          <div class="activity-desc">Solution électronique pour éviter pannes et limitations liées au système SCR.</div>
-        </div>
-        <div class="activity-item">
-          <div class="activity-title"><i class="fas fa-filter-circle-xmark"></i> Suppression FAP</div>
-          <div class="activity-desc">Optimisation pour éviter colmatage et perte de performance moteur.</div>
-        </div>
-        <div class="activity-item">
-          <div class="activity-title"><i class="fas fa-screwdriver-wrench"></i> Vente de pièces performance</div>
-          <div class="activity-desc">Admission, échappement, échangeur, turbo et pièces haute performance.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="menu-section-title">Informations</div>
-    <a class="menu-link sub-link" onclick="openM('modalAbout')"><i class="fas fa-user-group"></i> Qui sommes-nous</a>
-    <a class="menu-link sub-link" onclick="openM('modalLocation')"><i class="fas fa-map-marker-alt"></i> Localisation</a>
-  </nav>
-
-  <div class="container">
-    <div class="logo-wrapper"><img src="logo3.png" alt="DM.F"></div>
-  
-    <p class="subtitle-shimmer">Reprogrammation moteur & Optimisation</p>
-
-    <div class="links">
-      <label for="menu-toggle" class="link-item menu-trigger-btn">
-        <i class="fas fa-address-book"></i> Contact & Infos
-      </label>
-      <a href="#" class="link-item whatsapp" onclick="openPhoneModal(); return false;">
-  <i class="fab fa-whatsapp"></i> WhatsApp
-     </a>
-      <a href="https://www.instagram.com/dmfprog/" class="link-item instagram" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
-      <a href="https://www.facebook.com/profile.php?id=61587903220624" class="link-item facebook" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a>
-    </div>
-
-    <footer style="margin-top:25px; font-size:10px; opacity:0.5;">
-      © <span id="year"></span> DM.F
-    </footer>
-  </div>
-
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-    function openM(id) { 
-      document.getElementById('menu-toggle').checked = false; 
-      document.getElementById(id).style.display = "block"; 
-    }
-
-    // CETTE FONCTION MANQUAIT : Elle ouvre la fenêtre d'appel
-    function openPhoneModal() {
-      document.getElementById('menu-toggle').checked = false;
-      document.getElementById('modalPhoneWait').style.display = "block";
-    }
-    
-    function closeM(id) { 
-      document.getElementById(id).style.display = "none"; 
-    }
-    
-    window.onclick = function(event) { 
-      if (event.target.className === 'modal') event.target.style.display = "none"; 
-    }
-
-    document.querySelector('.activity-toggle').addEventListener('click', function() {
-      const list = this.nextElementSibling;
-      const chevron = this.querySelector('.fa-chevron-down');
-      const isVisible = list.style.display === 'block';
-      list.style.display = isVisible ? 'none' : 'block';
-      chevron.style.transform = isVisible ? 'rotate(0deg)' : 'rotate(180deg)';
-    });
-  </script>
-</body>
-</html>

@@ -66,12 +66,13 @@ min-height: 100vh;    /* fallback */
   .logo-wrapper {
     margin-top: 10px; 
   }
-}
+} /* Cette accolade ferme bien le media query */
 
-@media (min-width: 769px) {
+@media (max-width: 768px) {
   body {
-    overflow-y: auto;
-    overflow-x: hidden;
+    justify-content: center;
+    padding-top: 0;
+    padding-bottom: env(safe-area-inset-bottom);
   }
 }
     h1 {
@@ -119,12 +120,12 @@ min-height: 100vh;    /* fallback */
       justify-content: center;
       align-items: center;
       margin-bottom: -30px;
-      width: 100%;
+      width: 100%; /* S'assure que le conteneur utilise tout l'espace */
     }
 
     .logo-wrapper img {
       display: block;
-      margin: 0 auto;
+      margin: 0 auto; /* Force le centrage mathématique */
       width: auto;
       height: auto;
       max-width: 350px;
@@ -143,7 +144,7 @@ min-height: 100vh;    /* fallback */
   cursor: pointer;
   background: var(--glass-bg);
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* Ajoute cette ligne */
   padding: 10px;
   border-radius: 12px;
   border: 1px solid var(--glass-border);
@@ -274,7 +275,7 @@ min-height: 100vh;    /* fallback */
   text-align: center;
   background: var(--glass-bg);
   backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px); /* Ajoute cette ligne */
   padding: 35px 20px;
   border-radius: 24px;
   width: 85%;
@@ -414,12 +415,12 @@ min-height: 100vh;    /* fallback */
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
-    
     function openM(id) { 
       document.getElementById('menu-toggle').checked = false; 
       document.getElementById(id).style.display = "block"; 
     }
 
+    // CETTE FONCTION MANQUAIT : Elle ouvre la fenêtre d'appel
     function openPhoneModal() {
       document.getElementById('menu-toggle').checked = false;
       document.getElementById('modalPhoneWait').style.display = "block";

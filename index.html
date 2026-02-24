@@ -30,19 +30,22 @@
       justify-content: center;
       align-items: center;
       box-sizing: border-box;
+      position: relative; /* IMPORTANT pour iPhone pilule */
     }
 
     /* --- FOND PLEIN ÉCRAN IPHONE SAFE --- */
     body::before {
       content: "";
       position: fixed;
-      inset: 0;
+      top: 0; right: 0; bottom: 0; left: 0;
       background-color: #050505;
       background-image: 
         radial-gradient(circle at 50% 0%, #1e3a5f 0%, transparent 70%),
         radial-gradient(circle at 0% 100%, #111 0%, transparent 40%);
       background-size: cover;
-      z-index: -1;
+      background-repeat: no-repeat;
+      z-index: -1; /* derrière tout le contenu */
+      pointer-events: none;
     }
 
     body {
@@ -148,12 +151,11 @@
     .menu-trigger-btn { background:#222; }
 
     @media (max-width:400px){ .container{ padding:30px 18px; max-width:340px; } }
-
   </style>
 </head>
 <body>
 
-<!-- Le reste de ton HTML reste inchangé (modals, menu, container, etc.) -->
+<!-- Ton HTML original reste inchangé : modals, menu, container, liens, footer -->
 
 <script>
 document.getElementById('year').textContent = new Date().getFullYear();

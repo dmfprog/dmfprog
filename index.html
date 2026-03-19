@@ -59,6 +59,83 @@
       overflow-x: hidden;
     }
 
+    /* --- STYLES DU SIMULATEUR --- */
+    .sim-container { background: rgba(255, 255, 255, 0.05); margin: 0px 15px 10px; padding: 15px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1); }
+    .sim-title { font-size: 10px; color: var(--primary-blue); font-weight: 800; text-transform: uppercase; margin-bottom: 10px; text-align: center; }
+    
+    .sim-select { width: 100%; padding: 10px; background: #111; border: 1px solid #333; color: white; border-radius: 8px; font-size: 13px; margin-bottom: 8px; outline: none; }
+    .sim-results { display: none; flex-direction: column; gap: 8px; margin-top: 10px; animation: fadeIn 0.4s; }
+    .stage-row { display: grid; grid-template-columns: 70px 1fr 1fr; gap: 8px; background: rgba(255,255,255,0.03); padding: 8px; border-radius: 6px; align-items: center; }
+    .stage-label { font-size: 10px; font-weight: 700; color: var(--primary-blue); }
+    .val-box { text-align: center; font-size: 12px; }
+    .val-box span { display: block; font-size: 8px; opacity: 0.5; text-transform: uppercase; }
+    
+    /* MODIFICATION DES COULEURS DE GAIN ICI */
+    #s1hp, #s2hp { color: #28a745; } /* Vert pour Puissance */
+    #s1nm, #s2nm { color: #dc3545; } /* Rouge pour Couple */
+    
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* STYLE SPECIFIQUE POUR RENDRE LE SIMULATEUR REDUIT + EFFETS DYNAMIQUES */
+    .sim-wrapper {
+        margin: 10px 0;
+        position: relative;
+    }
+    
+    .sim-toggle-btn {
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      color: #fff;
+      background: linear-gradient(90deg, rgba(0,122,255,0.2) 0%, rgba(0,122,255,0.05) 100%);
+      font-weight: 700;
+      font-size: 14px;
+      text-transform: uppercase;
+      border-left: 4px solid var(--primary-blue);
+      position: relative;
+      overflow: hidden;
+      /* Animation de pulsation */
+      animation: sim-glow 2s infinite alternate ease-in-out, sim-attention 5s infinite 3s;
+      transition: all 0.3s ease;
+    }
+
+    /* Effet de lueur pulsante */
+    @keyframes sim-glow {
+      from { box-shadow: inset 0 0 0px rgba(0, 122, 255, 0); }
+      to { box-shadow: inset 0 0 15px rgba(0, 122, 255, 0.4); background: rgba(0,122,255,0.25); }
+    }
+
+    /* Animation de secousse pour attirer l'attention périodiquement */
+    @keyframes sim-attention {
+      0%, 90%, 100% { transform: translateX(0); }
+      92% { transform: translateX(-3px); }
+      94% { transform: translateX(3px); }
+      96% { transform: translateX(-3px); }
+      98% { transform: translateX(3px); }
+    }
+
+    .sim-toggle-btn i { margin-right: 10px; color: var(--primary-blue); }
+    
+    .sim-dropdown-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease-out;
+    }
+    
+    .sim-wrapper.active .sim-dropdown-content {
+      max-height: 1000px;
+      margin-bottom: 15px;
+    }
+    
+    /* Désactiver l'animation quand c'est ouvert pour plus de confort */
+    .sim-wrapper.active .sim-toggle-btn {
+      animation: none;
+      background: rgba(255,255,255,0.1);
+      border-left: 4px solid #fff;
+    }
+
     @media (max-width: 768px) {
       body {
         justify-content: center; 
@@ -439,6 +516,27 @@
         <div class="toggle-icon"><span></span><span></span></div>
       </div>
       <div class="activity-list">
+
+        <div class="sim-wrapper">
+          <div class="sim-toggle-btn" onclick="this.parentElement.classList.toggle('active')">
+            <span><i class="fas fa-calculator"></i> Simulateur de gains</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="sim-dropdown-content">
+            <div class="sim-container">
+              <div class="sim-title">Sélection du véhicule</div>
+              <select id="brandS" class="sim-select" onchange="updateM()"><option value="">-- Marque --</option></select>
+              <select id="modelS" class="sim-select" onchange="updateE()" disabled><option value="">-- Modèle --</option></select>
+              <select id="engineS" class="sim-select" onchange="runSim()" disabled><option value="">-- Moteur --</option></select>
+              
+              <div id="resBox" class="sim-results">
+                <div class="stage-row"><div class="stage-label">STAGE 1</div><div class="val-box"><span>Puissance</span><b id="s1hp">--</b></div><div class="val-box"><span>Couple</span><b id="s1nm">--</b></div></div>
+                <div class="stage-row"><div class="stage-label">STAGE 2</div><div class="val-box"><span>Puissance</span><b id="s2hp">--</b></div><div class="val-box"><span>Couple</span><b id="s2nm">--</b></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="activity-item">
           <div class="activity-title"><i class="fas fa-gauge-high"></i> Stage 1</div>
           <div class="activity-desc">Optimisation moteur fiable pour gagner en puissance et couple sans modification mécanique.</div>
@@ -530,9 +628,191 @@
       if (list.style.maxHeight && list.style.maxHeight !== '0px') {
         list.style.maxHeight = '0px';
       } else {
-        list.style.maxHeight = list.scrollHeight + "px";
+        list.style.maxHeight = "6000px"; 
       }
     });
+
+    // BASE DE DONNÉES MASSIVE - ENRICHIE PAR GEMINI
+    const db = {
+      "Abarth": { "500/595/695": ["1.4 T-Jet 145", "1.4 T-Jet 160", "1.4 T-Jet 165", "1.4 T-Jet 180"], "124 Spider": ["1.4 MultiAir 170"], "Punto": ["1.4 T-Jet 155", "1.4 MultiAir 163", "1.4 MultiAir 180"] },
+      "Alfa Romeo": {
+        "Giulietta": ["1.4 TB 105", "1.4 TB 120", "1.4 MultiAir 150", "1.4 MultiAir 170", "1.6 JTDm 105", "1.6 JTDm 120", "2.0 JTDm 140", "2.0 JTDm 150", "2.0 JTDm 170", "2.0 JTDm 175", "1.75 TBi 235", "1.75 TBi 240"],
+        "Giulia": ["2.2 Diesel 136", "2.2 Diesel 150", "2.2 Diesel 160", "2.2 Diesel 180", "2.2 Diesel 190", "2.2 Diesel 210", "2.0 Turbo 200", "2.0 Turbo 280", "2.9 V6 QV 510", "2.9 V6 GTAm 540"],
+        "Stelvio": ["2.2 Diesel 150", "2.2 Diesel 160", "2.2 Diesel 190", "2.2 Diesel 210", "2.0 Turbo 200", "2.0 Turbo 280", "2.9 V6 QV 510"],
+        "Mito": ["1.3 JTDm 85", "1.3 JTDm 90", "1.3 JTDm 95", "1.6 JTDm 120", "0.9 TwinAir 85", "0.9 TwinAir 105", "1.4 TB 120", "1.4 MultiAir 135", "1.4 MultiAir 170"],
+        "4C": ["1.75 TBi 240"]
+      },
+      "Alpine": { "A110": ["1.8 Turbo 252", "1.8 Turbo GT 300", "1.8 Turbo S 300", "1.8 Turbo R 300"] },
+      "Aston Martin": { "Vantage": ["4.0 V8 510"], "DB11": ["4.0 V8 510", "5.2 V12 608"], "DBS": ["5.2 V12 725"] },
+      "Audi": { 
+          "A1": ["1.0 TFSI 82", "1.0 TFSI 95", "1.0 TFSI 116", "1.2 TFSI 86", "1.4 TFSI 122", "1.4 TFSI 125", "1.4 TFSI 140", "1.4 TFSI 150", "1.4 TFSI 185", "1.5 TFSI 150", "1.8 TFSI 192", "2.0 TFSI 200", "1.6 TDI 90", "1.6 TDI 105", "1.6 TDI 116", "2.0 TDI 143", "S1 2.0 TFSI 231"],
+          "A3": ["1.0 TFSI 110", "1.0 TFSI 116", "1.2 TFSI 105", "1.2 TFSI 110", "1.4 TFSI 122", "1.4 TFSI 125", "1.4 TFSI 140", "1.4 TFSI 150", "1.5 TFSI 150", "1.8 TFSI 160", "1.8 TFSI 180", "2.0 TFSI 190", "2.0 TFSI 200", "1.6 TDI 105", "1.6 TDI 110", "1.6 TDI 116", "2.0 TDI 140", "2.0 TDI 150", "2.0 TDI 170", "2.0 TDI 184", "S3 265", "S3 300", "S3 310", "RS3 340", "RS3 367", "RS3 400"],
+          "A4": ["1.8 TFSI 120", "1.8 TFSI 160", "1.8 TFSI 170", "2.0 TFSI 180", "2.0 TFSI 190", "2.0 TFSI 211", "2.0 TFSI 225", "2.0 TFSI 245", "2.0 TFSI 252", "2.0 TDI 120", "2.0 TDI 136", "2.0 TDI 143", "2.0 TDI 150", "2.0 TDI 163", "2.0 TDI 170", "2.0 TDI 177", "2.0 TDI 190", "2.7 TDI 190", "3.0 TDI 204", "3.0 TDI 233", "3.0 TDI 240", "3.0 TDI 245", "3.0 TDI 272", "3.0 TDI 286", "S4 333", "S4 354", "RS4 420", "RS4 450"],
+          "A5": ["2.0 TFSI 180", "2.0 TFSI 190", "2.0 TFSI 211", "2.0 TFSI 225", "2.0 TFSI 252", "2.0 TDI 143", "2.0 TDI 150", "2.0 TDI 170", "2.0 TDI 177", "2.0 TDI 190", "2.7 TDI 190", "3.0 TDI 204", "3.0 TDI 240", "3.0 TDI 245", "3.0 TDI 272", "3.0 TDI 286", "S5 333", "S5 354", "RS5 450"],
+          "A6/A7": ["2.0 TDI 140", "2.0 TDI 177", "2.0 TDI 190", "2.0 TDI 204", "3.0 TDI 190", "3.0 TDI 204", "3.0 TDI 218", "3.0 TDI 233", "3.0 TDI 240", "3.0 TDI 245", "3.0 TDI 272", "3.0 TDI 286", "3.0 TDI 313 (BiTDI)", "3.0 TDI 320 (BiTDI)", "3.0 TDI 326 (BiTDI)", "3.0 TFSI 300", "3.0 TFSI 310", "3.0 TFSI 333", "S6 420", "S6 450", "S6 349 (Diesel)", "RS6 560", "RS6 600", "RS7 560", "RS7 600"],
+          "Q3/Q5": ["2.0 TFSI 180", "2.0 TFSI 211", "2.0 TFSI 230", "2.0 TDI 140", "2.0 TDI 143", "2.0 TDI 150", "2.0 TDI 170", "2.0 TDI 177", "2.0 TDI 190", "3.0 TDI 240", "3.0 TDI 245", "3.0 TDI 258", "SQ5 313", "SQ5 326", "SQ5 341", "RSQ3 310", "RSQ3 340", "RSQ3 367", "RSQ3 400"],
+          "Q7/Q8": ["3.0 TDI 233", "3.0 TDI 240", "3.0 TDI 245", "3.0 TDI 272", "3.0 TDI 231", "3.0 TDI 286", "4.2 TDI 326", "4.2 TDI 340", "SQ7 435", "SQ8 435", "SQ8 507 (Essence)", "RSQ8 600"],
+          "TT": ["1.8 TFSI 160", "1.8 TFSI 180", "2.0 TFSI 200", "2.0 TFSI 211", "2.0 TFSI 230", "2.0 TFSI 245", "2.0 TDI 170", "2.0 TDI 184", "TTS 272", "TTS 310", "TT RS 340", "TT RS 360", "TT RS 400"],
+          "R8": ["4.2 V8 420", "4.2 V8 430", "5.2 V10 525", "5.2 V10 540", "5.2 V10 Plus 610", "5.2 V10 Performance 620"]
+      },
+      "Bentley": { "Continental GT": ["4.0 V8 507", "4.0 V8 528", "6.0 W12 560", "6.0 W12 625", "6.0 W12 635"], "Bentayga": ["4.0 Diesel 435", "4.0 V8 550", "6.0 W12 608"] },
+      "BMW": {
+          "Série 1": ["114d 95", "116d 116", "118d 122", "118d 143", "118d 150", "120d 163", "120d 177", "120d 184", "120d 190", "123d 204", "125d 218", "125d 224", "114i 102", "116i 115", "116i 136", "118i 136", "118i 143", "118i 170", "120i 150", "120i 170", "120i 184", "125i 211", "125i 218", "130i 265", "135i 306", "M135i 306", "M135i 320", "M140i 340", "1M 340", "116i (F40) 109", "118i (F40) 136", "120i (F40) 178", "M135i (F40) 306"],
+          "Série 2": ["218d 150", "220d 184", "220d 190", "225d 218", "225d 224", "218i 136", "220i 184", "228i 245", "M235i 326", "M240i 340", "M2 370", "M2 Competition 410", "M2 CS 450", "220i (G42) 184", "M240i (G42) 374"],
+          "Série 3": ["316d 116", "318d 122", "318d 143", "318d 150", "320d 150", "320d 163", "320d 177", "320d 184", "320d 190", "325d 197", "325d 204", "325d 218", "330d 204", "330d 231", "330d 245", "330d 258", "330d 265", "330d 286", "335d 286", "335d 313", "318i 136", "320i 150", "320i 170", "320i 184", "325i 218", "328i 245", "330i 252", "330i 258", "335i 306", "340i 326", "320e Hybrid 204", "330e Hybrid 292", "M340i 374", "M340d 340", "M3 420", "M3 431", "M3 Competition 450", "M3 Competition 510"],
+          "Série 4": ["418d 150", "420d 184", "420d 190", "425d 218", "430d 258", "430d 286", "435d 313", "420i 184", "428i 245", "430i 252", "435i 306", "440i 326", "M440i 374", "M4 431", "M4 Competition 450", "M4 Competition 510", "M4 CSL 550"],
+          "Série 5": ["518d 150", "520d 163", "520d 177", "520d 184", "520d 190", "525d 177", "525d 197", "525d 204", "525d 218", "530d 218", "530d 231", "530d 235", "530d 245", "530d 258", "530d 265", "535d 272", "535d 286", "535d 313", "540d 320", "550d 381", "M550d 400", "520i 184", "528i 245", "530i 252", "530i 272", "535i 306", "540i 340", "530e Hybrid 292", "545e Hybrid 394", "M550i 462", "M550i 530", "M5 507", "M5 560", "M5 600", "M5 Competition 625", "M5 CS 635"],
+          "X1/X2/X3/X4": ["18d 143", "18d 150", "20d 177", "20d 184", "20d 190", "23d 204", "25d 218", "25d 231", "30d 218", "30d 258", "30d 265", "35d 286", "35d 313", "18i 140", "20i 184", "25e Hybrid 220", "30e Hybrid 292", "M40d 326", "M40d 340", "M40i 354", "M40i 360", "X3M 480", "X3M Competition 510"],
+          "X5/X6": ["30d 218", "30d 235", "30d 245", "30d 258", "30d 265", "30d 286", "35d 286", "40d 306", "40d 313", "40d 340", "M50d 381", "M50d 400", "35i 306", "40i 333", "40i 340", "45e Hybrid 394", "50i 450", "M50i 530", "X5M 555", "X5M 575", "X5M 600", "X6M 625"]
+      },
+      "Cadillac": { "Escalade": ["6.2 V8 409", "6.2 V8 426"], "CTS-V": ["6.2 V8 564", "6.2 V8 649"] },
+      "Chevrolet": { "Camaro": ["2.0 Turbo 275", "6.2 V8 432", "6.2 V8 453"], "Corvette": ["C6 437", "C6 Z06 512", "C7 466", "C7 Z06 659", "C8 482"] },
+      "Citroën": {
+          "C1/C2": ["1.0 VTi 68", "1.0 VTi 72", "1.4 HDi 70", "1.6 16v 110", "1.6 VTS 125"],
+          "C3": ["1.2 PureTech 68", "1.2 PureTech 82", "1.2 PureTech 110", "1.4 HDi 70", "1.6 HDi 75", "1.6 HDi 90", "1.6 BlueHDi 75", "1.6 BlueHDi 100", "1.5 BlueHDi 100"],
+          "C4/C4 Cactus": ["1.2 PureTech 110", "1.2 PureTech 130", "1.2 PureTech 155", "1.6 HDi 90", "1.6 HDi 110", "1.6 BlueHDi 100", "1.6 BlueHDi 120", "2.0 HDi 136", "2.0 HDi 150", "2.0 BlueHDi 150"],
+          "C5/C5X/C5 Aircross": ["1.6 HDi 110", "1.6 BlueHDi 120", "1.5 BlueHDi 130", "2.0 HDi 140", "2.0 HDi 163", "2.0 BlueHDi 150", "2.0 BlueHDi 180", "2.2 HDi 170", "2.2 HDi 200", "3.0 V6 HDi 240", "Hybrid 180", "Hybrid 225"],
+          "Berlingo": ["1.6 HDi 75", "1.6 HDi 90", "1.6 HDi 110", "1.6 BlueHDi 75", "1.6 BlueHDi 100", "1.6 BlueHDi 120", "1.5 BlueHDi 100", "1.5 BlueHDi 130"],
+          "Jumper": ["2.0 BlueHDi 110", "2.0 BlueHDi 130", "2.0 BlueHDi 160", "2.2 BlueHDi 120", "2.2 BlueHDi 140", "2.2 BlueHDi 165", "3.0 HDi 160", "3.0 HDi 180"]
+      },
+      "Cupra": { "Formentor": ["1.5 TSI 150", "2.0 TSI 190", "2.0 TSI 245", "VZ 310", "VZ5 390", "1.4 e-Hybrid 204", "1.4 e-Hybrid 245"], "Leon": ["2.0 TSI 245", "2.0 TSI 290", "2.0 TSI 300", "VZ 300"], "Ateca": ["2.0 TSI 300"] },
+      "Dacia": { "Duster": ["1.5 dCi 85", "1.5 dCi 110", "1.5 dCi 115", "1.2 TCe 125", "1.3 TCe 130", "1.3 TCe 150", "1.0 TCe 100"], "Sandero": ["1.5 dCi 75", "1.5 dCi 90", "0.9 TCe 90", "1.0 TCe 90", "1.0 TCe 100", "1.0 TCe 110"] },
+      "Dodge": { "RAM 1500": ["5.7 V8 HEMI 401"], "Challenger": ["5.7 HEMI 375", "6.4 SRT 492", "6.2 Hellcat 717"] },
+      "DS": { 
+          "DS3": ["1.2 PureTech 82", "1.2 PureTech 110", "1.2 PureTech 130", "1.6 HDi 90", "1.6 BlueHDi 100", "1.6 BlueHDi 120", "1.6 THP 155", "1.6 THP 165", "1.6 THP 203", "1.6 THP 208"],
+          "DS4/DS5": ["1.6 BlueHDi 120", "2.0 HDi 136", "2.0 HDi 163", "2.0 BlueHDi 150", "2.0 BlueHDi 180", "1.6 THP 200", "Hybrid4 200"],
+          "DS7/DS9": ["1.5 BlueHDi 130", "2.0 BlueHDi 180", "1.6 PureTech 180", "1.6 PureTech 225", "E-Tense 225", "E-Tense 250", "E-Tense 300", "E-Tense 360"]
+      },
+      "Ferrari": { "458": ["Italia 570"], "488": ["GTB 670", "Pista 720"], "F12": ["Berlinetta 740"], "Roma": ["3.9 V8 620"], "F8": ["Tributo 720"], "812": ["Superfast 800"], "SF90": ["Stradale 1000"] },
+      "Fiat": { "500": ["1.2 69", "1.3 MultiJet 75", "1.3 MultiJet 95", "0.9 TwinAir 85", "0.9 TwinAir 105", "1.0 Hybrid 70"], "Tipo": ["1.3 MultiJet 95", "1.6 MultiJet 120", "1.6 MultiJet 130", "1.4 T-Jet 120", "1.0 FireFly 100"], "Ducato": ["2.0 JTD 115", "2.3 JTD 130", "2.3 JTD 140", "2.3 JTD 150", "2.3 JTD 160", "2.3 JTD 180", "3.0 JTD 180"] },
+      "Ford": {
+        "Fiesta": ["1.0 EcoBoost 100", "1.0 EcoBoost 125", "1.0 EcoBoost 140", "1.0 EcoBoost 155", "1.5 TDCi 75", "1.5 TDCi 95", "1.5 TDCi 120", "1.6 TDCi 95", "ST 150", "ST 182", "ST 200"],
+        "Focus": ["1.0 EcoBoost 125", "1.5 EcoBoost 150", "1.5 EcoBoost 182", "1.5 TDCi 120", "1.6 TDCi 115", "2.0 TDCi 140", "2.0 TDCi 150", "2.0 TDCi 163", "2.0 TDCi 185", "ST 225", "ST 250", "ST 280", "RS 305", "RS 350"],
+        "Mustang": ["2.3 EcoBoost 290", "2.3 EcoBoost 317", "5.0 V8 421", "5.0 V8 450", "5.0 V8 460", "GT350 533", "GT500 760"],
+        "Ranger/Raptor": ["2.2 TDCi 130", "2.2 TDCi 160", "2.0 EcoBlue 170", "2.0 EcoBlue 213", "3.2 TDCi 200", "3.0 V6 EcoBoost 292"],
+        "Transit/Custom": ["2.0 EcoBlue 105", "2.0 EcoBlue 130", "2.0 EcoBlue 170", "2.0 EcoBlue 185", "2.2 TDCi 100", "2.2 TDCi 125", "2.2 TDCi 155"]
+      },
+      "Honda": { "Civic": ["1.6 i-DTEC 120", "1.0 VTEC 126", "1.5 VTEC 182", "Type R 200", "Type R 310", "Type R 320", "Type R 329"] },
+      "Hyundai": { "i20": ["1.0 T-GDi 100", "1.0 T-GDi 120", "N 204"], "i30": ["1.6 CRDi 110", "1.6 CRDi 136", "N 250", "N 275", "N 280"], "Tucson/Santa Fe": ["1.7 CRDi 115", "1.6 CRDi 136", "2.0 CRDi 185", "1.6 T-GDi Hybrid 230", "1.6 T-GDi Plug-in 265"], "Kona": ["1.0 T-GDi 120", "1.6 T-GDi 177", "1.6 CRDi 136"] },
+      "Iveco": { "Daily": ["2.3 JTD 106", "2.3 JTD 126", "2.3 JTD 136", "2.3 JTD 146", "2.3 JTD 156", "3.0 JTD 150", "3.0 JTD 170", "3.0 JTD 180", "3.0 JTD 205", "3.0 JTD 210"] },
+      "Isuzu": { "D-Max": ["2.5 D 163", "1.9 D 164"] },
+      "Jaguar": { "F-Type": ["2.0 Turbo 300", "3.0 V6 340", "3.0 V6 380", "3.0 V6 400", "5.0 V8 495", "5.0 V8 550", "5.0 V8 575 (SVR)"], "F-Pace": ["2.0 D 180", "2.0 D 240", "3.0 D 300", "SVR 550"] },
+      "Jeep": { "Renegade/Compass": ["1.6 MultiJet 120", "1.6 MultiJet 130", "2.0 MultiJet 140", "1.3 Turbo 150", "4xe Hybrid 190", "4xe Hybrid 240"], "Wrangler": ["2.8 CRD 200", "2.2 Multijet 200", "2.0 Turbo 272", "4xe Hybrid 380"], "Grand Cherokee": ["3.0 CRD 250", "6.4 SRT 468", "Trackhawk 707"] },
+      "Kia": { "Ceed/Proceed": ["1.0 T-GDi 120", "1.4 T-GDi 140", "1.5 T-GDi 160", "1.6 CRDi 115", "1.6 CRDi 136", "GT 204"], "Sportage": ["1.6 CRDi 115", "1.6 CRDi 136", "1.6 T-GDi Hybrid 230"], "Stinger": ["2.2 CRDi 200", "2.0 Turbo 255", "3.3 V6 370"] },
+      "Lamborghini": { "Gallardo": ["V10 500", "V10 520", "V10 560"], "Huracan": ["LP580 580", "LP610 610", "Performante 640", "EVO 640", "STO 640"], "Urus": ["4.0 V8 650", "4.0 V8 Performante 666"], "Aventador": ["LP700 700", "LP740 S 740", "LP770 SVJ 770"] },
+      "Land Rover": { 
+          "Range Evoque": ["2.0 D 150", "2.0 D 180", "2.0 D 240", "2.2 D 150", "2.2 D 190", "P300e Hybrid 309"], 
+          "Range Sport/Vogue": ["3.0 TDV6 258", "3.0 SDV6 306", "3.0 D 250", "3.0 D 300", "3.0 D 350", "4.4 SDV8 339", "5.0 V8 510", "5.0 V8 SVR 550", "5.0 V8 SVR 575", "P400e Hybrid 404"],
+          "Defender": ["2.4 TD4 122", "2.2 TD4 122", "2.0 D 200", "2.0 D 240", "3.0 D 200", "3.0 D 250", "3.0 D 300", "5.0 V8 525"]
+      },
+      "Lexus": { "IS": ["300h 223"], "UX": ["250h 184"], "NX": ["300h 197", "450h+ 309"] },
+      "MAN": { "TGE": ["2.0 TDI 102", "2.0 TDI 122", "2.0 TDI 140", "2.0 TDI 177"] },
+      "Maserati": { "Ghibli": ["3.0 V6 Diesel 250", "3.0 V6 Diesel 275", "3.0 V6 330", "3.0 V6 410", "3.0 V6 430", "3.8 V8 Trofeo 580"], "Levante": ["3.0 V6 Diesel 275", "3.0 V6 350", "3.0 V6 430", "3.8 V8 580"] },
+      "Mazda": { "3/6": ["2.2 SkyActiv-D 150", "2.2 SkyActiv-D 175", "2.2 SkyActiv-D 184"], "MX-5": ["1.5 131", "2.0 160", "2.0 184"], "CX-5/CX-30": ["2.2 SkyActiv-D 150", "2.2 SkyActiv-D 184", "2.0 SkyActiv-G 122", "2.0 SkyActiv-X 180"] },
+      "McLaren": { "540C/570S": ["3.8 V8 540", "3.8 V8 570"], "650S/675LT": ["3.8 V8 650", "3.8 V8 675"], "720S/765LT": ["4.0 V8 720", "4.0 V8 765"] },
+      "Mercedes": {
+          "Classe A": ["160d 90", "180d 109", "180d 116", "200d 136", "200d 150", "220d 170", "220d 177", "220d 190", "160 102", "180 122", "200 156", "200 163", "220 184", "220 190", "250 211", "250 218", "A250e Hybrid 218", "A35 AMG 306", "A45 AMG 360", "A45 AMG 381", "A45S AMG 421"],
+          "Classe C": ["180d 116", "200d 136", "200d 150", "200d 160", "220d 170", "220d 194", "220d 200", "250d 204", "300d 245", "180 156", "200 184", "250 211", "300 245", "300 258", "300e/de Hybrid 306", "400 333", "C43 AMG 367", "C43 AMG 390", "C63 AMG 457", "C63 AMG 476", "C63S AMG 510"],
+          "Classe E": ["200d 150", "220d 170", "220d 194", "250d 204", "300d 245", "350d 231", "350d 252", "350d 258", "350d 286", "400d 330", "400d 340", "200 184", "300 245", "350 272", "400 333", "E300e/de Hybrid 306", "E43 AMG 401", "E53 AMG 435", "E63 AMG 525", "E63 AMG 557", "E63 AMG 571", "E63S AMG 585", "E63S AMG 612"],
+          "CLA/CLS": ["200d 136", "220d 170", "220d 177", "220d 190", "350d 258", "350d 286", "400d 330", "400d 340", "200 156", "250 211", "250e Hybrid 218", "35 AMG 306", "45 AMG 360", "45 AMG 381", "45S AMG 421", "53 AMG 435", "63 AMG 557", "63S AMG 585"],
+          "GLA/GLB/GLC/GLE": ["180d 116", "200d 150", "220d 170", "220d 194", "250d 204", "300d 245", "350d 258", "350d 272", "400d 330", "350e/de Hybrid 320", "43 AMG 367", "43 AMG 390", "53 AMG 435", "63 AMG 476", "63S AMG 510", "63S AMG 612"],
+          "Classe G": ["350d 286", "400d 330", "500 V8 422", "G63 AMG 544", "G63 AMG 585"],
+          "Vito/Classe V": ["109 CDI 88", "111 CDI 114", "114 CDI 136", "116 CDI 163", "119 CDI 190", "200d 136", "220d 163", "250d 190", "300d 239"],
+          "Sprinter": ["211 CDI 109", "213 CDI 129", "214 CDI 143", "216 CDI 163", "219 CDI 190", "311 CDI 114", "314 CDI 143", "316 CDI 163", "319 CDI 190"],
+          "AMG GT": ["GT 462", "GT 476", "GT S 510", "GT S 522", "GT C 557", "GT R 585", "GT Black Series 730", "GT 4-Door 43 367", "GT 4-Door 53 435", "GT 4-Door 63 585", "GT 4-Door 63S 639"]
+      },
+      "Mini": { "One/Cooper": ["One 75", "One 90", "One 95", "One 102", "Cooper 115", "Cooper 120", "Cooper 136", "D 110", "D 112", "D 116", "SD 143", "SD 170", "S 163", "S 170", "S 175", "S 184", "S 192", "JCW 211", "JCW 218", "JCW 231", "GP 218", "GP 306", "Countryman SE Hybrid 220"] },
+      "Nissan": { "Juke/Qashqai": ["1.5 dCi 110", "1.5 dCi 115", "1.6 dCi 130", "1.7 dCi 150", "1.2 DIG-T 115", "1.3 DIG-T 140", "1.3 DIG-T 158", "1.3 DIG-T 160"], "Navara": ["2.5 dCi 171", "2.5 dCi 190", "2.3 dCi 163", "2.3 dCi 190"], "GT-R": ["V6 485", "V6 530", "V6 550", "V6 570", "Nismo 600"] },
+      "Opel": { "Corsa/Astra": ["1.3 CDTi 75", "1.3 CDTi 95", "1.6 CDTi 110", "1.6 CDTi 136", "1.5 Diesel 105", "1.5 Diesel 122", "1.2 Turbo 100", "1.2 Turbo 130", "1.2 Turbo 145", "1.4 Turbo 140", "1.4 Turbo 150", "OPC 192", "OPC 207", "OPC 280"], "Insignia": ["2.0 CDTi 130", "2.0 CDTi 160", "2.0 CDTi 170", "2.0 BiTurbo 195", "2.0 BiTurbo 210"] },
+      "Peugeot": {
+          "208": ["1.2 PureTech 68", "1.2 PureTech 75", "1.2 PureTech 82", "1.2 PureTech 100", "1.2 PureTech 110", "1.2 PureTech 130", "1.4 HDi 68", "1.6 HDi 75", "1.6 HDi 92", "1.6 e-HDi 115", "1.6 BlueHDi 75", "1.6 BlueHDi 100", "1.6 BlueHDi 120", "1.5 BlueHDi 100", "GTi 200", "GTi 208"],
+          "308/408": ["1.2 PureTech 110", "1.2 PureTech 130", "1.6 HDi 92", "1.6 HDi 110", "1.6 BlueHDi 100", "1.6 BlueHDi 120", "1.5 BlueHDi 100", "1.5 BlueHDi 130", "2.0 HDi 136", "2.0 HDi 150", "2.0 BlueHDi 150", "2.0 BlueHDi 180", "1.6 THP 125", "1.6 THP 155", "Hybrid 180", "Hybrid 225", "GT 205", "GT 225", "GTi 250", "GTi 263", "GTi 270"],
+          "508": ["1.6 HDi 112", "1.6 BlueHDi 120", "1.5 BlueHDi 130", "2.0 HDi 140", "2.0 HDi 163", "2.0 BlueHDi 150", "2.0 BlueHDi 160", "2.0 BlueHDi 180", "2.2 HDi 204", "1.6 THP 156", "1.6 PureTech 180", "1.6 PureTech 225", "PSE Hybrid 360"],
+          "2008/3008/5008": ["1.6 BlueHDi 115", "1.6 BlueHDi 120", "1.5 BlueHDi 130", "2.0 HDi 150", "2.0 BlueHDi 150", "2.0 BlueHDi 180", "1.2 PureTech 130", "1.6 THP 165", "1.6 PureTech 180", "Hybrid 225", "Hybrid4 300"],
+          "Partner/Expert/Traveller": ["1.6 HDi 75", "1.6 HDi 90", "1.6 BlueHDi 75", "1.6 BlueHDi 100", "1.6 BlueHDi 115", "1.6 BlueHDi 120", "2.0 HDi 125", "2.0 BlueHDi 120", "2.0 BlueHDi 150", "2.0 BlueHDi 180"],
+          "Boxer": ["2.0 BlueHDi 110", "2.0 BlueHDi 130", "2.0 BlueHDi 160", "2.2 BlueHDi 120", "2.2 BlueHDi 140", "2.2 BlueHDi 165", "3.0 HDi 160", "3.0 HDi 180"],
+          "RCZ": ["2.0 HDi 163", "1.6 THP 156", "1.6 THP 200", "RCZ R 270"]
+      },
+      "Porsche": { 
+          "911": ["Carrera 325", "Carrera 345", "Carrera 350", "Carrera 370", "Carrera 385", "Carrera S 355", "Carrera S 385", "Carrera S 400", "Carrera S 420", "Carrera S 450", "GTS 408", "GTS 430", "GTS 450", "GTS 480", "GT3 415", "GT3 435", "GT3 475", "GT3 500", "GT3 510", "GT3 RS 525", "Turbo 480", "Turbo 500", "Turbo 520", "Turbo 540", "Turbo 580", "Turbo S 530", "Turbo S 560", "Turbo S 580", "Turbo S 650"],
+          "718": ["Cayman 300", "Cayman S 350", "GTS 365", "GTS 400", "GT4 420", "GT4 RS 500"],
+          "Macan": ["2.0 T 245", "2.0 T 265", "3.0 S 340", "3.0 S 354", "2.9 S 380", "3.6 Turbo 400", "2.9 Turbo 440", "GTS 360", "GTS 380", "GTS 440", "3.0 Diesel 258"],
+          "Cayenne": ["3.0 Diesel 240", "3.0 Diesel 245", "3.0 Diesel 262", "S Diesel 382", "S Diesel 385", "3.6 S 420", "2.9 S 440", "E-Hybrid 462", "GTS 405", "GTS 420", "GTS 440", "GTS 460", "Turbo 500", "Turbo 520", "Turbo 550", "Turbo GT 640"],
+          "Panamera": ["3.0 D 250", "3.0 D 300", "3.0 S 420", "2.9 4S 440", "E-Hybrid 462", "Turbo 500", "Turbo 520", "Turbo 550", "Turbo S 630", "Turbo S E-Hybrid 680", "Turbo S E-Hybrid 700"]
+      },
+      "Renault": {
+          "Clio": ["1.2 TCe 100", "1.2 TCe 120", "0.9 TCe 90", "1.0 TCe 90", "1.0 TCe 100", "1.3 TCe 130", "1.5 dCi 75", "1.5 dCi 85", "1.5 dCi 90", "1.5 dCi 105", "1.5 dCi 110", "1.5 BluedCi 115", "E-Tech Hybrid 140", "RS 200", "RS Trophy 220"],
+          "Megane/Arkana": ["1.5 dCi 90", "1.5 dCi 110", "1.6 dCi 130", "1.6 dCi 160", "1.6 dCi 165", "1.7 BluedCi 150", "2.0 dCi 150", "2.0 dCi 160", "1.2 TCe 115", "1.2 TCe 130", "1.3 TCe 140", "1.3 TCe 160", "1.6 TCe 205", "E-Tech Hybrid 145", "E-Tech Hybrid 160", "1.8 TCe 225", "RS 250", "RS 265", "RS 275", "RS 280", "RS Trophy 300"],
+          "Captur/Kadjar/Austral": ["1.5 dCi 90", "1.5 dCi 110", "1.6 dCi 130", "1.2 TCe 120", "1.3 TCe 130", "1.3 TCe 140", "1.3 TCe 160", "1.2 mild hybrid 130", "E-Tech Hybrid 200"],
+          "Talisman/Espace": ["1.6 dCi 130", "1.6 dCi 160", "2.0 BluedCi 160", "2.0 BluedCi 190", "2.0 BluedCi 200", "1.6 TCe 150", "1.6 TCe 200", "1.8 TCe 225"],
+          "Master/Trafic": ["1.6 dCi 90", "1.6 dCi 115", "1.6 dCi 125", "1.6 dCi 145", "2.0 dCi 115", "2.0 dCi 120", "2.0 dCi 145", "2.0 dCi 150", "2.0 dCi 170", "2.3 dCi 125", "2.3 dCi 135", "2.3 dCi 145", "2.3 dCi 150", "2.3 dCi 165", "2.3 dCi 180"]
+      },
+      "Seat": { 
+          "Ibiza": ["1.0 TSI 95", "1.0 TSI 115", "1.2 TSI 90", "1.2 TSI 105", "1.2 TSI 110", "1.4 TSI 140", "1.4 TSI 150", "1.6 TDI 90", "1.6 TDI 95", "1.6 TDI 105", "2.0 TDI 143", "Cupra 180", "Cupra 192"],
+          "Leon": ["1.6 TDI 105", "1.6 TDI 110", "1.6 TDI 115", "2.0 TDI 115", "2.0 TDI 150", "2.0 TDI 184", "1.2 TSI 110", "1.4 TSI 125", "1.4 TSI 150", "1.5 TSI 130", "1.5 TSI 150", "1.8 TSI 180", "2.0 TSI 190", "Cupra 280", "Cupra 290", "Cupra 300", "Cupra 310 R"],
+          "Ateca/Tarraco": ["1.6 TDI 115", "2.0 TDI 150", "2.0 TDI 190", "2.0 TDI 200", "1.5 TSI 150", "2.0 TSI 190", "2.0 TSI 245"]
+      },
+      "Skoda": { 
+          "Fabia": ["1.0 TSI 95", "1.0 TSI 110", "1.2 TSI 90", "1.2 TSI 110", "1.4 TDI 90", "1.4 TDI 105", "1.6 TDI 90", "vRS 180"],
+          "Octavia": ["1.6 TDI 115", "2.0 TDI 150", "2.0 TDI 184", "2.0 TDI 200", "1.4 TSI 150", "1.5 TSI 150", "1.8 TSI 180", "2.0 TSI 190", "vRS 230", "vRS 245"],
+          "Superb/Kodiaq": ["1.6 TDI 120", "2.0 TDI 150", "2.0 TDI 190", "2.0 TDI 200", "2.0 BiTDI 240", "2.0 TSI 220", "2.0 TSI 272", "2.0 TSI 280"]
+      },
+      "Smart": { "Fortwo/Forfour": ["0.9 Turbo 90", "Brabus 109"] },
+      "Tesla": { "Model 3/Y": ["Propulsion 275", "Grande Autonomie 440", "Performance 510"], "Model S/X": ["Long Range 670", "Plaid 1020"] },
+      "Toyota": { "Yaris": ["1.4 D4D 90", "1.5 Hybrid 100", "1.5 Hybrid 116", "GR 261"], "Supra": ["2.0 Turbo 258", "3.0 Turbo 340", "3.0 Turbo 382"], "Hilux": ["2.4 D4D 150", "2.8 D4D 204", "3.0 D4D 171"] },
+      "Volkswagen": {
+          "Polo": ["1.0 TSI 95", "1.0 TSI 115", "1.2 TSI 90", "1.2 TSI 110", "1.4 TSI 150", "1.6 TDI 95", "GTI 192", "GTI 200", "GTI 207"],
+          "Golf": ["1.6 TDI 105", "1.6 TDI 115", "2.0 TDI 115", "2.0 TDI 150", "2.0 TDI 184 (GTD)", "2.0 TDI 200 (GTD)", "1.4 TSI 150", "1.5 TSI 130", "1.5 TSI 150", "GTE 204", "GTE 245", "GTI 220", "GTI 230", "GTI 245", "GTI Clubsport 300", "R 270", "R 300", "R 310", "R 320"],
+          "Passat/Arteon": ["2.0 TDI 150", "2.0 TDI 190", "2.0 TDI 200", "2.0 BiTDI 240", "1.5 TSI 150", "2.0 TSI 190", "2.0 TSI 272", "2.0 TSI 280", "R 320"],
+          "Tiguan": ["2.0 TDI 150", "2.0 TDI 190", "2.0 TDI 200", "2.0 BiTDI 240", "1.5 TSI 150", "2.0 TSI 190", "2.0 TSI 245", "R 320"],
+          "Scirocco": ["2.0 TDI 140", "2.0 TDI 177", "2.0 TDI 184", "1.4 TSI 160", "2.0 TSI 211", "2.0 TSI 220", "R 265", "R 280"],
+          "Touareg": ["3.0 V6 TDI 231", "3.0 V6 TDI 245", "3.0 V6 TDI 262", "3.0 V6 TDI 286", "4.0 V8 TDI 421", "R Hybrid 462"],
+          "Transporter T5/T6/T7": ["2.0 TDI 102", "2.0 TDI 114", "2.0 TDI 140", "2.0 TDI 150", "2.0 BiTDI 180", "2.0 BiTDI 199", "2.0 BiTDI 204"],
+          "Crafter": ["2.0 TDI 102", "2.0 TDI 140", "2.0 TDI 163", "2.0 TDI 177"]
+      },
+      "Volvo": { "V40/V60": ["D2 120", "D3 150", "D4 190", "B4 Diesel 197", "T6 Hybrid 340", "T8 Hybrid 455"], "XC40/XC60/XC90": ["D3 150", "D4 190", "D5 235", "B4 197", "B5 235", "T8 Hybrid 407", "T8 Hybrid 455"] }
+    };
+
+    const bS = document.getElementById('brandS'), mS = document.getElementById('modelS'), eS = document.getElementById('engineS');
+
+    // Remplissage initial des marques (TRIÉES)
+    Object.keys(db).sort().forEach(b => { 
+      let o = document.createElement('option'); o.value = b; o.textContent = b; bS.appendChild(o); 
+    });
+
+    function updateM() {
+      mS.innerHTML = '<option value="">-- Modèle --</option>'; eS.innerHTML = '<option value="">-- Moteur --</option>';
+      if (bS.value) { 
+        mS.disabled = false; 
+        Object.keys(db[bS.value]).sort().forEach(m => { let o = document.createElement('option'); o.value = m; o.textContent = m; mS.appendChild(o); }); 
+      } 
+      else { mS.disabled = true; eS.disabled = true; }
+      document.getElementById('resBox').style.display = 'none';
+    }
+
+    function updateE() {
+      eS.innerHTML = '<option value="">-- Moteur --</option>';
+      if (mS.value) { 
+        eS.disabled = false; 
+        db[bS.value][mS.value].forEach(e => { let o = document.createElement('option'); o.value = e; o.textContent = e; eS.appendChild(o); }); 
+      }
+      else { eS.disabled = true; }
+      document.getElementById('resBox').style.display = 'none';
+    }
+
+    function runSim() {
+      if (eS.value) {
+        let parts = eS.value.split(' ');
+        let pOrig = parseInt(parts[parts.length - 1].replace(/\D/g,''));
+        
+        // Calcul des gains approximatifs basés sur la puissance d'origine
+        document.getElementById('s1hp').innerText = `+${Math.round(pOrig * 0.25)} CH`;
+        document.getElementById('s1nm').innerText = `+${Math.round(pOrig * 0.4)} Nm`;
+        document.getElementById('s2hp').innerText = `+${Math.round(pOrig * 0.45)} CH`;
+        document.getElementById('s2nm').innerText = `+${Math.round(pOrig * 0.6)} Nm`;
+        document.getElementById('resBox').style.display = 'flex';
+      }
+    }
   </script>
 </body>
 </html>

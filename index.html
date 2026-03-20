@@ -486,7 +486,7 @@
       <p>Nous sommes actuellement en attente de notre ligne téléphonique.</p>
       <p>Vous pouvez nous joindre directement ici :</p>
       
-      <a href="#" class="map-btn" style="background: #444;" onclick="sendMail(); return false;"> 
+      <a href="mailto:dmfprog@gmail.com" class="map-btn" style="background: #444;"> 
         <i class="fas fa-envelope"></i> Par Email
       </a>
       <a href="https://www.instagram.com/dmfprog/" target="_blank" class="map-btn" style="background: linear-gradient(45deg, #f09433, #dc2743, #bc1888);">
@@ -507,7 +507,9 @@
     <a href="#" class="menu-link sub-link" onclick="openPhoneModal(); return false;">
       <i class="fas fa-phone"></i> Appeler
     </a>
-    <a href="#" class="menu-link sub-link" onclick="sendMail(); return false;"><i class="fas fa-envelope"></i> Email</a>
+    <a href="mailto:dmfprog@gmail.com" class="menu-link sub-link" onclick="document.getElementById('menu-toggle').checked = false;">
+        <i class="fas fa-envelope"></i> Email
+    </a>
 
     <div class="menu-section-title">Notre activité</div>
     <div class="activity-dropdown">
@@ -517,7 +519,7 @@
       </div>
       <div class="activity-list">
 
-        <div class="sim-wrapper">
+        <div class="sim-wrapper" id="gain-simulator">
           <div class="sim-toggle-btn" onclick="this.parentElement.classList.toggle('active')">
             <span><i class="fas fa-calculator"></i> Simulateur de gains</span>
             <i class="fas fa-chevron-down"></i>
@@ -537,11 +539,11 @@
           </div>
         </div>
 
-        <div class="activity-item">
+        <div class="activity-item" onclick="openSimulator()">
           <div class="activity-title"><i class="fas fa-gauge-high"></i> Stage 1</div>
           <div class="activity-desc">Optimisation moteur fiable pour gagner en puissance et couple sans modification mécanique.</div>
         </div>
-        <div class="activity-item">
+        <div class="activity-item" onclick="openSimulator()">
           <div class="activity-title"><i class="fas fa-fire"></i> Stage 2</div>
           <div class="activity-desc">Préparation avancée avec pièces performance pour maximiser le rendement moteur.</div>
         </div>
@@ -611,9 +613,20 @@
       document.getElementById(id).style.display = "none"; 
     }
 
+    // CORRECTION FONCTION MAIL
     function sendMail() {
       document.getElementById('menu-toggle').checked = false;
       window.location.href = "mailto:dmfprog@gmail.com";
+    }
+
+    // NOUVELLE FONCTION POUR OUVRIR LE SIMULATEUR
+    function openSimulator() {
+      const sim = document.getElementById('gain-simulator');
+      if (!sim.classList.contains('active')) {
+        sim.classList.add('active');
+      }
+      // Petit scroll automatique vers le simulateur pour être sûr que l'utilisateur le voit
+      sim.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
     
     window.onclick = function(event) { 
@@ -632,7 +645,7 @@
       }
     });
 
-    // BASE DE DONNÉES MASSIVE - ENRICHIE PAR GEMINI
+    // BASE DE DONNÉES MISE À JOUR (PAS D'ÉLECTRIQUE, AJOUT DE NOUVEAUX MODÈLES)
     const db = {
       "Abarth": { "500/595/695": ["1.4 T-Jet 145", "1.4 T-Jet 160", "1.4 T-Jet 165", "1.4 T-Jet 180"], "124 Spider": ["1.4 MultiAir 170"], "Punto": ["1.4 T-Jet 155", "1.4 MultiAir 163", "1.4 MultiAir 180"] },
       "Alfa Romeo": {
@@ -650,6 +663,7 @@
           "A4": ["1.8 TFSI 120", "1.8 TFSI 160", "1.8 TFSI 170", "2.0 TFSI 180", "2.0 TFSI 190", "2.0 TFSI 211", "2.0 TFSI 225", "2.0 TFSI 245", "2.0 TFSI 252", "2.0 TDI 120", "2.0 TDI 136", "2.0 TDI 143", "2.0 TDI 150", "2.0 TDI 163", "2.0 TDI 170", "2.0 TDI 177", "2.0 TDI 190", "2.7 TDI 190", "3.0 TDI 204", "3.0 TDI 233", "3.0 TDI 240", "3.0 TDI 245", "3.0 TDI 272", "3.0 TDI 286", "S4 333", "S4 354", "RS4 420", "RS4 450"],
           "A5": ["2.0 TFSI 180", "2.0 TFSI 190", "2.0 TFSI 211", "2.0 TFSI 225", "2.0 TFSI 252", "2.0 TDI 143", "2.0 TDI 150", "2.0 TDI 170", "2.0 TDI 177", "2.0 TDI 190", "2.7 TDI 190", "3.0 TDI 204", "3.0 TDI 240", "3.0 TDI 245", "3.0 TDI 272", "3.0 TDI 286", "S5 333", "S5 354", "RS5 450"],
           "A6/A7": ["2.0 TDI 140", "2.0 TDI 177", "2.0 TDI 190", "2.0 TDI 204", "3.0 TDI 190", "3.0 TDI 204", "3.0 TDI 218", "3.0 TDI 233", "3.0 TDI 240", "3.0 TDI 245", "3.0 TDI 272", "3.0 TDI 286", "3.0 TDI 313 (BiTDI)", "3.0 TDI 320 (BiTDI)", "3.0 TDI 326 (BiTDI)", "3.0 TFSI 300", "3.0 TFSI 310", "3.0 TFSI 333", "S6 420", "S6 450", "S6 349 (Diesel)", "RS6 560", "RS6 600", "RS7 560", "RS7 600"],
+          "A8": ["3.0 TDI 233", "3.0 TDI 250", "3.0 TDI 286", "4.0 TFSI 435", "4.2 TDI 350", "6.0 W12 450", "S8 520", "S8 Plus 605"],
           "Q3/Q5": ["2.0 TFSI 180", "2.0 TFSI 211", "2.0 TFSI 230", "2.0 TDI 140", "2.0 TDI 143", "2.0 TDI 150", "2.0 TDI 170", "2.0 TDI 177", "2.0 TDI 190", "3.0 TDI 240", "3.0 TDI 245", "3.0 TDI 258", "SQ5 313", "SQ5 326", "SQ5 341", "RSQ3 310", "RSQ3 340", "RSQ3 367", "RSQ3 400"],
           "Q7/Q8": ["3.0 TDI 233", "3.0 TDI 240", "3.0 TDI 245", "3.0 TDI 272", "3.0 TDI 231", "3.0 TDI 286", "4.2 TDI 326", "4.2 TDI 340", "SQ7 435", "SQ8 435", "SQ8 507 (Essence)", "RSQ8 600"],
           "TT": ["1.8 TFSI 160", "1.8 TFSI 180", "2.0 TFSI 200", "2.0 TFSI 211", "2.0 TFSI 230", "2.0 TFSI 245", "2.0 TDI 170", "2.0 TDI 184", "TTS 272", "TTS 310", "TT RS 340", "TT RS 360", "TT RS 400"],
@@ -662,8 +676,9 @@
           "Série 3": ["316d 116", "318d 122", "318d 143", "318d 150", "320d 150", "320d 163", "320d 177", "320d 184", "320d 190", "325d 197", "325d 204", "325d 218", "330d 204", "330d 231", "330d 245", "330d 258", "330d 265", "330d 286", "335d 286", "335d 313", "318i 136", "320i 150", "320i 170", "320i 184", "325i 218", "328i 245", "330i 252", "330i 258", "335i 306", "340i 326", "320e Hybrid 204", "330e Hybrid 292", "M340i 374", "M340d 340", "M3 420", "M3 431", "M3 Competition 450", "M3 Competition 510"],
           "Série 4": ["418d 150", "420d 184", "420d 190", "425d 218", "430d 258", "430d 286", "435d 313", "420i 184", "428i 245", "430i 252", "435i 306", "440i 326", "M440i 374", "M4 431", "M4 Competition 450", "M4 Competition 510", "M4 CSL 550"],
           "Série 5": ["518d 150", "520d 163", "520d 177", "520d 184", "520d 190", "525d 177", "525d 197", "525d 204", "525d 218", "530d 218", "530d 231", "530d 235", "530d 245", "530d 258", "530d 265", "535d 272", "535d 286", "535d 313", "540d 320", "550d 381", "M550d 400", "520i 184", "528i 245", "530i 252", "530i 272", "535i 306", "540i 340", "530e Hybrid 292", "545e Hybrid 394", "M550i 462", "M550i 530", "M5 507", "M5 560", "M5 600", "M5 Competition 625", "M5 CS 635"],
+          "Série 8": ["840d 320", "840d 340", "840i 333", "840i 340", "M850i 530", "M8 600", "M8 Competition 625"],
           "X1/X2/X3/X4": ["18d 143", "18d 150", "20d 177", "20d 184", "20d 190", "23d 204", "25d 218", "25d 231", "30d 218", "30d 258", "30d 265", "35d 286", "35d 313", "18i 140", "20i 184", "25e Hybrid 220", "30e Hybrid 292", "M40d 326", "M40d 340", "M40i 354", "M40i 360", "X3M 480", "X3M Competition 510"],
-          "X5/X6": ["30d 218", "30d 235", "30d 245", "30d 258", "30d 265", "30d 286", "35d 286", "40d 306", "40d 313", "40d 340", "M50d 381", "M50d 400", "35i 306", "40i 333", "40i 340", "45e Hybrid 394", "50i 450", "M50i 530", "X5M 555", "X5M 575", "X5M 600", "X6M 625"]
+          "X5/X6/X7": ["30d 218", "30d 235", "30d 245", "30d 258", "30d 265", "30d 286", "35d 286", "40d 306", "40d 313", "40d 340", "M50d 381", "M50d 400", "35i 306", "40i 333", "40i 340", "45e Hybrid 394", "50i 450", "M50i 530", "X5M 555", "X5M 575", "X5M 600", "X6M 625", "M60i 530"]
       },
       "Cadillac": { "Escalade": ["6.2 V8 409", "6.2 V8 426"], "CTS-V": ["6.2 V8 564", "6.2 V8 649"] },
       "Chevrolet": { "Camaro": ["2.0 Turbo 275", "6.2 V8 432", "6.2 V8 453"], "Corvette": ["C6 437", "C6 Z06 512", "C7 466", "C7 Z06 659", "C8 482"] },
@@ -714,6 +729,7 @@
           "Classe A": ["160d 90", "180d 109", "180d 116", "200d 136", "200d 150", "220d 170", "220d 177", "220d 190", "160 102", "180 122", "200 156", "200 163", "220 184", "220 190", "250 211", "250 218", "A250e Hybrid 218", "A35 AMG 306", "A45 AMG 360", "A45 AMG 381", "A45S AMG 421"],
           "Classe C": ["180d 116", "200d 136", "200d 150", "200d 160", "220d 170", "220d 194", "220d 200", "250d 204", "300d 245", "180 156", "200 184", "250 211", "300 245", "300 258", "300e/de Hybrid 306", "400 333", "C43 AMG 367", "C43 AMG 390", "C63 AMG 457", "C63 AMG 476", "C63S AMG 510"],
           "Classe E": ["200d 150", "220d 170", "220d 194", "250d 204", "300d 245", "350d 231", "350d 252", "350d 258", "350d 286", "400d 330", "400d 340", "200 184", "300 245", "350 272", "400 333", "E300e/de Hybrid 306", "E43 AMG 401", "E53 AMG 435", "E63 AMG 525", "E63 AMG 557", "E63 AMG 571", "E63S AMG 585", "E63S AMG 612"],
+          "Classe S": ["350d 258", "350d 286", "400d 330", "400d 340", "450 367", "500 435", "560 469", "580 503", "600 V12 530", "S63 AMG 585", "S63 AMG 612", "S65 AMG 630"],
           "CLA/CLS": ["200d 136", "220d 170", "220d 177", "220d 190", "350d 258", "350d 286", "400d 330", "400d 340", "200 156", "250 211", "250e Hybrid 218", "35 AMG 306", "45 AMG 360", "45 AMG 381", "45S AMG 421", "53 AMG 435", "63 AMG 557", "63S AMG 585"],
           "GLA/GLB/GLC/GLE": ["180d 116", "200d 150", "220d 170", "220d 194", "250d 204", "300d 245", "350d 258", "350d 272", "400d 330", "350e/de Hybrid 320", "43 AMG 367", "43 AMG 390", "53 AMG 435", "63 AMG 476", "63S AMG 510", "63S AMG 612"],
           "Classe G": ["350d 286", "400d 330", "500 V8 422", "G63 AMG 544", "G63 AMG 585"],
@@ -758,7 +774,6 @@
           "Superb/Kodiaq": ["1.6 TDI 120", "2.0 TDI 150", "2.0 TDI 190", "2.0 TDI 200", "2.0 BiTDI 240", "2.0 TSI 220", "2.0 TSI 272", "2.0 TSI 280"]
       },
       "Smart": { "Fortwo/Forfour": ["0.9 Turbo 90", "Brabus 109"] },
-      "Tesla": { "Model 3/Y": ["Propulsion 275", "Grande Autonomie 440", "Performance 510"], "Model S/X": ["Long Range 670", "Plaid 1020"] },
       "Toyota": { "Yaris": ["1.4 D4D 90", "1.5 Hybrid 100", "1.5 Hybrid 116", "GR 261"], "Supra": ["2.0 Turbo 258", "3.0 Turbo 340", "3.0 Turbo 382"], "Hilux": ["2.4 D4D 150", "2.8 D4D 204", "3.0 D4D 171"] },
       "Volkswagen": {
           "Polo": ["1.0 TSI 95", "1.0 TSI 115", "1.2 TSI 90", "1.2 TSI 110", "1.4 TSI 150", "1.6 TDI 95", "GTI 192", "GTI 200", "GTI 207"],
@@ -775,7 +790,7 @@
 
     const bS = document.getElementById('brandS'), mS = document.getElementById('modelS'), eS = document.getElementById('engineS');
 
-    // Remplissage initial des marques (TRIÉES)
+    // Remplissage initial des marques
     Object.keys(db).sort().forEach(b => { 
       let o = document.createElement('option'); o.value = b; o.textContent = b; bS.appendChild(o); 
     });
@@ -805,7 +820,7 @@
         let parts = eS.value.split(' ');
         let pOrig = parseInt(parts[parts.length - 1].replace(/\D/g,''));
         
-        // Calcul des gains approximatifs basés sur la puissance d'origine
+        // Calcul des gains approximatifs
         document.getElementById('s1hp').innerText = `+${Math.round(pOrig * 0.25)} CH`;
         document.getElementById('s1nm').innerText = `+${Math.round(pOrig * 0.4)} Nm`;
         document.getElementById('s2hp').innerText = `+${Math.round(pOrig * 0.45)} CH`;

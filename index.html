@@ -23,9 +23,9 @@
       --icon-stage1: #4dadff;  /* Bleu électrique pour Stage 1 */
       --icon-stage2: #ff4d4d;  /* Rouge feu pour Stage 2 */
       --icon-e85: #6bffbf;     /* Vert Émeraude pour E85 */
-      --icon-egr: #bfbfbf;     /* Gris pour solution EGR */
-      --icon-adblue: #a3daff;  /* Bleu clair pour solution AdBlue */
-      --icon-fap: #ffb366;     /* Orange pour solution FAP */
+      --icon-egr: #bfbfbf;     /* Gris pour suppression EGR */
+      --icon-adblue: #a3daff;  /* Bleu clair pour suppression AdBlue */
+      --icon-fap: #ffb366;     /* Orange pour suppression FAP */
       --icon-pieces: #d9d9d9;  /* Gris argent pour les pièces */
       --icon-info: #ffffff;    /* Blanc pour les infos */
     }
@@ -504,7 +504,7 @@
 
   <nav class="side-menu">
     <div class="menu-section-title">Contact</div>
-    <a href="#" class="menu-link sub-link" onclick="openPhoneModal(); return false;">
+    <a href="tel:+33608811142" class="menu-link sub-link" onclick="document.getElementById('menu-toggle').checked = false; setTimeout(function(){ window.location.href='tel:+33608811142'; }, 100); return false;">
       <i class="fas fa-phone"></i> Appeler
     </a>
     <a href="mailto:dmfprog@gmail.com" class="menu-link sub-link" onclick="document.getElementById('menu-toggle').checked = false;">
@@ -552,15 +552,15 @@
           <div class="activity-desc">Roulez au bioéthanol E85 et réduisez vos coûts de carburant grâce à une cartographie adaptée.</div>
         </div>
         <div class="activity-item">
-          <div class="activity-title"><i class="fas fa-ban"></i> Solution EGR</div>
+          <div class="activity-title"><i class="fas fa-ban"></i> Suppression EGR</div>
           <div class="activity-desc">Évite l’encrassement moteur et améliore la longévité des composants.</div>
         </div>
         <div class="activity-item">
-          <div class="activity-title"><i class="fas fa-droplet-slash"></i> Solution AdBlue</div>
+          <div class="activity-title"><i class="fas fa-droplet-slash"></i> Suppression AdBlue</div>
           <div class="activity-desc">Solution électronique pour éviter pannes et limitations liées au système SCR.</div>
         </div>
         <div class="activity-item">
-          <div class="activity-title"><i class="fas fa-filter-circle-xmark"></i> Solution FAP</div>
+          <div class="activity-title"><i class="fas fa-filter-circle-xmark"></i> Suppression FAP</div>
           <div class="activity-desc">Optimisation pour éviter colmatage et perte de performance moteur.</div>
         </div>
         <div class="activity-item">
@@ -584,7 +584,7 @@
       <label for="menu-toggle" class="link-item menu-trigger-btn">
         <i class="fas fa-address-book"></i> Contact & Infos
       </label>
-      <a href="#" class="link-item whatsapp" onclick="openPhoneModal(); return false;">
+      <a href="https://wa.me/33608811142" target="_blank" class="link-item whatsapp">
         <i class="fab fa-whatsapp"></i> WhatsApp
       </a>
       <a href="https://www.instagram.com/dmfprog/" class="link-item instagram" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>

@@ -402,6 +402,12 @@
       border-radius: var(--radius);
       overflow: hidden;
       border: 1px solid var(--border);
+      transition: box-shadow 0.4s ease, border-color 0.4s ease;
+    }
+
+    .sim-wrapper:hover {
+      border-color: rgba(77,224,255,0.35);
+      box-shadow: 0 8px 32px rgba(0,170,255,0.12), 0 0 0 1px rgba(77,224,255,0.08);
     }
 
     .sim-toggle-btn {
@@ -446,7 +452,10 @@
 
     .sim-container {
       padding: 14px;
-      background: rgba(0,0,0,0.3);
+      background: rgba(0,0,0,0.25);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid rgba(77,224,255,0.08);
     }
 
     .sim-title {
@@ -500,6 +509,31 @@
       border-radius: var(--radius);
       border: 1px solid var(--border);
       align-items: center;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stage-row::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+    }
+
+    .stage-row:first-child::before {
+      background: linear-gradient(180deg, #0af, #4de0ff);
+      box-shadow: 0 0 8px rgba(0,170,255,0.5);
+    }
+
+    .stage-row:last-child::before {
+      background: linear-gradient(180deg, #ff6b35, #ff9a3c);
+      box-shadow: 0 0 8px rgba(255,107,53,0.5);
+    }
+
+    .stage-row:hover {
+      background: var(--surface-hover);
+      border-color: rgba(255,255,255,0.12);
     }
 
     .stage-label {
@@ -509,6 +543,9 @@
       letter-spacing: 1px;
       color: var(--gold);
     }
+
+    .stage-row:first-child .stage-label { color: #4de0ff; }
+    .stage-row:last-child  .stage-label { color: #ff8c42; }
 
     .val-box {
       text-align: center;
@@ -798,20 +835,42 @@
       font-weight: 600;
       color: var(--text-dim);
       letter-spacing: 0.3px;
-      transition: all 0.2s ease;
+      transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
       cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-chip::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      opacity: 0;
+      transition: opacity 0.25s;
     }
 
     .service-chip:hover {
       background: var(--surface-hover);
-      border-color: rgba(255,255,255,0.15);
       color: var(--text);
+      transform: translateY(-2px);
     }
+
+    /* Per-service chip accent colors */
+    .service-chip[onclick*="stage"]:hover  { border-color: rgba(0,170,255,0.4); box-shadow: 0 4px 16px rgba(0,170,255,0.12); }
+    .service-chip[onclick*="e85"]:hover    { border-color: rgba(77,255,238,0.4); box-shadow: 0 4px 16px rgba(77,255,238,0.12); }
+    .service-chip[onclick*="egr"]:hover    { border-color: rgba(122,184,255,0.4); box-shadow: 0 4px 16px rgba(122,184,255,0.12); }
+    .service-chip[onclick*="adblue"]:hover { border-color: rgba(163,218,255,0.4); box-shadow: 0 4px 16px rgba(163,218,255,0.12); }
+    .service-chip[onclick*="fap"]:hover    { border-color: rgba(77,224,255,0.4); box-shadow: 0 4px 16px rgba(77,224,255,0.12); }
+    .service-chip[onclick*="pieces"]:hover { border-color: rgba(208,232,255,0.4); box-shadow: 0 4px 16px rgba(208,232,255,0.12); }
 
     .service-chip i {
       font-size: 13px;
       flex-shrink: 0;
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
     }
+
+    .service-chip:hover i { transform: scale(1.2); }
 
     /* =============================================
        FOOTER
@@ -876,10 +935,6 @@
       .stat-value { font-size: 18px; }
     }
 
-    @supports (padding: max(0px)) {
-      body { padding-top: max(env(safe-area-inset-top), 0px); }
-    }
-
     /* =============================================
        ENTRANCE ANIMATIONS
     ============================================= */
@@ -900,8 +955,149 @@
     }
 
     /* =============================================
-       SOCIAL SECTION
+       ENHANCED SOCIAL SECTION — PREMIUM UPGRADES
     ============================================= */
+
+    /* Social section title glow */
+    .social-section-title span {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      white-space: nowrap;
+      text-shadow: 0 0 12px rgba(0,170,255,0.4);
+    }
+
+    /* Bigger, bolder social cards */
+    .social-cards {
+      width: 100%;
+      max-width: 380px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .social-card {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      text-decoration: none;
+      color: var(--text);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+      position: relative;
+      /* Subtle gradient bg */
+      background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.02) 100%);
+    }
+
+    /* Premium shimmer line top of social cards */
+    .social-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .social-card.ig::after { background: linear-gradient(90deg, transparent, #e1306c, transparent); }
+    .social-card.fb::after { background: linear-gradient(90deg, transparent, #1877F2, transparent); }
+    .social-card.wa::after { background: linear-gradient(90deg, transparent, #25D366, transparent); }
+    .social-card:hover::after { opacity: 1; }
+
+    /* Social card icon area - bigger presence */
+    .social-card-icon {
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    /* Wider CTA on hover */
+    .social-card-cta {
+      padding: 0 16px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transform: translateX(-6px);
+    }
+    .social-card:hover .social-card-cta {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* =============================================
+       SERVICE CHIPS — GRADIENT TOP BORDERS
+    ============================================= */
+    .service-chip[onclick*="stage"]  { border-top: 2px solid rgba(0,170,255,0.5); }
+    .service-chip[onclick*="e85"]    { border-top: 2px solid rgba(77,255,238,0.5); }
+    .service-chip[onclick*="egr"]    { border-top: 2px solid rgba(122,184,255,0.5); }
+    .service-chip[onclick*="adblue"] { border-top: 2px solid rgba(163,218,255,0.5); }
+    .service-chip[onclick*="fap"]    { border-top: 2px solid rgba(77,224,255,0.5); }
+    .service-chip[onclick*="pieces"] { border-top: 2px solid rgba(208,232,255,0.4); }
+
+    /* =============================================
+       SIMULATOR — ENHANCED GLASSMORPHISM CARD
+    ============================================= */
+    .sim-wrapper {
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+
+    .sim-wrapper.active {
+      box-shadow: 0 8px 30px rgba(0,170,255,0.1), inset 0 1px 0 rgba(77,224,255,0.08);
+    }
+
+    /* Result boxes - glow on appear */
+    #resBox .stage-row {
+      animation: fadeUp 0.5s ease both;
+    }
+    #resBox .stage-row:last-child {
+      animation-delay: 0.08s;
+    }
+
+    /* =============================================
+       QUOTE ACTIONS — MODAL BUTTON STYLES
+    ============================================= */
+    #quoteActions .map-btn {
+      transition: all 0.25s ease;
+    }
+    #quoteActions .map-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.12);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+
+    /* =============================================
+       ACTIVITY ITEMS — SUBTLE CATEGORY COLORS
+    ============================================= */
+    .activity-item:nth-child(2) .activity-title i { color: #0af !important; }
+    .activity-item:nth-child(3) .activity-title i { color: #ff8c42 !important; }
+    .activity-item:nth-child(4) .activity-title i { color: #4dffee !important; }
+    .activity-item:nth-child(5) .activity-title i { color: #7ab8ff !important; }
+    .activity-item:nth-child(6) .activity-title i { color: #a3daff !important; }
+    .activity-item:nth-child(7) .activity-title i { color: #4de0ff !important; }
+    .activity-item:nth-child(8) .activity-title i { color: #d0e8ff !important; }
+
+    /* Hover on activity items - colored accent */
+    .activity-item:hover {
+      background: rgba(0,170,255,0.04);
+      border-left-color: var(--accent);
+    }
+
     .social-section-title {
       width: 100%;
       max-width: 380px;
@@ -953,9 +1149,9 @@
     }
 
     .social-card:hover {
-      transform: translateY(-3px);
-      border-color: rgba(255,255,255,0.18);
-      box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+      transform: translateY(-4px) scale(1.015);
+      border-color: rgba(255,255,255,0.25);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5);
     }
 
     .social-card-stripe {
@@ -1015,17 +1211,31 @@
     .social-card.ig .social-card-stripe  { background: linear-gradient(180deg,#f09433,#dc2743,#bc1888); }
     .social-card.ig .social-card-icon    { color: #e1306c; }
     .social-card.ig .social-card-name    { color: #e1306c; }
-    .social-card.ig:hover                { box-shadow: 0 12px 32px rgba(225,48,108,0.2); }
+    .social-card.ig:hover                {
+      box-shadow: 0 14px 40px rgba(225,48,108,0.35), 0 0 20px rgba(225,48,108,0.12);
+      border-color: rgba(225,48,108,0.4);
+    }
+    .social-card.ig:hover .social-card-icon { text-shadow: 0 0 14px rgba(225,48,108,0.7); transform: scale(1.18); }
 
     .social-card.fb .social-card-stripe  { background: #1877F2; }
     .social-card.fb .social-card-icon    { color: #1877F2; }
     .social-card.fb .social-card-name    { color: #4da6ff; }
-    .social-card.fb:hover                { box-shadow: 0 12px 32px rgba(24,119,242,0.2); }
+    .social-card.fb:hover                {
+      box-shadow: 0 14px 40px rgba(24,119,242,0.35), 0 0 20px rgba(24,119,242,0.12);
+      border-color: rgba(24,119,242,0.4);
+    }
+    .social-card.fb:hover .social-card-icon { text-shadow: 0 0 14px rgba(24,119,242,0.7); transform: scale(1.18); }
 
     .social-card.wa .social-card-stripe  { background: #25D366; }
     .social-card.wa .social-card-icon    { color: #25D366; }
     .social-card.wa .social-card-name    { color: #25D366; }
-    .social-card.wa:hover                { box-shadow: 0 12px 32px rgba(37,211,102,0.2); }
+    .social-card.wa:hover                {
+      box-shadow: 0 14px 40px rgba(37,211,102,0.35), 0 0 20px rgba(37,211,102,0.12);
+      border-color: rgba(37,211,102,0.4);
+    }
+    .social-card.wa:hover .social-card-icon { text-shadow: 0 0 14px rgba(37,211,102,0.7); transform: scale(1.18); }
+
+    .social-card-icon { transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); }
 
     /* Notification dot */
     .social-card-live {
@@ -1075,7 +1285,7 @@
 </head>
 <body>
 
-  <!-- ============================================================
+<!-- ============================================================
        MODALS
   ============================================================ -->
   <div id="modalAbout" class="modal" onclick="if(event.target===this)closeM('modalAbout')">
@@ -1132,9 +1342,10 @@
       <h2 id="modalServiceTitle"></h2>
       <div class="modal-divider"></div>
       <p id="modalServiceDesc"></p>
-      <a href="https://wa.me/33608811142" target="_blank" class="map-btn" style="background:linear-gradient(90deg,#0af,#4de0ff);color:#000;font-weight:700;margin-top:18px;">
-        <i class="fab fa-whatsapp"></i> Demander un devis
-      </a>
+      <div id="quoteActions" style="margin-top:18px;"></div>
+      <p style="font-size:10px;color:var(--text-muted);text-align:center;margin-top:10px;letter-spacing:0.5px;">
+        💬 Vous pouvez aussi nous contacter directement sur nos réseaux sociaux.
+      </p>
     </div>
   </div>
 
@@ -1178,7 +1389,7 @@
           <div class="sim-dropdown-content">
             <div class="sim-container">
               <div class="sim-title">Sélection du véhicule</div>
-              <select id="brandS" class="sim-select" onchange="updateM()"><option value="">— Marque —</option><option value="Abarth">Abarth</option><option value="Alfa Romeo">Alfa Romeo</option><option value="Alpine">Alpine</option><option value="Aston Martin">Aston Martin</option><option value="Audi">Audi</option><option value="BMW">BMW</option><option value="Bentley">Bentley</option><option value="Cadillac">Cadillac</option><option value="Chevrolet">Chevrolet</option><option value="Citroën">Citroën</option><option value="Cupra">Cupra</option><option value="DS">DS</option><option value="Dacia">Dacia</option><option value="Dodge">Dodge</option><option value="Ferrari">Ferrari</option><option value="Fiat">Fiat</option><option value="Ford">Ford</option><option value="Honda">Honda</option><option value="Hyundai">Hyundai</option><option value="Isuzu">Isuzu</option><option value="Iveco">Iveco</option><option value="Jaguar">Jaguar</option><option value="Jeep">Jeep</option><option value="Kia">Kia</option><option value="Lamborghini">Lamborghini</option><option value="Land Rover">Land Rover</option><option value="Lexus">Lexus</option><option value="MAN">MAN</option><option value="Maserati">Maserati</option><option value="Mazda">Mazda</option><option value="McLaren">McLaren</option><option value="Mercedes">Mercedes</option><option value="Mini">Mini</option><option value="Nissan">Nissan</option><option value="Opel">Opel</option><option value="Peugeot">Peugeot</option><option value="Porsche">Porsche</option><option value="Renault">Renault</option><option value="Seat">Seat</option><option value="Skoda">Skoda</option><option value="Smart">Smart</option><option value="Toyota">Toyota</option><option value="Volkswagen">Volkswagen</option><option value="Volvo">Volvo</option></select>
+              <select id="brandS" class="sim-select" onchange="updateM()"><option value="">— Marque —</option><option value="Abarth">Abarth</option><option value="Alfa Romeo">Alfa Romeo</option><option value="Alpine">Alpine</option><option value="Aston Martin">Aston Martin</option><option value="Audi">Audi</option><option value="BMW">BMW</option><option value="Bentley">Bentley</option><option value="Cadillac">Cadillac</option><option value="Chevrolet">Chevrolet</option><option value="Citroën">Citroën</option><option value="Cupra">Cupra</option><option value="DS">DS</option><option value="Dacia">Dacia</option><option value="Dodge">Dodge</option><option value="Ferrari">Ferrari</option><option value="Fiat">Fiat</option><option value="Ford">Ford</option><option value="Honda">Honda</option><option value="Hyundai">Hyundai</option><option value="Isuzu">Isuzu</option><option value="Iveco">Iveco</option><option value="Jaguar">Jaguar</option><option value="Jeep">Jeep</option><option value="Kia">Kia</option><option value="Lamborghini">Lamborghini</option><option value="Land Rover">Land Rover</option><option value="Lexus">Lexus</option><option value="MAN">MAN</option><option value="Maserati">Maserati</option><option value="Mazda">Mazda</option><option value="McLaren">McLaren</option><option value="Mercedes">Mercedes</option><option value="Mini">Mini</option><option value="Nissan">Nissan</option><option value="Opel">Opel</option><option value="Peugeot">Peugeot</option><option value="Porsche">Porsche</option><option value="Renault">Renault</option><option value="Seat">Seat</option><option value="Skoda">Skoda</option><option value="Smart">Smart</option><option value="Toyota">Toyota</option><option value="Volkswagen">Volkswagen</option><option value="Volvo">Volvo</option><option value="Abarth">Abarth</option><option value="Alfa Romeo">Alfa Romeo</option><option value="Alpine">Alpine</option><option value="Aston Martin">Aston Martin</option><option value="Audi">Audi</option><option value="BMW">BMW</option><option value="Bentley">Bentley</option><option value="Cadillac">Cadillac</option><option value="Chevrolet">Chevrolet</option><option value="Citroën">Citroën</option><option value="Cupra">Cupra</option><option value="DS">DS</option><option value="Dacia">Dacia</option><option value="Dodge">Dodge</option><option value="Ferrari">Ferrari</option><option value="Fiat">Fiat</option><option value="Ford">Ford</option><option value="Honda">Honda</option><option value="Hyundai">Hyundai</option><option value="Isuzu">Isuzu</option><option value="Iveco">Iveco</option><option value="Jaguar">Jaguar</option><option value="Jeep">Jeep</option><option value="Kia">Kia</option><option value="Lamborghini">Lamborghini</option><option value="Land Rover">Land Rover</option><option value="Lexus">Lexus</option><option value="MAN">MAN</option><option value="Maserati">Maserati</option><option value="Mazda">Mazda</option><option value="McLaren">McLaren</option><option value="Mercedes">Mercedes</option><option value="Mini">Mini</option><option value="Nissan">Nissan</option><option value="Opel">Opel</option><option value="Peugeot">Peugeot</option><option value="Porsche">Porsche</option><option value="Renault">Renault</option><option value="Seat">Seat</option><option value="Skoda">Skoda</option><option value="Smart">Smart</option><option value="Toyota">Toyota</option><option value="Volkswagen">Volkswagen</option><option value="Volvo">Volvo</option></select>
               <select id="modelS" class="sim-select" onchange="updateE()" disabled=""><option value="">— Modèle —</option></select>
               <select id="engineS" class="sim-select" onchange="runSim()" disabled=""><option value="">— Moteur —</option></select>
               <div id="resBox" class="sim-results">
@@ -1384,7 +1595,7 @@
       },
       e85: {
         title: 'Conversion <span>FlexFuel E85</span>',
-        desc: 'Roulez au bioéthanol E85 et réduisez significativement vos coûts de carburant grâce à une cartographie moteur adaptée. Le bioéthanol est environ 2x moins cher que l\'essence, tout en offrant un meilleur indice octane pour des performances accrues.'
+        desc: 'Roulez au bioéthanol E85 et réduisez significativement vos coûts de carburant grâce à une cartographie moteur adaptée. Le bioéthanol est environ 2× moins cher que l\'essence, tout en offrant un meilleur indice octane pour des performances accrues.'
       },
       egr: {
         title: 'Solution <span>EGR</span>',
@@ -1408,6 +1619,32 @@
       const s = services[key];
       document.getElementById('modalServiceTitle').innerHTML = s.title;
       document.getElementById('modalServiceDesc').innerHTML = s.desc;
+
+      // Smart device detection
+      const isMobile = /Android|iPhone|iPad|iPod|Windows Phone/i.test(navigator.userAgent);
+      const serviceLabel = s.title.replace(/<[^>]+>/g, ''); // strip html tags
+      const waMsg = encodeURIComponent(`Bonjour, je souhaite un devis pour le service : ${serviceLabel}. Pourriez-vous me contacter ? Merci.`);
+      const emailSubject = encodeURIComponent(`Demande de devis — ${serviceLabel}`);
+      const emailBody = encodeURIComponent(`Bonjour,\n\nJe souhaite obtenir un devis pour le service suivant :\n${serviceLabel}\n\nMerci de me recontacter.\n\nCordialement.`);
+
+      const actions = document.getElementById('quoteActions');
+      if (isMobile) {
+        // Mobile: show both email AND WhatsApp
+        actions.innerHTML = `
+          <a href="https://wa.me/33608811142?text=${waMsg}" target="_blank" class="map-btn" style="background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;font-weight:700;margin-bottom:8px;">
+            <i class="fab fa-whatsapp"></i> Devis via WhatsApp
+          </a>
+          <a href="mailto:dmfprog@gmail.com?subject=${emailSubject}&body=${emailBody}" class="map-btn email" style="margin-bottom:0;">
+            <i class="fas fa-envelope"></i> Devis par Email
+          </a>`;
+      } else {
+        // Desktop: email only
+        actions.innerHTML = `
+          <a href="mailto:dmfprog@gmail.com?subject=${emailSubject}&body=${emailBody}" class="map-btn" style="background:linear-gradient(135deg,rgba(0,170,255,0.2),rgba(77,224,255,0.12));border:1px solid rgba(0,170,255,0.4);color:var(--text);font-weight:700;">
+            <i class="fas fa-envelope"></i> Demander un devis par Email
+          </a>`;
+      }
+
       openM('modalService');
     }
   

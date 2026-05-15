@@ -65,8 +65,9 @@
       /* Compatibilité WebKit (anciens iOS Safari)    */
       min-height: -webkit-fill-available;
       overflow-x: hidden;
-      /* Respect de la safe-area notch iOS            */
-      padding-top: env(safe-area-inset-top);
+      /* safe-area gérée uniquement par .main-container
+         pour éviter le double espacement             */
+      padding-top: 0;
     }
 
     /* =============================================
@@ -192,7 +193,7 @@
 
     .hamburger-btn {
       position: fixed;
-      top: calc(14px + env(safe-area-inset-top));
+      top: calc(10px + env(safe-area-inset-top));
       left: 18px;
       z-index: 1200;
       cursor: pointer;
@@ -236,7 +237,7 @@
       -webkit-backdrop-filter: blur(30px);
       border-right: 1px solid var(--border);
       z-index: 1100;
-      padding-top: calc(70px + env(safe-area-inset-top));
+      padding-top: calc(60px + env(safe-area-inset-top));
       padding-bottom: 30px;
       overflow-y: auto;
       transition: left 0.4s cubic-bezier(0.4,0,0.2,1);
@@ -615,9 +616,12 @@
       /* ── Espacement interne ── */
       padding: 0 20px 40px;
 
-      /* ── Safe area iPhone (notch/Dynamic Island) ── */
-      padding-top: max(env(safe-area-inset-top), 60px);
-      padding-bottom: max(env(safe-area-inset-bottom), 40px);
+      /* ── Safe area iPhone (notch/Dynamic Island) ──
+         env() seul sans valeur min forcée : colle
+         juste sous la barre de statut, pas d'espace
+         noir au-dessus du contenu                   */
+      padding-top: max(env(safe-area-inset-top), 16px);
+      padding-bottom: max(env(safe-area-inset-bottom), 24px);
     }
 
     /* =============================================
@@ -973,7 +977,7 @@
       .main-container {
         min-height: 100vh;
         justify-content: flex-start;
-        padding-top: max(env(safe-area-inset-top), 80px);
+        padding-top: max(env(safe-area-inset-top), 20px);
       }
 
       .card:hover {
@@ -992,7 +996,7 @@
     @media (max-width: 400px) {
       .main-container {
         padding: 0 14px max(env(safe-area-inset-bottom), 30px);
-        padding-top: max(env(safe-area-inset-top), 60px);
+        padding-top: max(env(safe-area-inset-top), 16px);
         /* Centrage vertical sur très petits écrans */
         justify-content: center;
       }
@@ -1010,7 +1014,7 @@
     }
 
     @supports (padding: max(0px)) {
-      body { padding-top: max(env(safe-area-inset-top), 0px); }
+      body { padding-top: 0; } /* géré par .main-container */
     }
 
     /* =============================================

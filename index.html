@@ -35,9 +35,19 @@
       --radius-lg: 12px;
     }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    /* =============================================
+       RESET GLOBAL — Suppression marges/paddings
+       par défaut pour éviter tout espace blanc
+    ============================================= */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     html {
+      /* Hauteur 100% pour que les enfants puissent
+         s'appuyer dessus avec height: 100% */
       height: 100%;
       overflow-x: hidden;
       scroll-behavior: smooth;
@@ -47,24 +57,37 @@
       font-family: 'Barlow', sans-serif;
       color: var(--text);
       background-color: var(--bg);
+      /* dvh = Dynamic Viewport Height : tient compte
+         des barres de navigation mobiles (Safari/Chrome)
+         Fallback 100vh pour anciens navigateurs       */
       min-height: 100vh;
+      min-height: 100dvh;
+      /* Compatibilité WebKit (anciens iOS Safari)    */
       min-height: -webkit-fill-available;
       overflow-x: hidden;
+      /* Respect de la safe-area notch iOS            */
       padding-top: env(safe-area-inset-top);
     }
 
     /* =============================================
-       BACKGROUND ATMOSPHERE
+       ARRIÈRE-PLAN ATMOSPHÉRIQUE PLEIN ÉCRAN
+       Couvre tout le viewport sans déformation
+       (équivalent background-size: cover)
     ============================================= */
     body::before {
       content: '';
-      position: fixed;
-      inset: 0;
+      position: fixed;   /* fixe = couvre tout l'écran même au scroll */
+      inset: 0;          /* top/right/bottom/left: 0 en une ligne     */
+      width: 100vw;      /* 100% largeur viewport                     */
+      height: 100vh;     /* fallback hauteur viewport                 */
+      height: 100dvh;    /* hauteur dynamique (mobile-safe)           */
       background:
         radial-gradient(ellipse 80% 50% at 50% -10%, rgba(0,170,255,0.14) 0%, transparent 60%),
         radial-gradient(ellipse 40% 30% at 90% 80%, rgba(77,224,255,0.07) 0%, transparent 50%),
         repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(255,255,255,0.015) 80px),
         repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(255,255,255,0.015) 80px);
+      /* background-size: cover appliqué implicitement
+         via la combinaison position:fixed + inset:0  */
       pointer-events: none;
       z-index: 0;
     }
@@ -565,20 +588,42 @@
     #s1nm, #s2nm { color: #4de0ff; }
 
     /* =============================================
-       MAIN CONTAINER
+       HERO SECTION — PLEIN ÉCRAN TOTAL
+       ─────────────────────────────────────────
+       Occupe exactement 100% de la fenêtre visible
+       sur tous les appareils :
+         • 100vw  = 100% largeur viewport
+         • 100dvh = Dynamic Viewport Height (mobile-safe)
+         • Flexbox pour centrage vertical + horizontal
     ============================================= */
     .main-container {
       position: relative;
       z-index: 1;
+
+      /* ── Plein écran ── */
+      width: 100vw;            /* largeur totale viewport               */
+      min-height: 100vh;       /* fallback navigateurs sans dvh         */
+      min-height: 100dvh;      /* hauteur dynamique (exclut les barres  */
+                               /* de navigation Safari/Chrome mobile)   */
+
+      /* ── Centrage Flexbox ── */
       display: flex;
       flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
+      align-items: center;     /* centré horizontalement                */
+      justify-content: center; /* centré verticalement                  */
+
+      /* ── Espacement interne ── */
       padding: 0 20px 40px;
+
+      /* ── Safe area iPhone (notch/Dynamic Island) ── */
+      padding-top: max(env(safe-area-inset-top), 60px);
+      padding-bottom: max(env(safe-area-inset-bottom), 40px);
     }
 
     /* =============================================
        LOGO SECTION
+       Le padding-top est géré par le hero flex,
+       on garde juste un petit espace bas
     ============================================= */
     .logo-section {
       width: 100%;
@@ -586,7 +631,9 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding-top: calc(40px + env(safe-area-inset-top));
+      /* Plus de padding-top fixe — le centrage
+         flex du hero s'en charge automatiquement */
+      padding-top: 0;
       padding-bottom: 8px;
     }
 
@@ -905,7 +952,9 @@
     ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
 
     /* =============================================
-       DESKTOP ENHANCEMENTS
+       DESKTOP — AMÉLIORATIONS
+       Sur grand écran, on laisse le centrage flex
+       gérer la hauteur naturellement
     ============================================= */
     @media (min-width: 769px) {
       body { overflow-y: auto; }
@@ -919,6 +968,14 @@
       .logo-wrapper img { max-width: 320px; }
       .headline h1 { font-size: 40px; }
 
+      /* Sur desktop, le hero peut dépasser 100vh
+         si le contenu est long — on laisse scroller */
+      .main-container {
+        min-height: 100vh;
+        justify-content: flex-start;
+        padding-top: max(env(safe-area-inset-top), 80px);
+      }
+
       .card:hover {
         border-color: rgba(255,255,255,0.12);
         transform: translateY(-1px);
@@ -926,13 +983,34 @@
     }
 
     /* =============================================
-       MOBILE FIXES
+       MOBILE — CORRECTIONS SPÉCIFIQUES
+       ─────────────────────────────────────────
+       Sur petits écrans, les barres du navigateur
+       (Safari/Chrome) peuvent masquer le bas.
+       100dvh exclut ces barres automatiquement.
     ============================================= */
     @media (max-width: 400px) {
-      .main-container { padding: 0 14px 30px; }
+      .main-container {
+        padding: 0 14px max(env(safe-area-inset-bottom), 30px);
+        padding-top: max(env(safe-area-inset-top), 60px);
+        /* Centrage vertical sur très petits écrans */
+        justify-content: center;
+      }
       .headline h1 { font-size: 28px; }
       .stats-bar { grid-template-columns: 1fr 1px 1fr 1px 1fr; }
       .stat-value { font-size: 18px; }
+    }
+
+    /* Fallback @supports pour dvh si non supporté */
+    @supports not (min-height: 100dvh) {
+      .main-container {
+        min-height: 100vh;
+        min-height: -webkit-fill-available;
+      }
+    }
+
+    @supports (padding: max(0px)) {
+      body { padding-top: max(env(safe-area-inset-top), 0px); }
     }
 
     /* =============================================

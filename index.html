@@ -272,6 +272,22 @@
       padding: 0 24px 20px;
       border-bottom: 1px solid var(--border);
       margin-bottom: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .menu-brand-logo-wrap {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+    .menu-brand-logo {
+      width: 150px;
+      height: 150px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 8px rgba(0,170,255,0.2));
+      opacity: 0.92;
     }
     .menu-brand-name {
       font-family: 'Barlow Condensed', sans-serif;
@@ -1822,6 +1838,9 @@
   <nav class="side-menu">
 
     <div class="menu-brand">
+      <div class="menu-brand-logo-wrap">
+        <img src="logo6.png" alt="DM.F Logo" class="menu-brand-logo">
+      </div>
       <div class="menu-brand-name">DM<span>.</span>F</div>
       <div class="menu-brand-sub">Performance &amp; Optimisation</div>
     </div>

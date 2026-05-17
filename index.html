@@ -574,8 +574,74 @@
       font-weight: 400;
       margin-bottom: 2px;
     }
+    /* ── Couleurs gains puissance & couple ── */
+    #s1hp2, #s2hp2 { 
+      color: #00e676 !important; 
+      text-shadow: 0 0 10px rgba(0,230,118,0.6);
+      animation: gain-pop 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+    #s1nm2, #s2nm2 { 
+      color: #69f0ae !important; 
+      text-shadow: 0 0 10px rgba(105,240,174,0.5);
+      animation: gain-pop 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.08s both;
+    }
+    @keyframes gain-pop {
+      from { transform: scale(0.7); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+
     #s1hp, #s2hp { color: #0af; }
     #s1nm, #s2nm { color: #4de0ff; }
+
+    /* ── Icône raccourci simulateur dans les tuiles Stage ── */
+    .sim-shortcut-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 8px;
+      padding: 5px 10px;
+      border-radius: 20px;
+      background: rgba(0,170,255,0.10);
+      border: 1px solid rgba(0,170,255,0.25);
+      color: var(--accent);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      width: fit-content;
+      position: relative;
+      overflow: hidden;
+    }
+    .sim-shortcut-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(0,170,255,0.12), transparent);
+      transform: translateX(-100%);
+      animation: btn-sweep 2.5s ease-in-out infinite;
+    }
+    @keyframes btn-sweep {
+      0%   { transform: translateX(-100%); }
+      50%  { transform: translateX(100%); }
+      100% { transform: translateX(100%); }
+    }
+    .sim-shortcut-btn:hover {
+      background: rgba(0,170,255,0.22);
+      border-color: rgba(0,170,255,0.55);
+      transform: translateY(-1px);
+      box-shadow: 0 3px 12px rgba(0,170,255,0.25);
+    }
+    .sim-shortcut-btn .gauge-icon {
+      display: inline-flex;
+      align-items: center;
+      animation: gauge-pulse 2s ease-in-out infinite;
+    }
+    @keyframes gauge-pulse {
+      0%, 100% { transform: scale(1) rotate(-5deg); }
+      50%       { transform: scale(1.2) rotate(5deg); }
+    }
 
     .stage-total {
       grid-column: 1 / -1;
@@ -1966,6 +2032,17 @@
       }
     }
 
+    // Scroll & open simulator accordéon principal
+    function scrollToSim() {
+      const acc = document.getElementById('main-sim-accordion');
+      if (acc) {
+        if (!acc.classList.contains('active')) acc.classList.add('active');
+        setTimeout(() => {
+          acc.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 80);
+      }
+    }
+
     // Service modal
     const services = {
       stage: {
@@ -1997,7 +2074,43 @@
     function openService(key) {
       const s = services[key];
       document.getElementById('modalServiceTitle').innerHTML = s.title;
-      document.getElementById('modalServiceDesc').innerHTML = s.desc;
+
+      // Pour Stage : ajouter un badge raccourci simulateur discret après la description
+      if (key === 'stage') {
+        document.getElementById('modalServiceDesc').innerHTML =
+          s.desc +
+          `<div style="margin-top:16px;display:flex;justify-content:flex-end;">
+            <span onclick="closeM('modalService');scrollToSim();" title="Estimer mes gains" style="
+              display:inline-flex;align-items:center;justify-content:center;
+              width:36px;height:36px;border-radius:50%;cursor:pointer;
+              background:rgba(0,170,255,0.12);border:1.5px solid rgba(0,170,255,0.35);
+              color:var(--accent);position:relative;
+              box-shadow:0 0 12px rgba(0,170,255,0.2);
+              animation:sim-icon-appear 0.5s 0.15s cubic-bezier(0.34,1.56,0.64,1) both;
+            "
+            onmouseover="this.style.background='rgba(0,170,255,0.28)';this.style.boxShadow='0 0 20px rgba(0,170,255,0.5)';"
+            onmouseout="this.style.background='rgba(0,170,255,0.12)';this.style.boxShadow='0 0 12px rgba(0,170,255,0.2)';">
+              <i class="fas fa-gauge-high" style="font-size:15px;animation:gauge-pulse 2s ease-in-out infinite;display:inline-block;"></i>
+              <span style="
+                position:absolute;inset:-4px;border-radius:50%;
+                border:1.5px solid rgba(0,170,255,0.25);
+                animation:sim-ring 2s ease-in-out infinite;
+              "></span>
+            </span>
+          </div>
+          <style>
+            @keyframes sim-icon-appear {
+              from { opacity:0; transform:scale(0.5) rotate(-30deg); }
+              to   { opacity:1; transform:scale(1) rotate(0deg); }
+            }
+            @keyframes sim-ring {
+              0%,100% { transform:scale(1);   opacity:0.5; }
+              50%      { transform:scale(1.35); opacity:0; }
+            }
+          </style>`;
+      } else {
+        document.getElementById('modalServiceDesc').innerHTML = s.desc;
+      }
 
       // Smart device detection
       const isMobile = /Android|iPhone|iPad|iPod|Windows Phone/i.test(navigator.userAgent);
@@ -2066,14 +2179,6 @@
       },
       "Cadillac": { "Escalade": ["6.2 V8 409 (2007-2014)", "6.2 V8 426 (2014-2020)"], "CTS-V": ["6.2 V8 564 (2009-2014)", "6.2 V8 649 (2015-2019)"] },
       "Chevrolet": { "Camaro": ["2.0 Turbo 275 (2016-2024)", "6.2 V8 432 (2009-2015)", "6.2 V8 453 (2016-2024)", "6.2 ZL1 650 (2017-2024)"], "Corvette": ["C6 437 (2008-2013)", "C6 Z06 512 (2006-2013)", "C7 466 (2014-2019)", "C7 Z06 659 (2015-2019)", "C8 482 (2020-2024)", "C8 Z06 670 (2022-2024)"] },
-      "Citroën": {
-          "C1/C2": ["1.0 VTi 68 (2005-2014)", "1.0 VTi 72 (2018-2021)", "1.4 HDi 70 (2003-2010)", "1.6 16v 110 (2003-2009)", "1.6 VTS 125 (2004-2009)"],
-          "C3": ["1.2 PureTech 68 (2016-2019)", "1.2 PureTech 82 (2012-2024)", "1.2 PureTech 110 (2014-2024)", "1.4 HDi 70 (2002-2015)", "1.6 HDi 75 (2005-2015)", "1.6 HDi 90 (2002-2015)", "1.6 HDi 110 (2005-2014)", "1.6 BlueHDi 75 (2015-2018)", "1.6 BlueHDi 100 (2015-2018)", "1.5 BlueHDi 100 (2018-2024)"],
-          "C4/C4 Cactus": ["1.2 PureTech 110 (2014-2024)", "1.2 PureTech 130 (2014-2024)", "1.2 PureTech 155 (2020-2024)", "1.6 HDi 90 (2004-2015)", "1.6 HDi 110 (2004-2015)", "1.6 BlueHDi 100 (2014-2020)", "1.6 BlueHDi 120 (2014-2020)", "2.0 HDi 136 (2004-2010)", "2.0 HDi 150 (2009-2015)", "2.0 BlueHDi 150 (2015-2018)"],
-          "C5/C5X/C5 Aircross": ["1.6 HDi 110 (2004-2012)", "1.6 BlueHDi 120 (2015-2017)", "1.5 BlueHDi 130 (2018-2024)", "2.0 HDi 140 (2008-2015)", "2.0 HDi 163 (2009-2015)", "2.0 BlueHDi 150 (2015-2018)", "2.0 BlueHDi 180 (2015-2020)", "2.2 HDi 170 (2006-2010)", "2.2 HDi 200 (2010-2015)", "3.0 V6 HDi 240 (2009-2013)", "Hybrid 180 (2022-2024)", "Hybrid 225 (2020-2024)"],
-          "Berlingo": ["1.6 HDi 75 (2008-2015)", "1.6 HDi 90 (2008-2015)", "1.6 HDi 110 (2008-2015)", "1.6 BlueHDi 75 (2015-2018)", "1.6 BlueHDi 100 (2015-2018)", "1.6 BlueHDi 120 (2015-2018)", "1.5 BlueHDi 100 (2018-2024)", "1.5 BlueHDi 130 (2018-2024)"],
-          "Jumper": ["2.0 BlueHDi 110 (2016-2019)", "2.0 BlueHDi 130 (2016-2019)", "2.0 BlueHDi 160 (2016-2019)", "2.2 BlueHDi 120 (2019-2024)", "2.2 BlueHDi 140 (2019-2024)", "2.2 BlueHDi 165 (2019-2024)", "2.8 HDi 127 (2002-2006)", "3.0 HDi 160 (2006-2011)", "3.0 HDi 180 (2011-2016)"]
-      },
       "Cupra": { "Formentor": ["1.5 TSI 150 (2020-2024)", "2.0 TSI 190 (2021-2024)", "2.0 TSI 245 (2021-2024)", "VZ 310 (2020-2024)", "VZ5 390 (2021-2023)", "1.4 e-Hybrid 204 (2021-2024)", "1.4 e-Hybrid 245 (2021-2024)"], "Leon": ["2.0 TSI 245 (2020-2024)", "2.0 TSI 290 (2015-2020)", "2.0 TSI 300 (2017-2024)", "VZ 300 (2020-2024)"], "Ateca": ["2.0 TSI 300 (2018-2024)"] },
       "Dacia": { "Duster": ["1.5 dCi 85 (2010-2013)", "1.5 dCi 110 (2010-2018)", "1.5 dCi 115 (2018-2024)", "1.2 TCe 125 (2013-2018)", "1.3 TCe 130 (2018-2024)", "1.3 TCe 150 (2018-2024)", "1.0 TCe 100 (2019-2024)"], "Sandero": ["1.5 dCi 75 (2012-2018)", "1.5 dCi 90 (2012-2020)", "0.9 TCe 90 (2012-2020)", "1.0 TCe 90 (2020-2024)", "1.0 TCe 100 (2020-2024)", "1.0 TCe 110 (2022-2024)"], "Lodgy": ["1.5 dCi 110 (2012-2022)", "1.2 TCe 115 (2012-2018)", "1.3 TCe 130 (2019-2022)"] },
       "Dodge": { "RAM 1500": ["3.0 V6 EcoDiesel 240 (2014-2019)", "5.7 V8 HEMI 401 (2009-2024)", "6.2 V8 TRX 712 (2021-2024)"], "Challenger": ["5.7 HEMI 375 (2008-2023)", "6.4 SRT 492 (2011-2023)", "6.2 Hellcat 717 (2015-2023)", "6.2 Redeye 808 (2019-2023)"] },
@@ -2160,7 +2265,55 @@
           "Superb/Kodiaq": ["1.6 TDI 120 (2015-2020)", "2.0 TDI 140 (2008-2015)", "2.0 TDI 150 (2015-2024)", "2.0 TDI 170 (2008-2015)", "2.0 TDI 190 (2015-2020)", "2.0 TDI 200 (2020-2024)", "2.0 BiTDI 240 (2016-2020)", "1.8 TSI 160 (2008-2015)", "2.0 TSI 200 (2010-2015)", "2.0 TSI 220 (2015-2019)", "2.0 TSI 272 (2018-2020)", "2.0 TSI 280 (2015-2024)"]
       },
       "Smart": { "Fortwo/Forfour": ["0.9 Turbo 90 (2014-2019)", "Brabus 109 (2016-2018)", "1.0 71 (2014-2019)"] },
-      "Toyota": { "Yaris": ["1.4 D4D 90 (2005-2017)", "1.5 Hybrid 100 (2012-2020)", "1.5 Hybrid 116 (2020-2024)", "GR 261 (2020-2024)"], "Supra": ["2.0 Turbo 258 (2020-2024)", "3.0 Turbo 340 (2019-2020)", "3.0 Turbo 382 (2020-2024)"], "Hilux": ["2.4 D4D 150 (2016-2024)", "2.8 D4D 204 (2020-2024)", "3.0 D4D 171 (2006-2015)"] },
+      "Volvo": { "V40/V60": ["D2 115 (2012-2015)", "D2 120 (2015-2018)", "D3 150 (2010-2024)", "D4 163 (2010-2014)", "D4 181 (2013-2015)", "D4 190 (2015-2024)", "B4 Diesel 197 (2020-2024)", "T6 Hybrid 340 (2018-2024)", "T8 Hybrid 455 (2021-2024)"], "XC40/XC60/XC90": ["D3 150 (2017-2024)", "D4 190 (2014-2024)", "D5 235 (2014-2024)", "B4 197 (2020-2024)", "B5 235 (2019-2024)", "T8 Hybrid 407 (2015-2021)", "T8 Hybrid 455 (2021-2024)"] },
+      "Alpine": { "A110": ["1.8 Turbo 252 (2017-2021)", "1.8 Turbo S 300 (2019-2021)", "1.8 Turbo GT 300 (2021-2024)", "1.8 Turbo R 300 (2023-2024)"] },
+      "Bentley": { "Continental GT": ["W12 575 (2012-2018)", "W12 635 (2018-2024)", "W12 Speed 710 (2021-2024)", "V8 550 (2020-2024)"], "Bentayga": ["W12 608 (2015-2022)", "V8 550 (2018-2024)", "Hybrid 449 (2021-2024)"] },
+      "BYD": { "Atto 3": ["Electric 204 (2022-2024)", "Electric 286 (2023-2024)"], "Seal": ["Electric 313 (2023-2024)", "AWD 530 (2023-2024)"], "Han": ["Electric 517 (2021-2024)"] },
+      "Citroën": {
+          "C1/C2": ["1.0 VTi 68 (2005-2014)", "1.0 VTi 72 (2018-2021)", "1.4 HDi 70 (2003-2010)", "1.6 16v 110 (2003-2009)", "1.6 VTS 125 (2004-2009)"],
+          "C3": ["1.2 PureTech 68 (2016-2019)", "1.2 PureTech 82 (2012-2024)", "1.2 PureTech 110 (2014-2024)", "1.4 HDi 70 (2002-2015)", "1.6 HDi 75 (2005-2015)", "1.6 HDi 90 (2002-2015)", "1.6 HDi 110 (2005-2014)", "1.6 BlueHDi 75 (2015-2018)", "1.6 BlueHDi 100 (2015-2018)", "1.5 BlueHDi 100 (2018-2024)"],
+          "C4/C4 Cactus": ["1.2 PureTech 110 (2014-2024)", "1.2 PureTech 130 (2014-2024)", "1.2 PureTech 155 (2020-2024)", "1.6 HDi 90 (2004-2015)", "1.6 HDi 110 (2004-2015)", "1.6 BlueHDi 100 (2014-2020)", "1.6 BlueHDi 120 (2014-2020)", "2.0 HDi 136 (2004-2010)", "2.0 HDi 150 (2009-2015)", "2.0 BlueHDi 150 (2015-2018)"],
+          "C5/C5X/C5 Aircross": ["1.6 HDi 110 (2004-2012)", "1.6 BlueHDi 120 (2015-2017)", "1.5 BlueHDi 130 (2018-2024)", "2.0 HDi 140 (2008-2015)", "2.0 HDi 163 (2009-2015)", "2.0 BlueHDi 150 (2015-2018)", "2.0 BlueHDi 180 (2015-2020)", "2.2 HDi 170 (2006-2010)", "2.2 HDi 200 (2010-2015)", "3.0 V6 HDi 240 (2009-2013)", "Hybrid 180 (2022-2024)", "Hybrid 225 (2020-2024)"],
+          "Berlingo": ["1.6 HDi 75 (2008-2015)", "1.6 HDi 90 (2008-2015)", "1.6 HDi 110 (2008-2015)", "1.6 BlueHDi 75 (2015-2018)", "1.6 BlueHDi 100 (2015-2018)", "1.6 BlueHDi 120 (2015-2018)", "1.5 BlueHDi 100 (2018-2024)", "1.5 BlueHDi 130 (2018-2024)"],
+          "Jumper": ["2.0 BlueHDi 110 (2016-2019)", "2.0 BlueHDi 130 (2016-2019)", "2.0 BlueHDi 160 (2016-2019)", "2.2 BlueHDi 120 (2019-2024)", "2.2 BlueHDi 140 (2019-2024)", "2.2 BlueHDi 165 (2019-2024)", "2.8 HDi 127 (2002-2006)", "3.0 HDi 160 (2006-2011)", "3.0 HDi 180 (2011-2016)"]
+      },
+      "Genesis": { "G70": ["2.0 T 252 (2018-2024)", "2.2 CRDi 200 (2018-2022)", "3.3 T-GDi 370 (2018-2024)"], "GV70/GV80": ["2.5 T 300 (2021-2024)", "3.5 T 380 (2021-2024)", "2.2 D 210 (2021-2022)"] },
+      "Great Wall / GWM": { "Poer/Tank": ["2.0 Turbo 218 (2021-2024)", "2.4 Diesel 150 (2019-2022)"] },
+      "Ineos": { "Grenadier": ["3.0 B57 249 Diesel (2022-2024)", "3.0 B58 285 Essence (2022-2024)"] },
+      "Lancia": { "Delta": ["1.8 TJet 200 (2008-2014)", "1.8 TJet Integrale 241 (2008-2012)"], "Ypsilon": ["1.2 69 (2011-2021)", "1.0 FireFly 70 (2021-2024)"] },
+      "Lynk & Co": { "01/02": ["2.0 T 190 (2018-2022)", "2.0 T 261 (2018-2024)", "Plug-in Hybrid 261 (2019-2024)"] },
+      "Mahindra": { "Thar": ["2.2 mHawk Diesel 130 (2020-2024)", "2.0 mStallion Essence 150 (2020-2024)"], "XUV700": ["2.2 Diesel 155 (2021-2024)", "2.0 Turbo 200 (2021-2024)"] },
+      "MG": { "ZS/HS": ["1.0 Turbo 111 (2018-2022)", "1.5 Turbo 162 (2017-2022)", "2.0 Turbo 224 (2018-2022)", "1.5 Turbo 163 (2021-2024)"], "MG5/MG6": ["1.5 Turbo 166 (2017-2021)", "2.0 Turbo 203 (2016-2020)"] },
+      "Mitsubishi": {
+          "Colt": ["1.3 95 (2004-2012)", "1.5 109 (2004-2012)", "1.5 CZT 150 (2006-2012)", "1.5 DI-D 95 (2004-2012)"],
+          "Eclipse Cross": ["1.5 T 163 (2017-2024)", "2.4 Plug-in Hybrid 188 (2019-2024)"],
+          "L200": ["2.5 Di-D 136 (2006-2015)", "2.5 Di-D 178 (2010-2015)", "2.4 Di-D 154 (2015-2024)", "2.4 Di-D 181 (2019-2024)"],
+          "Outlander": ["2.0 DI-D 140 (2007-2012)", "2.2 Di-D 150 (2012-2021)", "2.4 Plug-in Hybrid 224 (2015-2024)", "2.5 T 4WD 203 (2021-2024)"],
+          "Pajero": ["3.2 Di-D 160 (2000-2007)", "3.2 Di-D 170 (2007-2012)", "3.2 Di-D 200 (2012-2021)"]
+      },
+      "Polestar": { "Polestar 2": ["Standard 224 (2020-2024)", "Long Range 231 (2021-2024)", "AWD 300 (2020-2024)", "BST 476 (2022-2024)"] },
+      "Ram": { "1500 Classic": ["3.6 V6 305 (2019-2024)", "5.7 HEMI 395 (2019-2024)"], "TRX": ["6.2 V8 Supercharged 712 (2021-2024)"] },
+      "Renault Sport": { "Mégane RS": ["2.0 Turbo 225 (2004-2009)", "2.0 Turbo 250 (2009-2012)", "2.0 Turbo 265 (2012-2015)", "2.0 Turbo 275 (2014-2016)", "1.8 T 280 (2017-2019)", "1.8 T 300 Trophy (2018-2019)"], "Clio RS": ["2.0 197 (2005-2009)", "2.0 200 (2009-2012)", "1.6 Turbo 200 (2013-2018)", "1.8 T 220 Trophy (2018-2019)"] },
+      "Rolls-Royce": { "Ghost/Wraith": ["6.6 V12 570 (2014-2020)", "6.6 V12 624 (2020-2024)", "6.6 V12 Black Badge 671 (2021-2024)"], "Cullinan": ["6.75 V12 571 (2018-2024)", "6.75 V12 Black Badge 600 (2020-2024)"] },
+      "Ssangyong/KGM": { "Tivoli/Korando": ["1.5 Turbo 163 (2020-2024)", "1.6 Diesel 136 (2015-2021)", "1.2 Turbo 128 (2021-2024)"], "Rexton": ["2.0 Diesel 181 (2017-2024)", "2.2 Diesel 202 (2021-2024)"] },
+      "Subaru": {
+          "Impreza/WRX": ["2.0 Turbo 218 (2007-2014)", "2.0 STI 300 (2007-2014)", "2.0 STI 304 (2014-2021)", "2.5 WRX 265 (2014-2021)", "2.4 WRX 272 (2021-2024)"],
+          "Forester/Outback": ["2.0 D 147 (2009-2018)", "2.5 X 167 (2007-2013)", "2.5 XT 264 (2007-2013)", "2.5 e-Boxer 150 (2019-2024)"],
+          "BRZ/GT86": ["2.0 200 (2012-2021)", "2.4 234 (2021-2024)"]
+      },
+      "Suzuki": { "Swift/Baleno": ["1.0 BoosterJet 111 (2014-2022)", "1.2 DualJet Hybrid 90 (2017-2024)", "1.4 BoosterJet 140 (2017-2022)", "1.4 BoosterJet 129 (2022-2024)"], "Jimny": ["1.3 85 (1998-2018)", "1.5 102 (2018-2024)"], "Vitara/SX4": ["1.0 BoosterJet 111 (2015-2021)", "1.4 BoosterJet 140 (2015-2022)", "1.4 BoosterJet 129 (2021-2024)", "1.5 Mild Hybrid 102 (2020-2024)"] },
+      "Tesla": { "Model 3": ["Standard Range 283 (2019-2024)", "Long Range 351 (2019-2024)", "Performance 491 (2019-2023)", "Performance 460 (2023-2024)"], "Model Y": ["Long Range AWD 393 (2021-2024)", "Performance 456 (2021-2024)"], "Model S/X": ["Long Range 670 (2021-2024)", "Plaid 1020 (2021-2024)"] },
+      "Toyota": {
+          "Yaris": ["1.4 D4D 90 (2005-2017)", "1.5 Hybrid 100 (2012-2020)", "1.5 Hybrid 116 (2020-2024)", "GR 261 (2020-2024)"],
+          "Corolla": ["1.8 Hybrid 122 (2019-2024)", "2.0 Hybrid 184 (2019-2024)", "1.2 Turbo 116 (2016-2024)", "2.0 GR Sport 180 (2021-2024)"],
+          "C-HR": ["1.8 Hybrid 122 (2016-2024)", "2.0 Hybrid 184 (2019-2024)", "1.2 Turbo 116 (2016-2022)"],
+          "RAV4": ["2.0 D4D 124 (2006-2018)", "2.2 D4D 136 (2006-2013)", "2.2 D4D 177 (2006-2012)", "2.5 Hybrid 218 (2018-2024)", "2.5 Plug-in Hybrid 302 (2020-2024)"],
+          "Land Cruiser": ["2.8 D4D 177 (2015-2021)", "3.3 D Hybrid 309 (2021-2024)", "4.0 V6 249 (2008-2021)"],
+          "GR86": ["2.4 234 (2021-2024)"],
+          "GR Supra": ["2.0 Turbo 258 (2020-2024)", "3.0 Turbo 340 (2019-2020)", "3.0 Turbo 382 (2020-2024)"],
+          "Hilux": ["2.4 D4D 150 (2016-2024)", "2.8 D4D 204 (2020-2024)", "3.0 D4D 171 (2006-2015)"]
+      },
+      "Vauxhall": { "Astra/Mokka": ["1.2 Turbo 110 (2021-2024)", "1.2 Turbo 130 (2021-2024)", "1.5 Diesel 110 (2021-2024)", "1.6 CRDi 136 (2015-2021)", "GSe Hybrid 225 (2022-2024)"] },
       "Volkswagen": {
           "Polo": ["1.0 TSI 95 (2014-2024)", "1.0 TSI 115 (2014-2024)", "1.2 TSI 90 (2011-2017)", "1.2 TSI 105 (2009-2014)", "1.2 TSI 110 (2014-2017)", "1.4 TSI 140 (2012-2014)", "1.4 TSI 150 (2014-2017)", "1.4 TDI 80 (2005-2009)", "1.4 TDI 90 (2014-2017)", "1.6 TDI 90 (2009-2014)", "1.6 TDI 95 (2017-2021)", "1.9 TDI 100 (2001-2009)", "1.9 TDI 130 (2003-2009)", "GTI 150 (2005-2009)", "GTI 180 (2010-2014)", "GTI 192 (2014-2017)", "GTI 200 (2017-2021)", "GTI 207 (2021-2024)"],
           "Golf": ["1.6 TDI 105 (2009-2013)", "1.6 TDI 110 (2013-2017)", "1.6 TDI 115 (2017-2020)", "1.9 TDI 90 (1997-2008)", "1.9 TDI 105 (2003-2009)", "1.9 TDI 115 (1998-2001)", "1.9 TDI 130 (2001-2004)", "1.9 TDI 150 (2000-2004)", "2.0 TDI 110 (2008-2024)", "2.0 TDI 115 (2020-2024)", "2.0 TDI 136 (2003-2008)", "2.0 TDI 140 (2003-2012)", "2.0 TDI 150 (2012-2024)", "2.0 TDI 170 (2005-2012)", "2.0 TDI 184 GTD (2013-2020)", "2.0 TDI 200 GTD (2020-2024)", "1.4 TSI 122 (2007-2015)", "1.4 TSI 140 (2005-2014)", "1.4 TSI 150 (2014-2020)", "1.5 TSI 130 (2017-2024)", "1.5 TSI 150 (2017-2024)", "1.8 TSI 160 (2009-2013)", "GTE 204 (2014-2020)", "GTE 245 (2020-2024)", "GTI 200 (2004-2008)", "GTI 211 (2009-2012)", "GTI 220 (2013-2017)", "GTI 230 (2017-2020)", "GTI 245 (2017-2024)", "GTI Clubsport 300 (2020-2024)", "R32 250 (2005-2008)", "R 270 (2009-2012)", "R 300 (2013-2017)", "R 310 (2017-2020)", "R 320 (2020-2024)"],
@@ -2169,9 +2322,10 @@
           "Scirocco": ["2.0 TDI 140 (2008-2014)", "2.0 TDI 170 (2009-2013)", "2.0 TDI 177 (2013-2014)", "2.0 TDI 184 (2014-2017)", "1.4 TSI 122 (2008-2014)", "1.4 TSI 160 (2008-2014)", "2.0 TSI 200 (2008-2009)", "2.0 TSI 211 (2009-2014)", "2.0 TSI 220 (2014-2017)", "R 265 (2009-2014)", "R 280 (2014-2017)"],
           "Touareg": ["2.5 TDI 174 (2003-2010)", "3.0 V6 TDI 225 (2004-2007)", "3.0 V6 TDI 231 (2018-2024)", "3.0 V6 TDI 240 (2007-2011)", "3.0 V6 TDI 245 (2011-2018)", "3.0 V6 TDI 262 (2014-2018)", "3.0 V6 TDI 286 (2018-2024)", "4.0 V8 TDI 421 (2019-2020)", "5.0 V10 TDI 313 (2002-2010)", "R Hybrid 462 (2020-2024)"],
           "Transporter T5/T6/T7": ["1.9 TDI 84 (2003-2009)", "1.9 TDI 105 (2003-2009)", "2.0 TDI 84 (2009-2015)", "2.0 TDI 102 (2009-2024)", "2.0 TDI 114 (2011-2015)", "2.0 TDI 140 (2009-2015)", "2.0 TDI 150 (2015-2024)", "2.0 BiTDI 180 (2009-2015)", "2.0 BiTDI 199 (2018-2021)", "2.0 BiTDI 204 (2015-2024)", "2.5 TDI 130 (2003-2009)", "2.5 TDI 174 (2003-2009)"],
-          "Crafter": ["2.0 TDI 102 (2011-2024)", "2.0 TDI 109 (2011-2016)", "2.0 TDI 136 (2011-2016)", "2.0 TDI 140 (2016-2024)", "2.0 TDI 163 (2011-2016)", "2.0 TDI 177 (2016-2024)", "2.5 TDI 109 (2006-2011)", "2.5 TDI 136 (2006-2011)", "2.5 TDI 163 (2006-2011)"]
+          "Crafter": ["2.0 TDI 102 (2011-2024)", "2.0 TDI 109 (2011-2016)", "2.0 TDI 136 (2011-2016)", "2.0 TDI 140 (2016-2024)", "2.0 TDI 163 (2011-2016)", "2.0 TDI 177 (2016-2024)", "2.5 TDI 109 (2006-2011)", "2.5 TDI 136 (2006-2011)", "2.5 TDI 163 (2006-2011)"],
+          "ID.3/ID.4/ID.5": ["Pure 150 (2020-2024)", "Pro 204 (2020-2024)", "GTX 299 (2021-2024)", "GTX 4Motion 340 (2022-2024)"]
       },
-      "Volvo": { "V40/V60": ["D2 115 (2012-2015)", "D2 120 (2015-2018)", "D3 150 (2010-2024)", "D4 163 (2010-2014)", "D4 181 (2013-2015)", "D4 190 (2015-2024)", "B4 Diesel 197 (2020-2024)", "T6 Hybrid 340 (2018-2024)", "T8 Hybrid 455 (2021-2024)"], "XC40/XC60/XC90": ["D3 150 (2017-2024)", "D4 190 (2014-2024)", "D5 235 (2014-2024)", "B4 197 (2020-2024)", "B5 235 (2019-2024)", "T8 Hybrid 407 (2015-2021)", "T8 Hybrid 455 (2021-2024)"] }
+      "Wiesmann": { "MF3/MF4": ["3.2 M3 343 (2004-2012)", "4.0 M3 420 (2009-2012)"] }
     };
 
         // ── SIMULATEUR PRINCIPAL (page d'accueil) ──

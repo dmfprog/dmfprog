@@ -1659,9 +1659,9 @@
 
       <!-- Badge ouvert / fermé dynamique -->
       <div id="openBadge" style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
-        <span id="badgeDot" style="display:inline-block;width:9px;height:9px;border-radius:50%;flex-shrink:0;"></span>
-        <span id="badgeText" style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;"></span>
-        <span id="badgeDetail" style="font-size:11px;color:var(--text-muted);margin-left:auto;letter-spacing:0.3px;"></span>
+        <span id="badgeDot" style="display: inline-block; width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; background: rgb(239, 68, 68); box-shadow: rgba(239, 68, 68, 0.7) 0px 0px 7px;"></span>
+        <span id="badgeText" style="font-family: &quot;Barlow Condensed&quot;, sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgb(239, 68, 68);">Fermé</span>
+        <span id="badgeDetail" style="font-size:11px;color:var(--text-muted);margin-left:auto;letter-spacing:0.3px;">Ouvre Lundi à 09:00</span>
       </div>
 
       <!-- Bloc Semaine -->
@@ -1670,7 +1670,7 @@
           <i class="fas fa-briefcase" style="font-size:11px;color:var(--accent);width:14px;text-align:center;"></i>
           <span style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-muted);font-weight:700;">Semaine</span>
         </div>
-        <div id="scheduleWeek" style="display:flex;flex-direction:column;gap:4px;"></div>
+        <div id="scheduleWeek" style="display:flex;flex-direction:column;gap:4px;"><div style="display: flex; align-items: center; justify-content: space-between; padding: 7px 10px; border-radius: 4px; border: 1px solid transparent; background: none; transition: background 0.2s;"><span style="font-size: 13px; font-weight: 400; color: var(--text-dim); display: flex; align-items: center; gap: 6px;">Lundi</span><span style="font-family: &quot;Barlow Condensed&quot;, sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.5px; color: var(--text-dim);">09:00 – 18:00</span></div><div style="display: flex; align-items: center; justify-content: space-between; padding: 7px 10px; border-radius: 4px; border: 1px solid transparent; background: none; transition: background 0.2s;"><span style="font-size: 13px; font-weight: 400; color: var(--text-dim); display: flex; align-items: center; gap: 6px;">Mardi</span><span style="font-family: &quot;Barlow Condensed&quot;, sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.5px; color: var(--text-dim);">09:00 – 18:00</span></div><div style="display: flex; align-items: center; justify-content: space-between; padding: 7px 10px; border-radius: 4px; border: 1px solid transparent; background: none; transition: background 0.2s;"><span style="font-size: 13px; font-weight: 400; color: var(--text-dim); display: flex; align-items: center; gap: 6px;">Mercredi</span><span style="font-family: &quot;Barlow Condensed&quot;, sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.5px; color: var(--text-dim);">09:00 – 18:00</span></div><div style="display: flex; align-items: center; justify-content: space-between; padding: 7px 10px; border-radius: 4px; border: 1px solid transparent; background: none; transition: background 0.2s;"><span style="font-size: 13px; font-weight: 400; color: var(--text-dim); display: flex; align-items: center; gap: 6px;">Jeudi</span><span style="font-family: &quot;Barlow Condensed&quot;, sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.5px; color: var(--text-dim);">09:00 – 18:00</span></div><div style="display: flex; align-items: center; justify-content: space-between; padding: 7px 10px; border-radius: 4px; border: 1px solid transparent; background: none; transition: background 0.2s;"><span style="font-size: 13px; font-weight: 400; color: var(--text-dim); display: flex; align-items: center; gap: 6px;">Vendredi</span><span style="font-family: &quot;Barlow Condensed&quot;, sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.5px; color: var(--text-dim);">09:00 – 18:00</span></div></div>
       </div>
 
       <!-- Séparateur fin -->
@@ -1682,7 +1682,7 @@
           <i class="fas fa-sun" style="font-size:11px;color:var(--gold);width:14px;text-align:center;"></i>
           <span style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-muted);font-weight:700;">Week-end</span>
         </div>
-        <div id="scheduleWeekend" style="display:flex;flex-direction:column;gap:4px;"></div>
+        <div id="scheduleWeekend" style="display:flex;flex-direction:column;gap:4px;"><div style="display: flex; align-items: center; justify-content: space-between; padding: 7px 10px; border-radius: 4px; border: 1px solid transparent; background: none; transition: background 0.2s;"><span style="font-size: 13px; font-weight: 400; color: var(--text-dim); display: flex; align-items: center; gap: 6px;">Samedi</span><span style="font-family: &quot;Barlow Condensed&quot;, sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.5px; color: var(--text-dim);">09:00 – 18:00</span></div><div style="display: flex; align-items: center; justify-content: space-between; padding: 7px 10px; border-radius: 4px; border: 1px solid rgba(0, 170, 255, 0.3); background: rgba(0, 170, 255, 0.07); transition: background 0.2s;"><span style="font-size: 13px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 6px;"><span style="display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 5px var(--accent); flex-shrink: 0;"></span>Dimanche</span><span style="font-family: &quot;Barlow Condensed&quot;, sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.5px; color: var(--text-muted);">Fermé</span></div></div>
       </div>
 
       <p style="font-size:11px;color:var(--text-muted);margin-bottom:12px;display:flex;align-items:flex-start;gap:6px;line-height:1.55;">
@@ -1705,8 +1705,7 @@
       { day: 'Jeudi',    open: '09:00', close: '18:00', closed: false },
       { day: 'Vendredi', open: '09:00', close: '18:00', closed: false },
       { day: 'Samedi',   open: '09:00', close: '18:00', closed: false },
-      { day: 'Dimanche', open: null,    close: null,     closed: true  },
-    ];
+      { day: 'Dimanche', open: null,    close: null,     closed: true  }];
 
     function renderSchedule() {
       const now   = new Date();
@@ -1909,9 +1908,9 @@
       <div class="sim-dropdown-content">
         <div class="sim-container">
           <div class="sim-title">Sélection du véhicule</div>
-          <select id="brandS2" class="sim-select" onchange="updateM2()"><option value="">— Marque —</option></select>
-          <select id="modelS2" class="sim-select" onchange="updateE2()" disabled><option value="">— Modèle —</option></select>
-          <select id="engineS2" class="sim-select" onchange="runSim2()" disabled><option value="">— Moteur —</option></select>
+          <select id="brandS2" class="sim-select" onchange="updateM2()"><option value="">— Marque —</option><option value="Abarth">Abarth</option><option value="Alfa Romeo">Alfa Romeo</option><option value="Alpine">Alpine</option><option value="Aston Martin">Aston Martin</option><option value="Audi">Audi</option><option value="BMW">BMW</option><option value="Bentley">Bentley</option><option value="Cadillac">Cadillac</option><option value="Chevrolet">Chevrolet</option><option value="Citroën">Citroën</option><option value="Cupra">Cupra</option><option value="DS">DS</option><option value="Dacia">Dacia</option><option value="Dodge">Dodge</option><option value="Ferrari">Ferrari</option><option value="Fiat">Fiat</option><option value="Ford">Ford</option><option value="Genesis">Genesis</option><option value="Great Wall / GWM">Great Wall / GWM</option><option value="Honda">Honda</option><option value="Hyundai">Hyundai</option><option value="Ineos">Ineos</option><option value="Isuzu">Isuzu</option><option value="Iveco">Iveco</option><option value="Jaguar">Jaguar</option><option value="Jeep">Jeep</option><option value="Kia">Kia</option><option value="Lamborghini">Lamborghini</option><option value="Lancia">Lancia</option><option value="Land Rover">Land Rover</option><option value="Lexus">Lexus</option><option value="Lynk &amp; Co">Lynk &amp; Co</option><option value="MAN">MAN</option><option value="MG">MG</option><option value="Mahindra">Mahindra</option><option value="Maserati">Maserati</option><option value="Mazda">Mazda</option><option value="McLaren">McLaren</option><option value="Mercedes">Mercedes</option><option value="Mini">Mini</option><option value="Mitsubishi">Mitsubishi</option><option value="Nissan">Nissan</option><option value="Opel">Opel</option><option value="Peugeot">Peugeot</option><option value="Porsche">Porsche</option><option value="Ram">Ram</option><option value="Renault">Renault</option><option value="Renault Sport">Renault Sport</option><option value="Rolls-Royce">Rolls-Royce</option><option value="Seat">Seat</option><option value="Skoda">Skoda</option><option value="Smart">Smart</option><option value="Ssangyong/KGM">Ssangyong/KGM</option><option value="Subaru">Subaru</option><option value="Suzuki">Suzuki</option><option value="Toyota">Toyota</option><option value="Vauxhall">Vauxhall</option><option value="Volkswagen">Volkswagen</option><option value="Volvo">Volvo</option><option value="Wiesmann">Wiesmann</option></select>
+          <select id="modelS2" class="sim-select" onchange="updateE2()" disabled=""><option value="">— Modèle —</option></select>
+          <select id="engineS2" class="sim-select" onchange="runSim2()" disabled=""><option value="">— Moteur —</option></select>
           <div id="resBox2" class="sim-results">
             <div class="stage-row">
               <div class="stage-label">STAGE 1</div>
@@ -2008,6 +2007,16 @@
     }
     window.addEventListener('keydown', e => { if(e.key==='Escape') document.querySelectorAll('.modal.open').forEach(m=>m.classList.remove('open')); });
 
+    // Fermeture automatique du simulateur accordéon au clic extérieur
+    document.addEventListener('click', function(e) {
+      const acc = document.getElementById('main-sim-accordion');
+      if (acc && acc.classList.contains('active')) {
+        if (!acc.contains(e.target)) {
+          acc.classList.remove('active');
+        }
+      }
+    });
+
     // Activity dropdown
     // activityToggle supprimé du menu — guard défensif
     const _actToggle = document.getElementById('activityToggle');
@@ -2079,8 +2088,8 @@
       if (key === 'stage') {
         document.getElementById('modalServiceDesc').innerHTML =
           s.desc +
-          `<div style="margin-top:16px;display:flex;justify-content:flex-end;">
-            <span onclick="closeM('modalService');scrollToSim();" title="Estimer mes gains" style="
+          `<div style="margin-top:16px;display:flex;justify-content:center;">
+            <span onclick="closeM('modalService');setTimeout(scrollToSim,250);" title="Estimer mes gains" style="
               display:inline-flex;align-items:center;justify-content:center;
               width:36px;height:36px;border-radius:50%;cursor:pointer;
               background:rgba(0,170,255,0.12);border:1.5px solid rgba(0,170,255,0.35);
@@ -2268,7 +2277,6 @@
       "Volvo": { "V40/V60": ["D2 115 (2012-2015)", "D2 120 (2015-2018)", "D3 150 (2010-2024)", "D4 163 (2010-2014)", "D4 181 (2013-2015)", "D4 190 (2015-2024)", "B4 Diesel 197 (2020-2024)", "T6 Hybrid 340 (2018-2024)", "T8 Hybrid 455 (2021-2024)"], "XC40/XC60/XC90": ["D3 150 (2017-2024)", "D4 190 (2014-2024)", "D5 235 (2014-2024)", "B4 197 (2020-2024)", "B5 235 (2019-2024)", "T8 Hybrid 407 (2015-2021)", "T8 Hybrid 455 (2021-2024)"] },
       "Alpine": { "A110": ["1.8 Turbo 252 (2017-2021)", "1.8 Turbo S 300 (2019-2021)", "1.8 Turbo GT 300 (2021-2024)", "1.8 Turbo R 300 (2023-2024)"] },
       "Bentley": { "Continental GT": ["W12 575 (2012-2018)", "W12 635 (2018-2024)", "W12 Speed 710 (2021-2024)", "V8 550 (2020-2024)"], "Bentayga": ["W12 608 (2015-2022)", "V8 550 (2018-2024)", "Hybrid 449 (2021-2024)"] },
-      "BYD": { "Atto 3": ["Electric 204 (2022-2024)", "Electric 286 (2023-2024)"], "Seal": ["Electric 313 (2023-2024)", "AWD 530 (2023-2024)"], "Han": ["Electric 517 (2021-2024)"] },
       "Citroën": {
           "C1/C2": ["1.0 VTi 68 (2005-2014)", "1.0 VTi 72 (2018-2021)", "1.4 HDi 70 (2003-2010)", "1.6 16v 110 (2003-2009)", "1.6 VTS 125 (2004-2009)"],
           "C3": ["1.2 PureTech 68 (2016-2019)", "1.2 PureTech 82 (2012-2024)", "1.2 PureTech 110 (2014-2024)", "1.4 HDi 70 (2002-2015)", "1.6 HDi 75 (2005-2015)", "1.6 HDi 90 (2002-2015)", "1.6 HDi 110 (2005-2014)", "1.6 BlueHDi 75 (2015-2018)", "1.6 BlueHDi 100 (2015-2018)", "1.5 BlueHDi 100 (2018-2024)"],
@@ -2291,7 +2299,6 @@
           "Outlander": ["2.0 DI-D 140 (2007-2012)", "2.2 Di-D 150 (2012-2021)", "2.4 Plug-in Hybrid 224 (2015-2024)", "2.5 T 4WD 203 (2021-2024)"],
           "Pajero": ["3.2 Di-D 160 (2000-2007)", "3.2 Di-D 170 (2007-2012)", "3.2 Di-D 200 (2012-2021)"]
       },
-      "Polestar": { "Polestar 2": ["Standard 224 (2020-2024)", "Long Range 231 (2021-2024)", "AWD 300 (2020-2024)", "BST 476 (2022-2024)"] },
       "Ram": { "1500 Classic": ["3.6 V6 305 (2019-2024)", "5.7 HEMI 395 (2019-2024)"], "TRX": ["6.2 V8 Supercharged 712 (2021-2024)"] },
       "Renault Sport": { "Mégane RS": ["2.0 Turbo 225 (2004-2009)", "2.0 Turbo 250 (2009-2012)", "2.0 Turbo 265 (2012-2015)", "2.0 Turbo 275 (2014-2016)", "1.8 T 280 (2017-2019)", "1.8 T 300 Trophy (2018-2019)"], "Clio RS": ["2.0 197 (2005-2009)", "2.0 200 (2009-2012)", "1.6 Turbo 200 (2013-2018)", "1.8 T 220 Trophy (2018-2019)"] },
       "Rolls-Royce": { "Ghost/Wraith": ["6.6 V12 570 (2014-2020)", "6.6 V12 624 (2020-2024)", "6.6 V12 Black Badge 671 (2021-2024)"], "Cullinan": ["6.75 V12 571 (2018-2024)", "6.75 V12 Black Badge 600 (2020-2024)"] },
@@ -2302,8 +2309,7 @@
           "BRZ/GT86": ["2.0 200 (2012-2021)", "2.4 234 (2021-2024)"]
       },
       "Suzuki": { "Swift/Baleno": ["1.0 BoosterJet 111 (2014-2022)", "1.2 DualJet Hybrid 90 (2017-2024)", "1.4 BoosterJet 140 (2017-2022)", "1.4 BoosterJet 129 (2022-2024)"], "Jimny": ["1.3 85 (1998-2018)", "1.5 102 (2018-2024)"], "Vitara/SX4": ["1.0 BoosterJet 111 (2015-2021)", "1.4 BoosterJet 140 (2015-2022)", "1.4 BoosterJet 129 (2021-2024)", "1.5 Mild Hybrid 102 (2020-2024)"] },
-      "Tesla": { "Model 3": ["Standard Range 283 (2019-2024)", "Long Range 351 (2019-2024)", "Performance 491 (2019-2023)", "Performance 460 (2023-2024)"], "Model Y": ["Long Range AWD 393 (2021-2024)", "Performance 456 (2021-2024)"], "Model S/X": ["Long Range 670 (2021-2024)", "Plaid 1020 (2021-2024)"] },
-      "Toyota": {
+            "Toyota": {
           "Yaris": ["1.4 D4D 90 (2005-2017)", "1.5 Hybrid 100 (2012-2020)", "1.5 Hybrid 116 (2020-2024)", "GR 261 (2020-2024)"],
           "Corolla": ["1.8 Hybrid 122 (2019-2024)", "2.0 Hybrid 184 (2019-2024)", "1.2 Turbo 116 (2016-2024)", "2.0 GR Sport 180 (2021-2024)"],
           "C-HR": ["1.8 Hybrid 122 (2016-2024)", "2.0 Hybrid 184 (2019-2024)", "1.2 Turbo 116 (2016-2022)"],
@@ -2311,7 +2317,9 @@
           "Land Cruiser": ["2.8 D4D 177 (2015-2021)", "3.3 D Hybrid 309 (2021-2024)", "4.0 V6 249 (2008-2021)"],
           "GR86": ["2.4 234 (2021-2024)"],
           "GR Supra": ["2.0 Turbo 258 (2020-2024)", "3.0 Turbo 340 (2019-2020)", "3.0 Turbo 382 (2020-2024)"],
-          "Hilux": ["2.4 D4D 150 (2016-2024)", "2.8 D4D 204 (2020-2024)", "3.0 D4D 171 (2006-2015)"]
+          "Hilux": ["2.4 D4D 150 (2016-2024)", "2.8 D4D 204 (2020-2024)", "3.0 D4D 171 (2006-2015)"],
+          "GR Yaris": ["1.6 Turbo 261 (2020-2024)"],
+          "Proace/Proace City": ["1.5 D4D 100 (2019-2024)", "2.0 D4D 120 (2016-2024)", "2.0 D4D 150 (2016-2024)", "1.2 Turbo 130 (2021-2024)"]
       },
       "Vauxhall": { "Astra/Mokka": ["1.2 Turbo 110 (2021-2024)", "1.2 Turbo 130 (2021-2024)", "1.5 Diesel 110 (2021-2024)", "1.6 CRDi 136 (2015-2021)", "GSe Hybrid 225 (2022-2024)"] },
       "Volkswagen": {
@@ -2323,8 +2331,25 @@
           "Touareg": ["2.5 TDI 174 (2003-2010)", "3.0 V6 TDI 225 (2004-2007)", "3.0 V6 TDI 231 (2018-2024)", "3.0 V6 TDI 240 (2007-2011)", "3.0 V6 TDI 245 (2011-2018)", "3.0 V6 TDI 262 (2014-2018)", "3.0 V6 TDI 286 (2018-2024)", "4.0 V8 TDI 421 (2019-2020)", "5.0 V10 TDI 313 (2002-2010)", "R Hybrid 462 (2020-2024)"],
           "Transporter T5/T6/T7": ["1.9 TDI 84 (2003-2009)", "1.9 TDI 105 (2003-2009)", "2.0 TDI 84 (2009-2015)", "2.0 TDI 102 (2009-2024)", "2.0 TDI 114 (2011-2015)", "2.0 TDI 140 (2009-2015)", "2.0 TDI 150 (2015-2024)", "2.0 BiTDI 180 (2009-2015)", "2.0 BiTDI 199 (2018-2021)", "2.0 BiTDI 204 (2015-2024)", "2.5 TDI 130 (2003-2009)", "2.5 TDI 174 (2003-2009)"],
           "Crafter": ["2.0 TDI 102 (2011-2024)", "2.0 TDI 109 (2011-2016)", "2.0 TDI 136 (2011-2016)", "2.0 TDI 140 (2016-2024)", "2.0 TDI 163 (2011-2016)", "2.0 TDI 177 (2016-2024)", "2.5 TDI 109 (2006-2011)", "2.5 TDI 136 (2006-2011)", "2.5 TDI 163 (2006-2011)"],
-          "ID.3/ID.4/ID.5": ["Pure 150 (2020-2024)", "Pro 204 (2020-2024)", "GTX 299 (2021-2024)", "GTX 4Motion 340 (2022-2024)"]
-      },
+          "Amarok": ["2.0 TDI 122 (2010-2023)", "2.0 TDI 140 (2010-2023)", "2.0 BiTDI 163 (2010-2023)", "2.0 BiTDI 180 (2011-2023)", "2.0 BiTDI 204 (2013-2023)", "3.0 TDI 240 (2016-2023)", "3.0 TDI 258 (2023-2024)"]},
+
+      "Acura": { "TLX/RDX": ["2.0 VTEC Turbo 272 (2019-2024)", "2.4 i-VTEC 202 (2015-2018)", "Type S 2.0 Turbo 355 (2021-2024)"], "NSX": ["3.5 V6 Hybrid 573 (2016-2022)"] },
+      "Alpina": { "B3/B4/B5": ["3.0 Biturbo 462 (2020-2024)", "3.0 Biturbo S 495 (2020-2024)", "3.0 Biturbo 530 (2021-2024)"], "B7/XB7": ["4.4 V8 608 (2017-2020)", "4.4 V8 630 (2021-2024)"], "D3/D5": ["3.0 Biturbo 350 (2015-2020)", "3.0 Biturbo 388 (2020-2024)"] },
+      "Bugatti": { "Veyron/Chiron": ["8.0 W16 1001 (2005-2015)", "8.0 W16 1479 (2016-2024)"] },
+      "Caterham": { "Seven": ["1.4 Duratec 135 (2010-2024)", "2.0 Duratec 200 (2012-2024)", "2.0 Ford 180 (2006-2012)"] },
+      "Chrysler": { "300C": ["2.7 V6 193 (2005-2012)", "3.0 CRD 218 (2005-2012)", "5.7 HEMI 343 (2004-2012)", "6.1 SRT8 425 (2006-2010)"] },
+      "Daihatsu": { "Terios": ["1.3 86 (2006-2013)", "1.5 102 (2006-2013)"], "Sirion": ["1.0 58 (2005-2013)", "1.3 87 (2005-2013)"] },
+      "Ginetta": { "G40/G55": ["1.8 Ford 140 (2012-2024)", "3.0 Supercharged 340 (2013-2024)"] },
+      "Koenigsegg": { "Agera/Regera": ["5.0 V8 Twin Turbo 1100 (2011-2018)", "5.0 V8 Twin Turbo 1340 (2015-2021)"] },
+      "KTM": { "X-Bow": ["2.0 TFSI 300 (2008-2024)", "2.0 TFSI 360 (2014-2024)"] },
+      "Lada": { "Niva": ["1.7 84 (1995-2024)", "1.7 i 83 (2001-2024)"] },
+      "Lotus": { "Elise/Exige": ["1.8 Toyota 192 (2002-2023)", "1.8 Toyota 220 (2010-2023)", "1.8 Toyota 245 (2015-2023)"], "Emira": ["2.0 Turbo AMG 360 (2022-2024)", "3.5 V6 400 (2022-2024)"] },
+      "Morgan": { "Plus 4/Plus 6": ["2.0 Ford Eco 154 (2018-2024)", "3.0 BMW 340 (2019-2024)"] },
+      "Pagani": { "Huayra": ["6.0 V12 Twin Turbo 720 (2012-2024)"] },
+      "Rover": { "75/ZT": ["2.0 CDT 115 (1999-2005)", "2.0 CDTi 131 (2002-2005)", "2.5 V6 175 (1999-2005)"] },
+      "Shelby": { "Mustang GT500": ["5.8 V8 Supercharged 662 (2013-2014)", "5.2 V8 Supercharged 760 (2020-2023)"] },
+      "TVR": { "Griffith/Sagaris": ["5.0 V8 400 (2018-2024)", "4.3 Ford 360 (2005-2006)"] },
+      "Westfield": { "Sport/SEi": ["2.0 Ford Zetec 150 (2005-2020)", "1.6 Ford Sigma 130 (2010-2024)"] },
       "Wiesmann": { "MF3/MF4": ["3.2 M3 343 (2004-2012)", "4.0 M3 420 (2009-2012)"] }
     };
 

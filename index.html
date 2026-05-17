@@ -6,7 +6,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="icon" type="image/png" href="logo5.png">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&amp;family=Barlow:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
 
@@ -341,20 +341,8 @@
 
     .menu-link:hover i { opacity: 1; }
 
-    /* Icon colors */
-    .fa-phone       { color: #0af !important; }
-    .fa-envelope    { color: #0af !important; }
-    .fa-gauge-high  { color: #0af !important; }
-    .fa-fire        { color: #4de0ff !important; }
-    .fa-leaf        { color: #4dffee !important; }
-    .fa-ban         { color: #7ab8ff !important; }
-    .fa-droplet-slash{ color: #a3daff !important; }
-    .fa-filter-circle-xmark { color: #4de0ff !important; }
-    .fa-screwdriver-wrench  { color: #d0e8ff !important; }
-    .fa-user-group  { color: #0af !important; }
-    .fa-map-marker-alt { color: #0af !important; }
-    .fa-microchip   { color: #0af !important; }
-    .fa-calculator  { color: #4de0ff !important; }
+    /* Icon colors — menu hamburger unifié sur var(--accent) */
+    .menu-link i { color: var(--accent) !important; }
 
     /* Activity dropdown */
     .activity-toggle {
@@ -426,43 +414,44 @@
       border-radius: var(--radius);
       overflow: hidden;
       border: 1px solid var(--border);
-      transition: box-shadow 0.4s ease, border-color 0.4s ease;
+      border-top: 2px solid rgba(77,224,255,0.5);
+      background: var(--surface);
+      transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+      position: relative;
     }
 
     .sim-wrapper:hover {
-      border-color: rgba(77,224,255,0.35);
-      box-shadow: 0 8px 32px rgba(0,170,255,0.12), 0 0 0 1px rgba(77,224,255,0.08);
+      background: var(--surface-hover);
+      color: var(--text);
+      transform: translateY(-2px);
+      border-color: rgba(77,224,255,0.4);
+      box-shadow: 0 4px 16px rgba(77,224,255,0.12);
     }
 
     .sim-toggle-btn {
-      padding: 12px 16px;
+      padding: 12px 10px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       cursor: pointer;
-      color: var(--text);
-      background: linear-gradient(90deg, rgba(200,169,110,0.12) 0%, rgba(200,169,110,0.04) 100%);
-      font-weight: 700;
+      color: var(--text-dim);
+      background: transparent;
+      font-weight: 600;
       font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      border-left: 3px solid var(--gold);
-      transition: all 0.3s ease;
-      animation: sim-pulse 3s infinite alternate ease-in-out;
+      letter-spacing: 0.3px;
+      transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
     }
 
-    @keyframes sim-pulse {
-      from { border-left-color: #4de0ff; }
-      to   { border-left-color: #0af; box-shadow: inset 0 0 20px rgba(0,170,255,0.1); }
+    .sim-wrapper:hover .sim-toggle-btn {
+      color: var(--text);
     }
 
     .sim-wrapper.active .sim-toggle-btn {
-      animation: none;
-      background: var(--surface);
-      border-left-color: var(--gold);
+      color: var(--text);
     }
 
-    .sim-toggle-btn i { color: var(--gold); margin-right: 8px; }
+    .sim-toggle-btn i { color: var(--accent); margin-right: 8px; flex-shrink: 0; font-size: 13px; transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+    .sim-wrapper:hover .sim-toggle-btn > span > i { transform: scale(1.2); }
 
     .sim-dropdown-content {
       max-height: 0;
@@ -587,6 +576,18 @@
     }
     #s1hp, #s2hp { color: #0af; }
     #s1nm, #s2nm { color: #4de0ff; }
+
+    .stage-total {
+      grid-column: 1 / -1;
+      font-size: 10px;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 3px;
+      padding-top: 4px;
+      border-top: 1px solid var(--border);
+      letter-spacing: 0.3px;
+    }
+    .stage-total b { color: var(--gold); font-weight: 700; }
 
     /* =============================================
        HERO SECTION — PLEIN ÉCRAN TOTAL
@@ -1270,21 +1271,39 @@
     .service-chip[onclick*="pieces"] { border-top: 2px solid rgba(208,232,255,0.4); }
 
     /* =============================================
-       SIMULATOR — ENHANCED GLASSMORPHISM CARD
+       SIMULATOR — ENHANCED STATE STYLES
     ============================================= */
-    .sim-wrapper {
-      box-shadow: 0 4px 20px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04);
+    .sim-wrapper.active {
+      border-color: rgba(77,224,255,0.4);
+      box-shadow: 0 4px 16px rgba(77,224,255,0.12);
     }
 
-    .sim-wrapper.active {
-      box-shadow: 0 8px 30px rgba(0,170,255,0.1), inset 0 1px 0 rgba(77,224,255,0.08);
+    /* Rotation du chevron quand le simulateur est ouvert */
+    .sim-wrapper.active .sim-toggle-btn #sim-chevron,
+    .sim-wrapper.active .sim-toggle-btn .fa-chevron-down {
+      transform: rotate(180deg);
+    }
+
+    /* Simulateur dans le main — largeur complète, aligné avec la grille */
+    .main-sim-wrapper {
+      width: 100%;
+      max-width: 380px;
+      margin: 0 0 16px 0;
+      /* Neutralise les marges latérales héritées du .sim-wrapper (menu) */
+      margin-left: auto;
+      margin-right: auto;
+    }
+    /* Quand dans le main, on annule le margin latéral du sim-wrapper global */
+    .main-sim-wrapper.sim-wrapper {
+      margin-left: 0;
+      margin-right: 0;
     }
 
     /* Result boxes - glow on appear */
-    #resBox .stage-row {
+    #resBox .stage-row, #resBox2 .stage-row {
       animation: fadeUp 0.5s ease both;
     }
-    #resBox .stage-row:last-child {
+    #resBox .stage-row:last-child, #resBox2 .stage-row:last-child {
       animation-delay: 0.08s;
     }
 
@@ -1449,6 +1468,41 @@
       background: linear-gradient(135deg, rgba(0,170,255,0.22) 0%, rgba(77,224,255,0.12) 100%);
       transform: translateY(-2px);
     }
+
+    /* =============================================
+       PRESTATIONS SECTION TITLE — Inline use
+       Même structure que .social-section-title mais
+       conçu pour s'insérer dans le flux de la page
+       sans casser le layout (margin contrôlé)
+    ============================================= */
+    .prestations-section-title {
+      width: 100%;
+      max-width: 380px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 4px 0 10px 0;
+    }
+
+    .prestations-section-title span {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      white-space: nowrap;
+      text-shadow: 0 0 12px rgba(0,170,255,0.4);
+    }
+
+    .prestations-section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      opacity: 0.4;
+    }
+
   </style>
 </head>
 <body>
@@ -1517,6 +1571,181 @@
     </div>
   </div>
 
+  <!-- Modal Garanties & Fiabilité -->
+  <div id="modalGaranties" class="modal" onclick="if(event.target===this)closeM('modalGaranties')">
+    <div class="modal-content">
+      <button class="close-modal" onclick="closeM('modalGaranties')">×</button>
+      <h2>Garanties &amp; <span>Fiabilité</span></h2>
+      <div class="modal-divider"></div>
+      <p><strong>🔒 Cartographie réversible</strong><br>Votre cartographie d'origine est sauvegardée avant chaque intervention. Un retour au stock est possible à tout moment, sans trace.</p>
+      <p><strong>⚙️ Matériel professionnel</strong><br>Nous utilisons exclusivement des outils et logiciels homologués utilisés par les professionnels du secteur.</p>
+      <p><strong>📋 Cartographies sur mesure</strong><br>Chaque cartographie est développée spécifiquement pour votre motorisation. Pas de fichiers génériques : vos gains sont réels et maîtrisés.</p>
+      <p><strong>✅ Compatible avec votre contrat entretien</strong><br>Notre reprogrammation n'altère pas les composants mécaniques et reste indétectable lors des révisions standard.</p>
+    </div>
+  </div>
+
+  <!-- Modal Horaires -->
+  <div id="modalHoraires" class="modal" onclick="if(event.target===this)closeM('modalHoraires')">
+    <div class="modal-content">
+      <button class="close-modal" onclick="closeM('modalHoraires')">×</button>
+      <h2>Nos <span>Horaires</span></h2>
+      <div class="modal-divider"></div>
+
+      <!-- Badge ouvert / fermé dynamique -->
+      <div id="openBadge" style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+        <span id="badgeDot" style="display:inline-block;width:9px;height:9px;border-radius:50%;flex-shrink:0;"></span>
+        <span id="badgeText" style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;"></span>
+        <span id="badgeDetail" style="font-size:11px;color:var(--text-muted);margin-left:auto;letter-spacing:0.3px;"></span>
+      </div>
+
+      <!-- Bloc Semaine -->
+      <div style="margin-bottom:10px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+          <i class="fas fa-briefcase" style="font-size:11px;color:var(--accent);width:14px;text-align:center;"></i>
+          <span style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-muted);font-weight:700;">Semaine</span>
+        </div>
+        <div id="scheduleWeek" style="display:flex;flex-direction:column;gap:4px;"></div>
+      </div>
+
+      <!-- Séparateur fin -->
+      <div style="height:1px;background:var(--border);margin:10px 0;"></div>
+
+      <!-- Bloc Week-end -->
+      <div style="margin-bottom:16px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+          <i class="fas fa-sun" style="font-size:11px;color:var(--gold);width:14px;text-align:center;"></i>
+          <span style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-muted);font-weight:700;">Week-end</span>
+        </div>
+        <div id="scheduleWeekend" style="display:flex;flex-direction:column;gap:4px;"></div>
+      </div>
+
+      <p style="font-size:11px;color:var(--text-muted);margin-bottom:12px;display:flex;align-items:flex-start;gap:6px;line-height:1.55;">
+        <i class="fas fa-info-circle" style="color:var(--accent);margin-top:1px;flex-shrink:0;"></i>
+        Les horaires peuvent varier. Contactez-nous avant votre visite pour confirmer notre disponibilité.
+      </p>
+      <a href="tel:+33608811142" class="map-btn gmaps" style="margin-top:2px;">
+        <i class="fas fa-phone"></i> Nous appeler
+      </a>
+    </div>
+  </div>
+
+  <script>
+  (function() {
+    /* ── Données horaires ── */
+    const schedule = [
+      { day: 'Lundi',    open: '09:00', close: '18:00', closed: false },
+      { day: 'Mardi',    open: '09:00', close: '18:00', closed: false },
+      { day: 'Mercredi', open: '09:00', close: '18:00', closed: false },
+      { day: 'Jeudi',    open: '09:00', close: '18:00', closed: false },
+      { day: 'Vendredi', open: '09:00', close: '18:00', closed: false },
+      { day: 'Samedi',   open: '09:00', close: '18:00', closed: false },
+      { day: 'Dimanche', open: null,    close: null,     closed: true  },
+    ];
+
+    function renderSchedule() {
+      const now   = new Date();
+      const dow   = now.getDay(); // 0=dim, 1=lun … 6=sam
+      const hNow  = now.getHours() * 60 + now.getMinutes();
+
+      /* Indice correspondant au tableau (0=lun … 6=dim) */
+      const todayIdx = dow === 0 ? 6 : dow - 1;
+      const todayEntry = schedule[todayIdx];
+
+      /* ── Badge ouvert/fermé ── */
+      function toMin(str) {
+        const [h, m] = str.split(':').map(Number);
+        return h * 60 + m;
+      }
+      const isOpen = !todayEntry.closed
+        && hNow >= toMin(todayEntry.open)
+        && hNow <  toMin(todayEntry.close);
+
+      const dot    = document.getElementById('badgeDot');
+      const text   = document.getElementById('badgeText');
+      const detail = document.getElementById('badgeDetail');
+
+      if (isOpen) {
+        dot.style.background   = '#22c55e';
+        dot.style.boxShadow    = '0 0 7px rgba(34,197,94,0.7)';
+        text.textContent       = 'Ouvert';
+        text.style.color       = '#22c55e';
+        detail.textContent     = `Ferme à ${todayEntry.close}`;
+      } else {
+        dot.style.background   = '#ef4444';
+        dot.style.boxShadow    = '0 0 7px rgba(239,68,68,0.7)';
+        text.textContent       = 'Fermé';
+        text.style.color       = '#ef4444';
+        /* Prochain jour d'ouverture */
+        let nextIdx = (todayIdx + 1) % 7;
+        let tries   = 0;
+        while (schedule[nextIdx].closed && tries < 7) { nextIdx = (nextIdx + 1) % 7; tries++; }
+        detail.textContent = schedule[nextIdx].closed ? '' : `Ouvre ${schedule[nextIdx].day} à ${schedule[nextIdx].open}`;
+      }
+
+      /* ── Rendu des lignes jour ── */
+      function makeDayRow(entry, idx) {
+        const isToday = idx === todayIdx;
+        const row = document.createElement('div');
+        row.style.cssText = `
+          display:flex;
+          align-items:center;
+          justify-content:space-between;
+          padding:7px 10px;
+          border-radius:4px;
+          border:1px solid ${isToday ? 'rgba(0,170,255,0.3)' : 'transparent'};
+          background:${isToday ? 'rgba(0,170,255,0.07)' : 'transparent'};
+          transition:background 0.2s;
+        `;
+
+        const daySpan = document.createElement('span');
+        daySpan.style.cssText = `
+          font-size:13px;
+          font-weight:${isToday ? '700' : '400'};
+          color:${isToday ? 'var(--text)' : 'var(--text-dim)'};
+          display:flex;
+          align-items:center;
+          gap:6px;
+        `;
+        if (isToday) {
+          const pip = document.createElement('span');
+          pip.style.cssText = 'display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--accent);box-shadow:0 0 5px var(--accent);flex-shrink:0;';
+          daySpan.appendChild(pip);
+        }
+        daySpan.appendChild(document.createTextNode(entry.day));
+
+        const hoursSpan = document.createElement('span');
+        hoursSpan.style.cssText = `
+          font-family:'Barlow Condensed',sans-serif;
+          font-size:13px;
+          font-weight:600;
+          letter-spacing:0.5px;
+          color:${entry.closed ? 'var(--text-muted)' : (isToday ? 'var(--accent)' : 'var(--text-dim)')};
+        `;
+        hoursSpan.textContent = entry.closed ? 'Fermé' : `${entry.open} – ${entry.close}`;
+
+        row.appendChild(daySpan);
+        row.appendChild(hoursSpan);
+        return row;
+      }
+
+      const weekEl    = document.getElementById('scheduleWeek');
+      const weekendEl = document.getElementById('scheduleWeekend');
+      weekEl.innerHTML    = '';
+      weekendEl.innerHTML = '';
+
+      schedule.forEach((entry, idx) => {
+        const row = makeDayRow(entry, idx);
+        if (idx < 5) weekEl.appendChild(row);      // Lun–Ven
+        else         weekendEl.appendChild(row);   // Sam–Dim
+      });
+    }
+
+    /* Appel au chargement, et refresh chaque minute */
+    renderSchedule();
+    setInterval(renderSchedule, 60000);
+  })();
+  </script>
+
   <input type="checkbox" id="menu-toggle">
   <label for="menu-toggle" class="hamburger-btn" aria-label="Menu">
     <span class="bar"></span>
@@ -1540,81 +1769,18 @@
       <i class="fas fa-envelope"></i> Email
     </a>
 
-    <div class="menu-section-title">Nos prestations</div>
-    <div class="activity-dropdown">
-      <div class="activity-toggle menu-link" id="activityToggle">
-        <i class="fas fa-microchip"></i> Notre activité
-        <div class="toggle-icon"><span></span><span></span></div>
-      </div>
-      <div class="activity-list" id="activityList">
-
-        <!-- SIMULATOR -->
-        <div class="sim-wrapper" id="gain-simulator">
-          <div class="sim-toggle-btn" onclick="this.parentElement.classList.toggle('active')">
-            <span><i class="fas fa-calculator"></i> Simulateur de gains</span>
-            <i class="fas fa-chevron-down" style="font-size:10px;color:var(--gold);"></i>
-          </div>
-          <div class="sim-dropdown-content">
-            <div class="sim-container">
-              <div class="sim-title">Sélection du véhicule</div>
-              <select id="brandS" class="sim-select" onchange="updateM()"><option value="">— Marque —</option><option value="Abarth">Abarth</option><option value="Alfa Romeo">Alfa Romeo</option><option value="Alpine">Alpine</option><option value="Aston Martin">Aston Martin</option><option value="Audi">Audi</option><option value="BMW">BMW</option><option value="Bentley">Bentley</option><option value="Cadillac">Cadillac</option><option value="Chevrolet">Chevrolet</option><option value="Citroën">Citroën</option><option value="Cupra">Cupra</option><option value="DS">DS</option><option value="Dacia">Dacia</option><option value="Dodge">Dodge</option><option value="Ferrari">Ferrari</option><option value="Fiat">Fiat</option><option value="Ford">Ford</option><option value="Honda">Honda</option><option value="Hyundai">Hyundai</option><option value="Isuzu">Isuzu</option><option value="Iveco">Iveco</option><option value="Jaguar">Jaguar</option><option value="Jeep">Jeep</option><option value="Kia">Kia</option><option value="Lamborghini">Lamborghini</option><option value="Land Rover">Land Rover</option><option value="Lexus">Lexus</option><option value="MAN">MAN</option><option value="Maserati">Maserati</option><option value="Mazda">Mazda</option><option value="McLaren">McLaren</option><option value="Mercedes">Mercedes</option><option value="Mini">Mini</option><option value="Nissan">Nissan</option><option value="Opel">Opel</option><option value="Peugeot">Peugeot</option><option value="Porsche">Porsche</option><option value="Renault">Renault</option><option value="Seat">Seat</option><option value="Skoda">Skoda</option><option value="Smart">Smart</option><option value="Toyota">Toyota</option><option value="Volkswagen">Volkswagen</option><option value="Volvo">Volvo</option><option value="Abarth">Abarth</option><option value="Alfa Romeo">Alfa Romeo</option><option value="Alpine">Alpine</option><option value="Aston Martin">Aston Martin</option><option value="Audi">Audi</option><option value="BMW">BMW</option><option value="Bentley">Bentley</option><option value="Cadillac">Cadillac</option><option value="Chevrolet">Chevrolet</option><option value="Citroën">Citroën</option><option value="Cupra">Cupra</option><option value="DS">DS</option><option value="Dacia">Dacia</option><option value="Dodge">Dodge</option><option value="Ferrari">Ferrari</option><option value="Fiat">Fiat</option><option value="Ford">Ford</option><option value="Honda">Honda</option><option value="Hyundai">Hyundai</option><option value="Isuzu">Isuzu</option><option value="Iveco">Iveco</option><option value="Jaguar">Jaguar</option><option value="Jeep">Jeep</option><option value="Kia">Kia</option><option value="Lamborghini">Lamborghini</option><option value="Land Rover">Land Rover</option><option value="Lexus">Lexus</option><option value="MAN">MAN</option><option value="Maserati">Maserati</option><option value="Mazda">Mazda</option><option value="McLaren">McLaren</option><option value="Mercedes">Mercedes</option><option value="Mini">Mini</option><option value="Nissan">Nissan</option><option value="Opel">Opel</option><option value="Peugeot">Peugeot</option><option value="Porsche">Porsche</option><option value="Renault">Renault</option><option value="Seat">Seat</option><option value="Skoda">Skoda</option><option value="Smart">Smart</option><option value="Toyota">Toyota</option><option value="Volkswagen">Volkswagen</option><option value="Volvo">Volvo</option><option value="Abarth">Abarth</option><option value="Alfa Romeo">Alfa Romeo</option><option value="Alpine">Alpine</option><option value="Aston Martin">Aston Martin</option><option value="Audi">Audi</option><option value="BMW">BMW</option><option value="Bentley">Bentley</option><option value="Cadillac">Cadillac</option><option value="Chevrolet">Chevrolet</option><option value="Citroën">Citroën</option><option value="Cupra">Cupra</option><option value="DS">DS</option><option value="Dacia">Dacia</option><option value="Dodge">Dodge</option><option value="Ferrari">Ferrari</option><option value="Fiat">Fiat</option><option value="Ford">Ford</option><option value="Honda">Honda</option><option value="Hyundai">Hyundai</option><option value="Isuzu">Isuzu</option><option value="Iveco">Iveco</option><option value="Jaguar">Jaguar</option><option value="Jeep">Jeep</option><option value="Kia">Kia</option><option value="Lamborghini">Lamborghini</option><option value="Land Rover">Land Rover</option><option value="Lexus">Lexus</option><option value="MAN">MAN</option><option value="Maserati">Maserati</option><option value="Mazda">Mazda</option><option value="McLaren">McLaren</option><option value="Mercedes">Mercedes</option><option value="Mini">Mini</option><option value="Nissan">Nissan</option><option value="Opel">Opel</option><option value="Peugeot">Peugeot</option><option value="Porsche">Porsche</option><option value="Renault">Renault</option><option value="Seat">Seat</option><option value="Skoda">Skoda</option><option value="Smart">Smart</option><option value="Toyota">Toyota</option><option value="Volkswagen">Volkswagen</option><option value="Volvo">Volvo</option></select>
-              <select id="modelS" class="sim-select" onchange="updateE()" disabled=""><option value="">— Modèle —</option></select>
-              <select id="engineS" class="sim-select" onchange="runSim()" disabled=""><option value="">— Moteur —</option></select>
-              <div id="resBox" class="sim-results">
-                <div class="stage-row">
-                  <div class="stage-label">STAGE 1</div>
-                  <div class="val-box"><span>Puissance</span><b id="s1hp">--</b></div>
-                  <div class="val-box"><span>Couple</span><b id="s1nm">--</b></div>
-                </div>
-                <div class="stage-row">
-                  <div class="stage-label">STAGE 2</div>
-                  <div class="val-box"><span>Puissance</span><b id="s2hp">--</b></div>
-                  <div class="val-box"><span>Couple</span><b id="s2nm">--</b></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- END SIMULATOR -->
-
-        <div class="activity-item" onclick="openSimulator()">
-          <div class="activity-title"><i class="fas fa-gauge-high"></i> Stage 1</div>
-          <div class="activity-desc">Optimisation moteur fiable pour gagner en puissance et couple sans modification mécanique.</div>
-        </div>
-        <div class="activity-item" onclick="openSimulator()">
-          <div class="activity-title"><i class="fas fa-fire"></i> Stage 2</div>
-          <div class="activity-desc">Préparation avancée avec pièces performance pour maximiser le rendement moteur.</div>
-        </div>
-        <div class="activity-item">
-          <div class="activity-title"><i class="fas fa-leaf"></i> Conversion FlexFuel E85</div>
-          <div class="activity-desc">Roulez au bioéthanol E85 et réduisez vos coûts de carburant grâce à une cartographie adaptée.</div>
-        </div>
-        <div class="activity-item">
-          <div class="activity-title"><i class="fas fa-ban"></i> Solution EGR</div>
-          <div class="activity-desc">Évite l'encrassement moteur et améliore la longévité des composants.</div>
-        </div>
-        <div class="activity-item">
-          <div class="activity-title"><i class="fas fa-droplet-slash"></i> Solution AdBlue</div>
-          <div class="activity-desc">Solution électronique pour éviter pannes et limitations liées au système SCR.</div>
-        </div>
-        <div class="activity-item">
-          <div class="activity-title"><i class="fas fa-filter-circle-xmark"></i> Solution FAP</div>
-          <div class="activity-desc">Optimisation pour éviter colmatage et perte de performance moteur.</div>
-        </div>
-        <div class="activity-item">
-          <div class="activity-title"><i class="fas fa-screwdriver-wrench"></i> Vente de pièces performance</div>
-          <div class="activity-desc">Admission, échappement, échangeur, turbo et pièces haute performance.</div>
-        </div>
-
-      </div><!-- end activity-list -->
-    </div>
-
     <div class="menu-section-title">Informations</div>
     <a class="menu-link" onclick="openM('modalAbout');document.getElementById('menu-toggle').checked=false;">
       <i class="fas fa-user-group"></i> Qui sommes-nous
     </a>
     <a class="menu-link" onclick="openM('modalLocation');document.getElementById('menu-toggle').checked=false;">
       <i class="fas fa-map-marker-alt"></i> Localisation
+    </a>
+    <a class="menu-link" onclick="openM('modalHoraires');document.getElementById('menu-toggle').checked=false;">
+      <i class="fas fa-clock"></i> Horaires
+    </a>
+    <a class="menu-link" onclick="openM('modalGaranties');document.getElementById('menu-toggle').checked=false;">
+      <i class="fas fa-shield-halved"></i> Garanties &amp; Fiabilité
     </a>
 
   </nav>
@@ -1653,6 +1819,11 @@
       </div>
     </div>
 
+    <!-- Titre section Nos Prestations -->
+    <div class="prestations-section-title fade-in">
+      <span>Nos Prestations</span>
+    </div>
+
     <!-- Services chips -->
     <div class="services-grid fade-in">
       <div class="service-chip" onclick="openService('stage')"><i class="fas fa-gauge-high" style="color:#0af"></i> Stage 1 &amp; 2</div>
@@ -1661,6 +1832,36 @@
       <div class="service-chip" onclick="openService('adblue')"><i class="fas fa-droplet-slash" style="color:#a3daff"></i> Solution AdBlue</div>
       <div class="service-chip" onclick="openService('fap')"><i class="fas fa-filter-circle-xmark" style="color:#4de0ff"></i> Solution FAP</div>
       <div class="service-chip" onclick="openService('pieces')"><i class="fas fa-screwdriver-wrench" style="color:#d0e8ff"></i> Pièces perf.</div>
+    </div>
+
+    <!-- Simulateur accordéon Stage 1 & 2 -->
+    <div class="sim-wrapper main-sim-wrapper fade-in" id="main-sim-accordion">
+      <div class="sim-toggle-btn" onclick="this.parentElement.classList.toggle('active')">
+        <span><i class="fas fa-calculator"></i> Estimer mes gains (Stage 1 &amp; 2)</span>
+        <i class="fas fa-chevron-down" style="font-size:10px;color:var(--accent);transition:transform 0.3s ease;" id="sim-chevron"></i>
+      </div>
+      <div class="sim-dropdown-content">
+        <div class="sim-container">
+          <div class="sim-title">Sélection du véhicule</div>
+          <select id="brandS2" class="sim-select" onchange="updateM2()"><option value="">— Marque —</option></select>
+          <select id="modelS2" class="sim-select" onchange="updateE2()" disabled><option value="">— Modèle —</option></select>
+          <select id="engineS2" class="sim-select" onchange="runSim2()" disabled><option value="">— Moteur —</option></select>
+          <div id="resBox2" class="sim-results">
+            <div class="stage-row">
+              <div class="stage-label">STAGE 1</div>
+              <div class="val-box"><span>Puissance</span><b id="s1hp2">--</b></div>
+              <div class="val-box"><span>Couple</span><b id="s1nm2">--</b></div>
+              <div class="stage-total">Passe de <b id="s1total2">--</b></div>
+            </div>
+            <div class="stage-row">
+              <div class="stage-label">STAGE 2</div>
+              <div class="val-box"><span>Puissance</span><b id="s2hp2">--</b></div>
+              <div class="val-box"><span>Couple</span><b id="s2nm2">--</b></div>
+              <div class="stage-total">Passe de <b id="s2total2">--</b></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="divider fade-in"></div>
@@ -1686,7 +1887,6 @@
             <div class="social-card-handle">@dmfprog · Photos &amp; vidéos</div>
           </div>
           <div class="social-card-cta">Voir <i class="fas fa-arrow-right" style="font-size:9px;"></i></div>
-          <div class="social-card-live"></div>
         </a>
       </div>
 
@@ -1699,7 +1899,6 @@
             <div class="social-card-handle">DM.F Performance · Actualités</div>
           </div>
           <div class="social-card-cta">Voir <i class="fas fa-arrow-right" style="font-size:9px;"></i></div>
-          <div class="social-card-live"></div>
         </a>
       </div>
 
@@ -1744,21 +1943,27 @@
     window.addEventListener('keydown', e => { if(e.key==='Escape') document.querySelectorAll('.modal.open').forEach(m=>m.classList.remove('open')); });
 
     // Activity dropdown
-    document.getElementById('activityToggle').addEventListener('click', function() {
-      const list = document.getElementById('activityList');
-      this.classList.toggle('active');
-      if (list.style.maxHeight && list.style.maxHeight !== '0px') {
-        list.style.maxHeight = '0px';
-      } else {
-        list.style.maxHeight = '6000px';
-      }
-    });
+    // activityToggle supprimé du menu — guard défensif
+    const _actToggle = document.getElementById('activityToggle');
+    if (_actToggle) {
+      _actToggle.addEventListener('click', function() {
+        const list = document.getElementById('activityList');
+        this.classList.toggle('active');
+        if (list.style.maxHeight && list.style.maxHeight !== '0px') {
+          list.style.maxHeight = '0px';
+        } else {
+          list.style.maxHeight = '6000px';
+        }
+      });
+    }
 
     // Open simulator
     function openSimulator() {
       const sim = document.getElementById('gain-simulator');
-      if (!sim.classList.contains('active')) sim.classList.add('active');
-      sim.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (sim) {
+        if (!sim.classList.contains('active')) sim.classList.add('active');
+        sim.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
 
     // Service modal
@@ -1808,8 +2013,8 @@
           <a href="https://wa.me/33608811142?text=${waMsg}" target="_blank" class="map-btn" style="background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;font-weight:700;margin-bottom:8px;">
             <i class="fab fa-whatsapp"></i> Devis via WhatsApp
           </a>
-          <a href="mailto:dmfprog@gmail.com?subject=${emailSubject}&body=${emailBody}" class="map-btn email" style="margin-bottom:0;">
-            <i class="fas fa-envelope"></i> Devis par Email
+          <a href="mailto:dmfprog@gmail.com?subject=${emailSubject}&body=${emailBody}" class="map-btn" style="background:var(--accent);color:#fff;font-weight:700;margin-bottom:0;">
+            <i class="fas fa-envelope"></i> Demander un devis par e-mail
           </a>`;
       } else {
         // Desktop: email only
@@ -1969,51 +2174,61 @@
       "Volvo": { "V40/V60": ["D2 115 (2012-2015)", "D2 120 (2015-2018)", "D3 150 (2010-2024)", "D4 163 (2010-2014)", "D4 181 (2013-2015)", "D4 190 (2015-2024)", "B4 Diesel 197 (2020-2024)", "T6 Hybrid 340 (2018-2024)", "T8 Hybrid 455 (2021-2024)"], "XC40/XC60/XC90": ["D3 150 (2017-2024)", "D4 190 (2014-2024)", "D5 235 (2014-2024)", "B4 197 (2020-2024)", "B5 235 (2019-2024)", "T8 Hybrid 407 (2015-2021)", "T8 Hybrid 455 (2021-2024)"] }
     };
 
-    const bS = document.getElementById('brandS');
-    const mS = document.getElementById('modelS');
-    const eS = document.getElementById('engineS');
+        // ── SIMULATEUR PRINCIPAL (page d'accueil) ──
+    const bS2 = document.getElementById('brandS2');
+    const mS2 = document.getElementById('modelS2');
+    const eS2 = document.getElementById('engineS2');
 
     Object.keys(db).sort().forEach(b => {
       const o = document.createElement('option');
       o.value = b; o.textContent = b;
-      bS.appendChild(o);
+      bS2.appendChild(o);
     });
 
-    function updateM() {
-      mS.innerHTML = '<option value="">— Modèle —</option>';
-      eS.innerHTML = '<option value="">— Moteur —</option>';
-      if (bS.value) {
-        mS.disabled = false;
-        Object.keys(db[bS.value]).sort().forEach(m => {
+    function updateM2() {
+      mS2.innerHTML = '<option value="">— Modèle —</option>';
+      eS2.innerHTML = '<option value="">— Moteur —</option>';
+      if (bS2.value) {
+        mS2.disabled = false;
+        Object.keys(db[bS2.value]).sort().forEach(m => {
           const o = document.createElement('option');
-          o.value = m; o.textContent = m; mS.appendChild(o);
+          o.value = m; o.textContent = m; mS2.appendChild(o);
         });
-      } else { mS.disabled = true; eS.disabled = true; }
-      document.getElementById('resBox').style.display = 'none';
+      } else { mS2.disabled = true; eS2.disabled = true; }
+      document.getElementById('resBox2').style.display = 'none';
     }
 
-    function updateE() {
-      eS.innerHTML = '<option value="">— Moteur —</option>';
-      if (mS.value) {
-        eS.disabled = false;
-        db[bS.value][mS.value].forEach(e => {
+    function updateE2() {
+      eS2.innerHTML = '<option value="">— Moteur —</option>';
+      if (mS2.value) {
+        eS2.disabled = false;
+        db[bS2.value][mS2.value].forEach(e => {
           const o = document.createElement('option');
-          o.value = e; o.textContent = e; eS.appendChild(o);
+          o.value = e; o.textContent = e; eS2.appendChild(o);
         });
-      } else { eS.disabled = true; }
-      document.getElementById('resBox').style.display = 'none';
+      } else { eS2.disabled = true; }
+      document.getElementById('resBox2').style.display = 'none';
     }
 
-    function runSim() {
-      if (eS.value) {
-        const match = eS.value.match(/(\d+)(?=\s*\(|\s*$)/);
+    function runSim2() {
+      if (eS2.value) {
+        const match = eS2.value.match(/(\d+)\s*(?=\(\d{4})/);
         const pOrig = match ? parseInt(match[1]) : 0;
         if (pOrig > 0) {
-          document.getElementById('s1hp').innerText = `+${Math.round(pOrig * 0.25)} CH`;
-          document.getElementById('s1nm').innerText = `+${Math.round(pOrig * 0.4)} Nm`;
-          document.getElementById('s2hp').innerText = `+${Math.round(pOrig * 0.45)} CH`;
-          document.getElementById('s2nm').innerText = `+${Math.round(pOrig * 0.6)} Nm`;
-          document.getElementById('resBox').style.display = 'flex';
+          const s1GainHP = Math.round(pOrig * 0.25);
+          const s2GainHP = Math.round(pOrig * 0.45);
+          const s1Total  = pOrig + s1GainHP;
+          const s2Total  = pOrig + s2GainHP;
+
+          document.getElementById('s1hp2').innerText = `+${s1GainHP} CH`;
+          document.getElementById('s1nm2').innerText = `+${Math.round(pOrig * 0.4)} Nm`;
+          document.getElementById('s1total2').innerHTML = `${pOrig} → <b style="color:#0af">${s1Total} CH</b>`;
+
+          document.getElementById('s2hp2').innerText = `+${s2GainHP} CH`;
+          document.getElementById('s2nm2').innerText = `+${Math.round(pOrig * 0.6)} Nm`;
+          document.getElementById('s2total2').innerHTML = `${pOrig} → <b style="color:#ff8c42">${s2Total} CH</b>`;
+
+          document.getElementById('resBox2').style.display = 'flex';
         }
       }
     }

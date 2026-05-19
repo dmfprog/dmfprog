@@ -1039,88 +1039,78 @@
     ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
 
     /* =============================================
-       DESKTOP — LAYOUT 2 COLONNES PLEIN ÉCRAN
-       Toutes les règles ci-dessous s'appliquent
-       UNIQUEMENT sur écran ≥ 769px.
-       La version mobile reste INCHANGÉE.
+       DESKTOP — COLONNE UNIQUE ÉLARGIE
+       Même structure que mobile, mais plus grande.
+       Mobile reste INCHANGÉ (< 769px).
     ============================================= */
     @media (min-width: 769px) {
       body { overflow-y: auto; }
 
-      /* Ouverture du menu au survol (desktop uniquement) */
+      /* Ouverture du menu au survol */
       .hamburger-btn:hover ~ .side-menu,
       .side-menu:hover { left: 0; }
       .hamburger-btn:hover ~ .menu-overlay,
       .side-menu:hover ~ .menu-overlay { display: block; opacity: 1; }
 
-      /* ── Conteneur principal : grille 2 colonnes ── */
+      /* Conteneur centré, colonne unique plus large */
       .main-container {
         min-height: 100vh;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: auto;
-        column-gap: 60px;
-        row-gap: 0;
-        align-items: start;
-        align-content: center;
-        justify-items: center;
-        padding: 60px 80px 60px 100px;
-        max-width: 1400px;
-        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 60px 40px;
+      }
+
+      /* Tous les blocs à la même largeur max */
+      .logo-section,
+      .headline,
+      .stats-bar,
+      .prestations-section-title,
+      .services-grid,
+      .main-sim-wrapper,
+      .divider,
+      .contact-btn,
+      .social-section-title,
+      .social-cards,
+      .site-footer {
+        max-width: 680px;
         width: 100%;
-        box-sizing: border-box;
       }
 
-      /* ── Colonne gauche : logo + headline + stats + prestations + simulateur ── */
-      .logo-section   { grid-column: 1; grid-row: 1; width: 100%; max-width: 520px; }
-      .headline       { grid-column: 1; grid-row: 2; width: 100%; max-width: 520px; text-align: left; margin-bottom: 24px; }
-      .stats-bar      { grid-column: 1; grid-row: 3; width: 100%; max-width: 520px; margin: 0 0 20px; }
-      .prestations-section-title { grid-column: 1; grid-row: 4; width: 100%; max-width: 520px; }
-      .services-grid  { grid-column: 1; grid-row: 5; width: 100%; max-width: 520px; grid-template-columns: 1fr 1fr 1fr; margin-bottom: 20px; }
-      .main-sim-wrapper { grid-column: 1; grid-row: 6; width: 100%; max-width: 520px; }
+      /* Logo plus grand */
+      .logo-wrapper img { max-width: 420px; }
 
-      /* ── Colonne droite : divider + contact + réseaux + footer ── */
-      .divider        { grid-column: 2; grid-row: 1; width: 100%; max-width: 520px; margin: 0 0 24px; }
-      .contact-btn    { grid-column: 2; grid-row: 2; width: 100%; max-width: 520px; margin-bottom: 20px; font-size: 17px; padding: 18px 20px; }
-      .social-section-title { grid-column: 2; grid-row: 3; width: 100%; max-width: 520px; }
-      .social-cards   { grid-column: 2; grid-row: 4 / 7; width: 100%; max-width: 520px; margin-bottom: 0; }
-      .site-footer    { grid-column: 2; grid-row: 7; width: 100%; max-width: 520px; }
+      /* Titre plus grand */
+      .headline h1 { font-size: 58px; letter-spacing: 6px; }
+      .tagline     { font-size: 13px; letter-spacing: 4px; }
 
-      /* ── Agrandissements typographie desktop ── */
-      .logo-wrapper img   { max-width: 380px; }
-      .headline h1        { font-size: 56px; letter-spacing: 6px; }
-      .tagline            { font-size: 13px; letter-spacing: 4px; }
-      .stat-value         { font-size: 28px; }
-      .stat-label         { font-size: 10px; }
-      .stat-item          { padding: 18px 10px; }
+      /* Stats plus grandes */
+      .stat-value  { font-size: 30px; }
+      .stat-label  { font-size: 11px; }
+      .stat-item   { padding: 20px 12px; }
 
-      /* ── Service chips plus généreux sur desktop ── */
-      .service-chip {
-        padding: 16px 12px;
-        font-size: 12px;
-      }
+      /* Services en 3 colonnes + plus hauts */
+      .services-grid { grid-template-columns: 1fr 1fr 1fr; }
+      .service-chip  { padding: 18px 14px; font-size: 13px; }
 
-      /* ── Cards social plus larges ── */
-      .social-card-icon   { width: 68px; height: 68px; font-size: 26px; }
-      .social-card-name   { font-size: 17px; }
-      .social-card-handle { font-size: 12px; }
-      .social-card-body   { padding: 14px 6px; }
+      /* Simulateur plus grand */
+      .main-sim-wrapper .sim-toggle-btn { font-size: 14px; padding: 16px; }
+      .main-sim-wrapper .sim-select     { font-size: 14px; padding: 12px; }
 
-      /* ── Hover card léger ── */
+      /* Bouton contact plus grand */
+      .contact-btn { font-size: 17px; padding: 18px 20px; }
+
+      /* Cards sociales plus grandes */
+      .social-card-icon  { width: 70px; height: 70px; font-size: 26px; }
+      .social-card-name  { font-size: 17px; }
+      .social-card-handle{ font-size: 12px; }
+      .social-card-body  { padding: 14px 6px; }
+
       .card:hover {
         border-color: rgba(255,255,255,0.12);
         transform: translateY(-1px);
       }
-
-      /* ── Simulateur main légèrement agrandi ── */
-      .main-sim-wrapper .sim-toggle-btn { font-size: 13px; padding: 14px 14px; }
-      .main-sim-wrapper .sim-select     { font-size: 14px; padding: 11px 12px; }
-
-      /* ── Footer aligné à gauche sur desktop ── */
-      .site-footer        { text-align: left; padding-top: 20px; }
-
-      /* ── Divider pleine largeur colonne droite ── */
-      .divider            { max-width: 520px; }
     }
 
     /* =============================================

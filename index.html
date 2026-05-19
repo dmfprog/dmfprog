@@ -1039,73 +1039,29 @@
     ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
 
     /* =============================================
-       DESKTOP — COLONNE UNIQUE ÉLARGIE
-       Même structure que mobile, mais plus grande.
-       Mobile reste INCHANGÉ (< 769px).
+       DESKTOP — AMÉLIORATIONS
+       Sur grand écran, on laisse le centrage flex
+       gérer la hauteur naturellement
     ============================================= */
     @media (min-width: 769px) {
       body { overflow-y: auto; }
 
-      /* Ouverture du menu au survol */
       .hamburger-btn:hover ~ .side-menu,
       .side-menu:hover { left: 0; }
+
       .hamburger-btn:hover ~ .menu-overlay,
       .side-menu:hover ~ .menu-overlay { display: block; opacity: 1; }
 
-      /* Conteneur centré, colonne unique plus large */
+      .logo-wrapper img { max-width: 320px; }
+      .headline h1 { font-size: 40px; }
+
+      /* Sur desktop, le hero peut dépasser 100vh
+         si le contenu est long — on laisse scroller */
       .main-container {
         min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 60px 40px;
+        justify-content: flex-start;
+        padding-top: max(env(safe-area-inset-top), 20px);
       }
-
-      /* Tous les blocs à la même largeur max */
-      .logo-section,
-      .headline,
-      .stats-bar,
-      .prestations-section-title,
-      .services-grid,
-      .main-sim-wrapper,
-      .divider,
-      .contact-btn,
-      .social-section-title,
-      .social-cards,
-      .site-footer {
-        max-width: 680px;
-        width: 100%;
-      }
-
-      /* Logo plus grand */
-      .logo-wrapper img { max-width: 420px; }
-
-      /* Titre plus grand */
-      .headline h1 { font-size: 58px; letter-spacing: 6px; }
-      .tagline     { font-size: 13px; letter-spacing: 4px; }
-
-      /* Stats plus grandes */
-      .stat-value  { font-size: 30px; }
-      .stat-label  { font-size: 11px; }
-      .stat-item   { padding: 20px 12px; }
-
-      /* Services en 3 colonnes + plus hauts */
-      .services-grid { grid-template-columns: 1fr 1fr 1fr; }
-      .service-chip  { padding: 18px 14px; font-size: 13px; }
-
-      /* Simulateur plus grand */
-      .main-sim-wrapper .sim-toggle-btn { font-size: 14px; padding: 16px; }
-      .main-sim-wrapper .sim-select     { font-size: 14px; padding: 12px; }
-
-      /* Bouton contact plus grand */
-      .contact-btn { font-size: 17px; padding: 18px 20px; }
-
-      /* Cards sociales plus grandes */
-      .social-card-icon  { width: 70px; height: 70px; font-size: 26px; }
-      .social-card-name  { font-size: 17px; }
-      .social-card-handle{ font-size: 12px; }
-      .social-card-body  { padding: 14px 6px; }
 
       .card:hover {
         border-color: rgba(255,255,255,0.12);
